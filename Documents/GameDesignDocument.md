@@ -1,15 +1,17 @@
 # Don't Stop Me Now! #
 
 ## Team ##
-- [Sara Merengo (team leader, developer)](https://github.com/SaraMerengo)
-- [Emanuele Santoro (developer)](https://github.com/emanuelesantoro)
-- [Andrea Sanguineti (developer)]
-- [Alessandro Ricci (developer)](https://github.com/alessandro-ricci-16)
-- [Mohammadjavad Sami (art)]
+- [Sara Merengo](https://github.com/SaraMerengo) (team leader, developer)
+- [Emanuele Santoro](https://github.com/emanuelesantoro) (developer)
+- Andrea Sanguineti (developer)
+- [Alessandro Ricci](https://github.com/alessandro-ricci-16) (developer)
+- Mohammadjavad Sami (art)
 
 ## Overview ##
 Game genre: 2D platformer, puzzle
+
 The game will contain a series of short levels organized by themed sections. Levels will alternate between more frenetic and fast-paced platformer sequences and calmer more puzzle-like levels.
+
 Platforms: PC, possibly mobile
 
 ## Setting ##
@@ -25,7 +27,9 @@ The levels will be laid out on a map representing the different freezer compartm
 ## Gameplay ##
 
 ### Base mechanic ###
+
 The base mechanic of the game is jumping. The ice cube will move at a constant speed and the player will not be able to stop it, only to jump. 
+
 It is possible to “cancel jumps” mid-air, which results in the ice cube falling down more quickly and then continuing in the previous direction.
 
 There are two commands:
@@ -33,6 +37,7 @@ There are two commands:
 - down → cancel jump, fall down
 
 Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
+
 The jump always reaches a fixed height, if the ice cube hits a wall or other obstacle mid-jump the trajectory simply gets mirrored to the other direction and the jump continues.
 
 ### Additional elements ###
@@ -51,6 +56,7 @@ The jump always reaches a fixed height, if the ice cube hits a wall or other obs
 8. The last level of every section is close to the freezer door which can open periodically, therefore you must be careful to complete the level without melting
 
 ### Death ###
+
 The ice cube shatters and dies if:
 1. It falls off a bottomless pit
 2. It falls on spikes / traps

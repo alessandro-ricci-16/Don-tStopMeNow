@@ -3,7 +3,7 @@
 ## Team ##
 - [Sara Merengo](https://github.com/SaraMerengo) (team leader, developer)
 - [Emanuele Santoro](https://github.com/emanuelesantoro) (developer)
-- Andrea Sanguineti (developer)
+- [Andrea Sanguineti](https://github.com/AndreaNeti) (developer)
 - [Alessandro Ricci](https://github.com/alessandro-ricci-16) (developer)
 - Mohammadjavad Sami (art)
 

@@ -110,11 +110,9 @@ public class IceCubePhysics : MonoBehaviour
         foreach (ContactPoint2D c in contacts)
         {
             Vector2 normal = c.normal;
-            // Debug.Log(normal);
             if (normal == Vector2.left)
             {
                 _currentDirection = Vector2.left;
-                Debug.Log("Turning Left");
             }
             else if (normal == Vector2.right)
             {

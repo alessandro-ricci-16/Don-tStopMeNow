@@ -7,8 +7,11 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody2D))]
 public class IceCubePhysics : MonoBehaviour
 {
+    [SerializeField] private bool debug = true;
+    
     [Header("Movement")]
     [SerializeField] private float horizontalSpeed = 5.0f;
+    [SerializeField] private float maxVerticalSpeed = 20.0f;
     
     [Header("Jump")]
     [SerializeField] private float jumpHeight = 2.0f;
@@ -29,7 +32,8 @@ public class IceCubePhysics : MonoBehaviour
         _grounded = false;
         _spriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        _rigidbody2D.gravityScale = 0.0f;
+        _rigidbody2D.gravityScale = defaultGravityMultiplier;
+        // TODO set angular drag, mass,...
     }
     
     void Update()
@@ -41,28 +45,21 @@ public class IceCubePhysics : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        _spriteRenderer.color = _grounded ? Color.green : Color.red;
+        if (debug)
+            _spriteRenderer.color = _grounded ? Color.green : Color.red;
     }
 
     #region Movement
     
+    /// <summary>
+    /// Updates the rigidbody velocity and the gravity scale.
+    /// x axis -> the direction is kept the same but the norm is set
+    /// equal to the speed variable.
+    /// y axis -> the value is kept the same.
+    /// The value on the y axis is clamped to avoid excessive speeds which
+    /// might break the colliders.
+    /// </summary>
     private void Move()
-    {
-        _velocity = ComputeVelocity();
-        _rigidbody2D.velocity = _velocity;
-    }
-
-    private void Jump()
-    {
-        if (_grounded)
-        {
-            float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * upwardGravityMultiplier * jumpHeight);
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
-            _grounded = false;
-        }
-    }
-
-    private Vector2 ComputeVelocity()
     {
         Vector2 velocity = new Vector2();
         Vector2 prevVelocity = _rigidbody2D.velocity;
@@ -82,15 +79,42 @@ public class IceCubePhysics : MonoBehaviour
             else if (velocityY == 0)
                 _rigidbody2D.gravityScale = defaultGravityMultiplier;
         }
-        
+   
         velocity = new Vector2(velocity.x, _rigidbody2D.velocity.y);
-        return velocity;
+        velocity.y = Mathf.Clamp(velocity.y, -maxVerticalSpeed, maxVerticalSpeed);
+        
+        _rigidbody2D.velocity = velocity;
+    }
+    
+    /// <summary>
+    /// If the player is grounded, computes the jump speed necessary to
+    /// reach the standard jumpHeight and sets the rigidbody y velocity to that value.
+    /// If the player is not grounded, it does nothing.
+    /// </summary>
+    private void Jump()
+    {
+        if (_grounded)
+        {
+            float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * 
+                                         upwardGravityMultiplier * jumpHeight);
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
+            _grounded = false;
+        }
     }
     
     #endregion
     
     #region Collisions
     
+    /// <summary>
+    /// Function to be called inside OnCollisionEnter2D and OnCollisionStay2D.
+    /// Takes as input the Collision2D and checks all normals of collision points.
+    /// If the normal is Vector2.left or Vector2.right, it adjust the rigidbody
+    /// x velocity accordingly.
+    /// If the normal is Vector2.up, it sets _grounded to true.
+    /// </summary>
+    /// <param name="other"></param> parameter from OnCollisionEnter2D or
+    /// OnCollisionStay2D
     private void HandleCollisions(Collision2D other)
     {
         int contactsNumber = other.contactCount;

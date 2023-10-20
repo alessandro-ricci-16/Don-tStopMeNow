@@ -14,16 +14,18 @@ public class IceCubePhysics : MonoBehaviour
     [SerializeField] private float maxVerticalSpeed = 20.0f;
     
     [Header("Jump")]
-    [SerializeField] private float jumpHeight = 2.0f;
-    [SerializeField] private float upwardGravityMultiplier = 1.7f;
-    [SerializeField] private float downwardGravityMultiplier = 3.0f;
+    [SerializeField] private float jumpHeight = 2.5f;
+    [SerializeField] private float upwardGravityMultiplier = 3.0f;
+    [SerializeField] private float downwardGravityMultiplier = 6.0f;
     [SerializeField] private float defaultGravityMultiplier = 1.0f;
     [SerializeField] private float maxJumpBufferTime = 0.5f;
+    [SerializeField] private float maxCoyoteTime = 0.5f;
 
     private const float Epsilon = 0.1f;
     
     private bool _onGround;
     private float _jumpBufferCounter;
+    private float _coyoteTimeCounter;
     
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
@@ -53,6 +55,7 @@ public class IceCubePhysics : MonoBehaviour
     
     /// <summary>
     /// Handles jump input. To be called inside Update.
+    /// This function handles coyote time and jump buffer time.
     /// </summary>
     private void HandleInput()
     {
@@ -65,7 +68,16 @@ public class IceCubePhysics : MonoBehaviour
             _jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (_onGround && _jumpBufferCounter > 0.0f)
+        if (_onGround)
+        {
+            _coyoteTimeCounter = maxCoyoteTime;
+        }
+        else
+        {
+            _coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f)
         {
             _jumpBufferCounter = 0.0f;
             Jump();

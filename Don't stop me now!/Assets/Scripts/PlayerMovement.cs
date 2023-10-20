@@ -7,15 +7,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D _rb;
-    private Collider2D _collider;
+    
     public float speed;
     public float bounceIntensity;
+    public float maxAngle;
+    
+    private Rigidbody2D _rb;
+    private Collider2D _collider;
     private PlayerInputAction _inputActions;
-
+    private SpriteRenderer _sprite;
+    private Vector2 _size;
     private bool _shouldJump;
     private bool _isGrounded;
-    private Vector2 _size;
 
     private void OnEnable()
     {
@@ -36,59 +39,35 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
+        _sprite = GetComponent<SpriteRenderer>();
         _size = _collider.bounds.size;
     }
 
     void Update()
     {
+        _sprite.color = _isGrounded ? Color.green : Color.red;
     }
     void FixedUpdate()
     {
-        //TODO put the buffer
-        if (_shouldJump && _isGrounded)
+        Vector2 pos = transform.position ;
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.down);
+        if (hit.collider is not null)
         {
-            _rb.AddForce(Vector2.up * bounceIntensity, ForceMode2D.Impulse);
-            _shouldJump = false;
+            float distance = pos.y - hit.point.y;
+            _isGrounded = distance - _size.y/2 <= 0.1f;
         }
-    }
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        /*if (other.gameObject.CompareTag("Ground"))
-        {
-            _isGrounded = true;
-        }
-        /*if (other.gameObject.CompareTag("Bouncy"))
-        {
-            Debug.Log("Entering bounce collision");
-            // Calculate the bounce direction based on the incoming contact angle.
-            //TODO probably needs to change this because this is not the real surface normal of the place that I hit
-            Vector2 contactNormal = other.contacts[0].normal;
-            Debug.Log(contactNormal);
-            Vector2 newVelocity = Vector2.Reflect(other.relativeVelocity, contactNormal);
-            Debug.Log("velocity: " + other.relativeVelocity + ", reflected_velocity: " + newVelocity);
-            // Apply the new velocity to bounce away.
-            _rb.velocity = newVelocity;
-        }*/
-        //TODO probably will not work if we rotate the cube.
-        Vector2 pos = transform.position;
-        Vector2 contactPoint = other.GetContact(0).point;
-        Debug.Log("This.point:"+ pos+" ContactPoint:"+ contactPoint);
-        //This check is needed so we can see if the segments joining the two dots is greater than 0 (on the ground) or bigger(hit with a upper platform)
-        bool checkYAxis = pos.y - contactPoint.y > 0f;
-        //If the width/2 is equal to the distance between the contact point and the anchor then we just collide with something that is not on the ground;
-        bool checkXAxis = !Mathf.Approximately(_size.x / 2 ,Math.Abs(pos.x - contactPoint.x));
         
-        if (checkYAxis && checkXAxis)
+        if (_isGrounded)
         {
-            _isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            _isGrounded = false;
+            float dirX = Mathf.Sign(_rb.velocity.x);
+            _rb.velocity = new Vector2(speed * dirX,.0f);
+            //TODO put the buffer
+            if (_shouldJump)
+            {
+                _rb.AddForce(Vector2.up * bounceIntensity, ForceMode2D.Impulse);
+                _shouldJump = false;
+                _isGrounded = false;
+            }
         }
         
     }

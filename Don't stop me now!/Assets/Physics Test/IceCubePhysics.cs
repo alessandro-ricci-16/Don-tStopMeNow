@@ -80,6 +80,7 @@ public class IceCubePhysics : MonoBehaviour
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f)
         {
             _jumpBufferCounter = 0.0f;
+            _coyoteTimeCounter = 0.0f;
             Jump();
         }
     }
@@ -163,7 +164,7 @@ public class IceCubePhysics : MonoBehaviour
             
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                if (((Vector2)transform.position - c.point).x < -0.30)
+                if (((Vector2)transform.position - c.point).x < -0.40)
                 {
                     if (prevVelocity.x > 0)
                         _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
@@ -172,7 +173,7 @@ public class IceCubePhysics : MonoBehaviour
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
-                if (((Vector2)transform.position - c.point).x > 0.30)
+                if (((Vector2)transform.position - c.point).x > 0.40)
                 {
                     if (prevVelocity.x < 0)
                         _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);

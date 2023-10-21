@@ -60,21 +60,22 @@ public class PlayerMovement : MonoBehaviour
         float groundDistance = _size.y / 2 + 0.01f;
         float raycastOffset = _size.x / 2 - 0.01f;
         // raycast on the left edge
-        RaycastHit2D hit1 = Physics2D.Raycast(pos + Vector2.left*raycastOffset, Vector2.down, groundDistance);
+        bool hitRayLeft = Physics2D.Raycast(pos + Vector2.left*raycastOffset, Vector2.down, groundDistance).collider is not null;
         // raycast on the right edge
-        RaycastHit2D hit2 = Physics2D.Raycast(pos + Vector2.right*raycastOffset, Vector2.down, groundDistance);
-        // grounded if at least one of the 2 raycasts hit
-        bool doubleHit = 
-        if (hit1.collider is not null || hit2.collider is not null)
+        bool hitRayRight = Physics2D.Raycast(pos + Vector2.right*raycastOffset, Vector2.down, groundDistance).collider is not null;
+        // grounded if both ray cast hits or if just one hits and it's already grounded
+        if ((hitRayRight && hitRayLeft ) || ((hitRayRight||hitRayLeft) &&_rb.velocity.y<=0.0f))
+        {
             _isGrounded = true;
+        }
         else
         {
-            _isGrounded = false;
             // wait for coyote time before disabling jump
-            if (!_inCojoneTime)
+            if (_isGrounded && !_inCojoneTime)
             {
                 StartCoroutine(CoyoneTimer());
             }
+            _isGrounded = false;
         }
         
         // keep y velocity to 0 while on ground

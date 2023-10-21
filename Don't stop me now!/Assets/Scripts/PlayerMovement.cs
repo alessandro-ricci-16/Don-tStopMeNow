@@ -64,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         // raycast on the right edge
         RaycastHit2D hit2 = Physics2D.Raycast(pos + Vector2.right*raycastOffset, Vector2.down, groundDistance);
         // grounded if at least one of the 2 raycasts hit
+        bool doubleHit = 
         if (hit1.collider is not null || hit2.collider is not null)
             _isGrounded = true;
         else

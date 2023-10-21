@@ -163,13 +163,21 @@ public class IceCubePhysics : MonoBehaviour
             
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                if (prevVelocity.x > 0)
-                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                if (((Vector2)transform.position - c.point).x < -0.30)
+                {
+                    if (prevVelocity.x > 0)
+                        _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                }
+                // Debug.Log("Turning left, " + ((Vector2)transform.position - c.point));
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
-                if (prevVelocity.x < 0)
-                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                if (((Vector2)transform.position - c.point).x > 0.30)
+                {
+                    if (prevVelocity.x < 0)
+                        _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                }
+                // Debug.Log("Turning right, " + ((Vector2)transform.position - c.point));
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)
             {

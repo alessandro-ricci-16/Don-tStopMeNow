@@ -26,6 +26,7 @@ public class IceCubePhysics : MonoBehaviour
     private bool _onGround;
     private float _jumpBufferCounter;
     private float _coyoteTimeCounter;
+    private float _jumpCounter;
     
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
@@ -77,11 +78,18 @@ public class IceCubePhysics : MonoBehaviour
             _coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f)
+        _jumpCounter -= Time.deltaTime;
+
+        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
         {
-            _jumpBufferCounter = 0.0f;
-            _coyoteTimeCounter = 0.0f;
+            Debug.Log("Jump; coyote time: " + _coyoteTimeCounter +
+                      "; jump buffer: " + _jumpBufferCounter +
+                      "; jump counter: " + _jumpCounter);
             Jump();
+            _jumpBufferCounter = -1.0f;
+            _coyoteTimeCounter = -1.0f;
+            Debug.Log("Jumped; coyote time: " + _coyoteTimeCounter +
+                      "; jump buffer: " + _jumpBufferCounter);
         }
     }
 
@@ -125,7 +133,7 @@ public class IceCubePhysics : MonoBehaviour
     }
     
     /// <summary>
-    /// The function omputes the jump speed necessary to reach the 
+    /// The function computes the jump speed necessary to reach the 
     /// standard jumpHeight and sets the rigidbody y velocity to that value.
     /// IMPORTANT: the function does NOT check if the player is on the ground.
     /// </summary>
@@ -135,6 +143,7 @@ public class IceCubePhysics : MonoBehaviour
                                      upwardGravityMultiplier * jumpHeight);
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
         _onGround = false;
+        _jumpCounter = maxCoyoteTime + Mathf.Epsilon;
     }
     
     #endregion
@@ -164,25 +173,19 @@ public class IceCubePhysics : MonoBehaviour
             
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                if (((Vector2)transform.position - c.point).x < -0.40)
-                {
-                    if (prevVelocity.x > 0)
-                        _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
-                }
-                // Debug.Log("Turning left, " + ((Vector2)transform.position - c.point));
+                if (prevVelocity.x > 0)
+                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
-                if (((Vector2)transform.position - c.point).x > 0.40)
-                {
-                    if (prevVelocity.x < 0)
-                        _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
-                }
-                // Debug.Log("Turning right, " + ((Vector2)transform.position - c.point));
+                if (prevVelocity.x < 0)
+                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
             }
-            else if ((normal - Vector2.up).magnitude < Epsilon)
+            
+            if ((normal - Vector2.up).magnitude < Epsilon)
             {
-                stillGrounded = true;
+                if (_rigidbody2D.velocity.y < Epsilon)
+                    stillGrounded = true;
             }
         }
         _onGround = stillGrounded;

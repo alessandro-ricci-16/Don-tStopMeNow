@@ -5,15 +5,18 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class IceCubePhysics : MonoBehaviour
 {
     [SerializeField] private bool debug = true;
     
     [Header("Movement")]
     [SerializeField] private float horizontalSpeed = 5.0f;
+    [Tooltip("Set max vertical speed to avoid breaking colliders")]
     [SerializeField] private float maxVerticalSpeed = 20.0f;
     
     [Header("Jump")]
+    [Tooltip("Max height reached by jump")]
     [SerializeField] private float jumpHeight = 2.5f;
     [SerializeField] private float upwardGravityMultiplier = 3.0f;
     [SerializeField] private float downwardGravityMultiplier = 6.0f;
@@ -27,6 +30,7 @@ public class IceCubePhysics : MonoBehaviour
     private float _jumpBufferCounter;
     private float _coyoteTimeCounter;
     private float _jumpCounter;
+    private Vector2 _currentDirection;
     
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
@@ -37,6 +41,8 @@ public class IceCubePhysics : MonoBehaviour
         _spriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = defaultGravityMultiplier;
+        // _rigidbody2D.freezeRotation = true;
+        _currentDirection = Vector2.right;
         // TODO set angular drag, mass,...
     }
     
@@ -56,7 +62,7 @@ public class IceCubePhysics : MonoBehaviour
     
     /// <summary>
     /// Handles jump input. To be called inside Update.
-    /// This function handles coyote time and jump buffer time.
+    /// This function also handles coyote time and jump buffer time.
     /// </summary>
     private void HandleInput()
     {
@@ -82,14 +88,9 @@ public class IceCubePhysics : MonoBehaviour
 
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
         {
-            Debug.Log("Jump; coyote time: " + _coyoteTimeCounter +
-                      "; jump buffer: " + _jumpBufferCounter +
-                      "; jump counter: " + _jumpCounter);
             Jump();
-            _jumpBufferCounter = -1.0f;
-            _coyoteTimeCounter = -1.0f;
-            Debug.Log("Jumped; coyote time: " + _coyoteTimeCounter +
-                      "; jump buffer: " + _jumpBufferCounter);
+            _jumpBufferCounter = 0.0f;
+            _coyoteTimeCounter = 0.0f;
         }
     }
 
@@ -108,13 +109,11 @@ public class IceCubePhysics : MonoBehaviour
     private void Move()
     {
         Vector2 velocity = new Vector2();
-        Vector2 prevVelocity = _rigidbody2D.velocity;
         
         // set horizontal speed
-        velocity.x = horizontalSpeed * Mathf.Sign(prevVelocity.x);
+        velocity.x = horizontalSpeed * Mathf.Sign(_currentDirection.x);
         
         // if cube is not on the ground, adjust gravity scale
-        // TODO clamp the downward velocity to a max value
         if (!_onGround)
         {
             float velocityY = _rigidbody2D.velocity.y;
@@ -139,6 +138,7 @@ public class IceCubePhysics : MonoBehaviour
     /// </summary>
     private void Jump()
     {
+        // compute jump speed to reach specified jump height
         float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * 
                                      upwardGravityMultiplier * jumpHeight);
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
@@ -153,36 +153,35 @@ public class IceCubePhysics : MonoBehaviour
     /// <summary>
     /// Function to be called inside OnCollisionEnter2D and OnCollisionStay2D.
     /// Takes as input the Collision2D and checks all normals of collision points.
-    /// If the normal is Vector2.left or Vector2.right, it adjust the rigidbody
-    /// x velocity accordingly.
-    /// If the normal is Vector2.up, it sets _grounded to true.
+    /// If the normal is Vector2.left or Vector2.right, it adjust the variable
+    /// _currentDirection accordingly.
+    /// If the normal is Vector2.up, it sets _onGround to true.
     /// </summary>
     /// <param name="other"></param> parameter from OnCollisionEnter2D or
     /// OnCollisionStay2D
     private void HandleCollisions(Collision2D other)
     {
+        // get the contacts from the collision
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
         other.GetContacts(contacts);
+        
+        // assume I am not on the ground
         bool stillGrounded = false;
         
+        // iterate and check normals
         foreach (ContactPoint2D c in contacts)
         {
             Vector2 normal = c.normal;
-            Vector2 prevVelocity = _rigidbody2D.velocity;
-            
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                if (prevVelocity.x > 0)
-                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                _currentDirection = Vector2.left;
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
-                if (prevVelocity.x < 0)
-                    _rigidbody2D.velocity = new Vector2(-prevVelocity.x, prevVelocity.y);
+                _currentDirection = Vector2.right;
             }
-            
-            if ((normal - Vector2.up).magnitude < Epsilon)
+            else if ((normal - Vector2.up).magnitude < Epsilon)
             {
                 if (_rigidbody2D.velocity.y < Epsilon)
                     stillGrounded = true;

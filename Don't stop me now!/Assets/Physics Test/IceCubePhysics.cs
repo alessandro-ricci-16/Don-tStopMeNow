@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/*
+ * TODO:
+ * - handle jumpCounter better (currently there to avoid double jumping in
+ *   the coyote time timeframe)
+ * - make sure the player actually jumped before calling cancel jump?
+ */
+
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class IceCubePhysics : MonoBehaviour
@@ -21,7 +28,7 @@ public class IceCubePhysics : MonoBehaviour
     
     [Header("Jump")]
     [Tooltip("Max height reached by jump")]
-    [SerializeField] private float jumpHeight = 2.5f;
+    [SerializeField] private float maxJumpHeight = 2.5f;
     [SerializeField] private float upwardGravityMultiplier = 3.0f;
     [SerializeField] private float downwardGravityMultiplier = 6.0f;
     [SerializeField] private float defaultGravityMultiplier = 1.0f;
@@ -70,7 +77,7 @@ public class IceCubePhysics : MonoBehaviour
     #region Input
     
     /// <summary>
-    /// Handles jump input. To be called inside Update.
+    /// Handles player input. To be called inside Update.
     /// This function also handles coyote time and jump buffer time.
     /// </summary>
     private void HandleInput()
@@ -95,15 +102,19 @@ public class IceCubePhysics : MonoBehaviour
         }
 
         _jumpCounter -= Time.deltaTime;
-        // jump handling
+        // jump input
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
         {
             Jump();
             _jumpBufferCounter = 0.0f;
             _coyoteTimeCounter = 0.0f;
         }
+        if (Input.GetButtonUp("Jump"))
+        {
+            CancelJump();
+        }
         
-        // speed update (computed in Movement())
+        // speed input (speed update is computed in Move())
         _xInput = Input.GetAxis("Horizontal");
     }
 
@@ -114,9 +125,10 @@ public class IceCubePhysics : MonoBehaviour
     /// <summary>
     /// Updates the rigidbody velocity and the gravity scale.
     /// x axis -> the speed is updated according to _xInput
-    /// y axis -> the value is kept the same.
-    /// The value on the y axis is clamped to avoid excessive speeds which
+    /// y axis -> the value is clamped to avoid excessive speeds which
     /// might break the colliders.
+    /// The gravity scale is updated to reflect whether the character is going
+    /// upwards or downwards.
     /// </summary>
     private void Move()
     {
@@ -177,17 +189,32 @@ public class IceCubePhysics : MonoBehaviour
     
     /// <summary>
     /// The function computes the jump speed necessary to reach the 
-    /// standard jumpHeight and sets the rigidbody y velocity to that value.
+    /// standard maxJumpHeight and sets the rigidbody y velocity to that value.
+    /// The jump can be canceled with CancelJump().
     /// IMPORTANT: the function does NOT check if the player is on the ground.
     /// </summary>
     private void Jump()
     {
-        // compute jump speed to reach specified jump height
+        // compute jump speed to reach maxJumpHeight
         float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * 
-                                     upwardGravityMultiplier * jumpHeight);
+                                     upwardGravityMultiplier * maxJumpHeight);
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
         _onGround = false;
         _jumpCounter = maxCoyoteTime + Mathf.Epsilon;
+    }
+    
+    /// <summary>
+    /// Cancels a jump. This function is called when the player releases the
+    /// "jump" button.
+    /// If the vertical velocity is > 0, it divides it by 2.
+    /// </summary>
+    private void CancelJump()
+    {
+        Vector2 prevVelocity = _rigidbody2D.velocity;
+        if (prevVelocity.y > 0)
+        {
+            _rigidbody2D.velocity = new Vector2(prevVelocity.x, prevVelocity.y / 2);
+        }
     }
     
     #endregion

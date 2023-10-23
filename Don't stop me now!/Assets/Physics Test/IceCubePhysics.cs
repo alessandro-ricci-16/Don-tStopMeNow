@@ -11,7 +11,11 @@ public class IceCubePhysics : MonoBehaviour
     [SerializeField] private bool debug = true;
     
     [Header("Movement")]
-    [SerializeField] private float horizontalSpeed = 5.0f;
+    [SerializeField] private float normalSpeed = 5.0f;
+    [SerializeField] private float slowSpeed = 3.5f;
+    [SerializeField] private float fastSpeed = 7.0f;
+    [SerializeField] private float acceleration = 20.0f;
+    [SerializeField] private float deceleration = 20.0f;
     [Tooltip("Set max vertical speed to avoid breaking colliders")]
     [SerializeField] private float maxVerticalSpeed = 20.0f;
     
@@ -30,7 +34,10 @@ public class IceCubePhysics : MonoBehaviour
     private float _jumpBufferCounter;
     private float _coyoteTimeCounter;
     private float _jumpCounter;
+    
     private Vector2 _currentDirection;
+    private float _horizontalSpeed;
+    private float _xInput;
     
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
@@ -43,6 +50,8 @@ public class IceCubePhysics : MonoBehaviour
         _rigidbody2D.gravityScale = defaultGravityMultiplier;
         // _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
+        _horizontalSpeed = normalSpeed;
+        _xInput = 0.0f;
         // TODO set angular drag, mass,...
     }
     
@@ -66,6 +75,7 @@ public class IceCubePhysics : MonoBehaviour
     /// </summary>
     private void HandleInput()
     {
+        // jump buffer handling
         if (Input.GetButtonDown("Jump"))
         {
             _jumpBufferCounter = maxJumpBufferTime;
@@ -74,7 +84,7 @@ public class IceCubePhysics : MonoBehaviour
         {
             _jumpBufferCounter -= Time.deltaTime;
         }
-
+        // coyote time handling
         if (_onGround)
         {
             _coyoteTimeCounter = maxCoyoteTime;
@@ -85,13 +95,16 @@ public class IceCubePhysics : MonoBehaviour
         }
 
         _jumpCounter -= Time.deltaTime;
-
+        // jump handling
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
         {
             Jump();
             _jumpBufferCounter = 0.0f;
             _coyoteTimeCounter = 0.0f;
         }
+        
+        // speed update (computed in Movement())
+        _xInput = Input.GetAxis("Horizontal");
     }
 
     #endregion
@@ -100,8 +113,7 @@ public class IceCubePhysics : MonoBehaviour
     
     /// <summary>
     /// Updates the rigidbody velocity and the gravity scale.
-    /// x axis -> the direction is kept the same but the norm is set
-    /// equal to the speed variable.
+    /// x axis -> the speed is updated according to _xInput
     /// y axis -> the value is kept the same.
     /// The value on the y axis is clamped to avoid excessive speeds which
     /// might break the colliders.
@@ -110,8 +122,40 @@ public class IceCubePhysics : MonoBehaviour
     {
         Vector2 velocity = new Vector2();
         
-        // set horizontal speed
-        velocity.x = horizontalSpeed * Mathf.Sign(_currentDirection.x);
+        // update horizontal speed
+        float speedInput = _xInput * Mathf.Sign(_currentDirection.x);
+        // case 1: xInput in the current direction of the cube
+        // increase speed to match fast speed
+        if (speedInput > 0.0f)
+        {
+            _horizontalSpeed = Mathf.Min(fastSpeed, 
+                _horizontalSpeed + acceleration * Time.deltaTime);
+        }
+        // case 2: xInput in opposite direction of the cube
+        // decrease speed to match slow speed
+        else if (speedInput < 0.0f)
+        {
+            _horizontalSpeed = Mathf.Max(slowSpeed, 
+                _horizontalSpeed - deceleration * Time.deltaTime);
+        }
+        // case 3: no input
+        // modify speed to match normal speed
+        else
+        {
+            if (_horizontalSpeed < normalSpeed)
+            {
+                _horizontalSpeed = Mathf.Min(normalSpeed, 
+                    _horizontalSpeed + acceleration * Time.deltaTime);
+            }
+            else if (_horizontalSpeed > normalSpeed)
+            {
+                _horizontalSpeed = Mathf.Max(normalSpeed,
+                    _horizontalSpeed - deceleration * Time.deltaTime);
+            }
+        }
+        
+        // set horizontal velocity
+        velocity.x = _horizontalSpeed * Mathf.Sign(_currentDirection.x);
         
         // if cube is not on the ground, adjust gravity scale
         if (!_onGround)

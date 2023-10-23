@@ -28,47 +28,63 @@ The levels will be laid out on a map representing the different freezer compartm
 
 ### Core gameplay ###
 
-The base mechanic of the game is jumping. The ice cube will move at a constant speed and the player will not be able to stop it, change the speed or change the direction directly, only to jump. The ice cubes changes direction when it hits an obstacle such as a wall or a platform. The horizontal speed instead never changes.
+The base mechanic of the game is jumping. The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. The ice cubes changes direction when it hits an obstacle such as a wall or a platform.
 
-It is possible to “cancel jumps” mid-air, which results in the ice cube falling down more quickly and then continuing in the previous direction.
+The horizontal speed can be affected by:
+1. Interactions with the environment: sliding on a frosty platform will make the cube slower, while sliding on a slippery platform will make the cube faster.
+2. User input: the player can temporarily slow down or accelerate the character within an allowed range of speed.
 
-There are two commands:
-1. jump
-2. cancel jump / fall down
+However, the horizontal speed will never be zero. 
+
+The player can choose the duration of the jump by pressing the "jump" button for a different time duration, up to a maximum jump height. Additionally, it is possible to “cancel jumps” mid-air, which results in the ice cube falling down more quickly.
 
 Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
 
-The jump always reaches a fixed height, if the ice cube hits a wall or other obstacle mid-jump the trajectory simply gets mirrored to the other direction and the jump continues.
+During a jump, the following actions are allowed:
+1. Wall jump: if the player hits a platform or a wall, it can press the "jump" button again to jump off the obstacle. This is allowed only once per jump.
+2. Mid-air dash: to be discussed
+
+The following commands are allowed:
+1. jump
+2. cancel jump / fall down
+3. accelerate
+4. slow down
 
 ### Gameplay elements ###
-1. Spikes / traps → if the ice cube falls directly on a spike / trap, it will die
+
+1. Spikes / traps: if the ice cube falls directly on a spike / trap, it will die
 2. Breakable platforms
     1. that break after the ice cube passes on them once
     2. that break if the ice cube performs a jump cancel and falls down quickly on them
-3. Stack on other ice cubes → the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
+3. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
     1. hit platforms or other obstacles to get rid of the additional ice cubes
     2. double jump by separating the rest of the “body” made of ice cubes
     3. if the player lands on spikes, only the ice cube at the bottom gets shattered
-4. Enemy ice cubes coming at the player → possibly different behaviours, e.g. mirroring the player's actions
-5. Dashing
-6. Ziplines
-7. The player can leave a trail and make the ice cube smaller (up to a certain amount) in order to go faster
+4. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them
+5. Collectibles: every level will contain 3 collectible objects away from the main path
+6. Fans: fans will produce wind, which will affect the speed and direction of the ice cube
+7. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
+To be discussed: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red. 
 8. The last level of every section is close to the freezer door which can open periodically, therefore the player must be careful to complete the level without melting the ice cube
+9. Enemies: enemy ice cubes, e.g. using ice shards as projectiles
 
 ### Death ###
 
 The ice cube shatters and dies if:
 1. It falls off a bottomless pit
-2. It falls on spikes / traps
-3. It crashes into enemy ice cubes
+2. It collides directly with non-allowed elements: spikes, obstacles, enemies
 
 After death the ice cube restarts at the beginning of the level.
+
+To be discussed: check-points
 
 ### Game Flow ###
 
 The game is made up of multiple short levels, which are organised in sections. Each section represents a freezer compartment and has a different theme: vegetables, ice creams, pizza,...
 
 The first few levels only have the basic jump mechanic and normal blocks; new level and sections will gradually introduce more mechanics and combine them. 
+
+To be discussed: order of introduction of additional elements
 
 Levels must be completed sequentially (it is necessary to complete a level to be able to access the following ones). The player can select which level to play from a level map and can select to replay a previously completed level.
 

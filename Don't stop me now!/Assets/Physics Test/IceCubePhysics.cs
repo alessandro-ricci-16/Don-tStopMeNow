@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 /*
  * TODO:
  * - handle jumpCounter better (currently there to avoid double jumping in
- *   the coyote time timeframe)
+ *   the coyote time timeframe) -> integer jump counter? -> also for cancel jump
  * - make sure the player actually jumped before calling cancel jump?
  */
 

@@ -40,33 +40,42 @@ The player can choose the duration of the jump by pressing the "jump" button for
 
 Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
 
-During a jump, the following actions are allowed:
-1. Wall jump: if the player hits a platform or a wall, it can press the "jump" button again to jump off the obstacle. This is allowed only once per jump.
+While the player is in the air, the following actions are allowed:
+1. Wall jump: if the player hits a platform or a wall, it can press the "jump" button again to jump off the obstacle. This is allowed only once until the character touches the ground again.
 2. Mid-air dash: to be discussed
+3. Fall down quicker
 
 The following commands are allowed:
 1. jump
-2. cancel jump / fall down
+2. fall down quicker
 3. accelerate
 4. slow down
+5. mid-air dash
+
+Other decisions:
+- The ice cube collider will not rotate but be static
+- There are no slopes in the world
 
 ### Gameplay elements ###
 
+Priorities:
 1. Spikes / traps: if the ice cube falls directly on a spike / trap, it will die
-2. Breakable platforms
+2. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them
+3. Fans: fans will produce wind, which will affect the speed and direction of the ice cube
+4. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
+To be discussed: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red.
+
+If time permits:
+1. Breakable platforms
     1. that break after the ice cube passes on them once
     2. that break if the ice cube performs a jump cancel and falls down quickly on them
-3. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
+2. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
     1. hit platforms or other obstacles to get rid of the additional ice cubes
     2. double jump by separating the rest of the “body” made of ice cubes
     3. if the player lands on spikes, only the ice cube at the bottom gets shattered
-4. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them
-5. Collectibles: every level will contain 3 collectible objects away from the main path
-6. Fans: fans will produce wind, which will affect the speed and direction of the ice cube
-7. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
-To be discussed: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red. 
-8. The last level of every section is close to the freezer door which can open periodically, therefore the player must be careful to complete the level without melting the ice cube
-9. Enemies: enemy ice cubes, e.g. using ice shards as projectiles
+4. Collectibles: every level will contain 3 collectible objects away from the main path
+5. Enemies: enemy ice cubes, e.g. using ice shards as projectiles
+
 
 ### Death ###
 

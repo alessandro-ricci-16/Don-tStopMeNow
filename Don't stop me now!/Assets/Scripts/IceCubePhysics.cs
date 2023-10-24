@@ -28,12 +28,12 @@ public class IceCubePhysics : MonoBehaviour
     
     [Header("Jump")]
     [Tooltip("Max height reached by jump")]
-    [SerializeField] private float maxJumpHeight = 3.0f;
-    [SerializeField] private float upwardGravityMultiplier = 3.0f;
-    [SerializeField] private float downwardGravityMultiplier = 6.0f;
+    [SerializeField] private float maxJumpHeight = 4.0f;
+    [SerializeField] private float upwardGravityMultiplier = 6.0f;
+    [SerializeField] private float downwardGravityMultiplier = 8.0f;
     [SerializeField] private float defaultGravityMultiplier = 1.0f;
-    [SerializeField] private float maxJumpBufferTime = 0.5f;
-    [SerializeField] private float maxCoyoteTime = 0.5f;
+    [SerializeField] private float maxJumpBufferTime = 0.1f;
+    [SerializeField] private float maxCoyoteTime = 0.1f;
 
     private const float Epsilon = 0.1f;
     
@@ -60,7 +60,6 @@ public class IceCubePhysics : MonoBehaviour
         _currentDirection = Vector2.right;
         _horizontalSpeed = normalSpeed;
         _xInput = 0.0f;
-        // TODO set angular drag, mass,...
     }
     
     void Update()
@@ -270,7 +269,6 @@ public class IceCubePhysics : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Enter: " + _rigidbody2D.velocity);
         HandleCollisions(other);
     }
 

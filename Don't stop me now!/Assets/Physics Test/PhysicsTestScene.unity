@@ -7532,8 +7532,8 @@ MonoBehaviour:
   upwardGravityMultiplier: 6
   downwardGravityMultiplier: 8
   defaultGravityMultiplier: 1
-  maxJumpBufferTime: 0.5
-  maxCoyoteTime: 0.5
+  maxJumpBufferTime: 0.1
+  maxCoyoteTime: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

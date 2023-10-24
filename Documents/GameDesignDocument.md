@@ -8,6 +8,7 @@
 - Mohammadjavad Sami (art)
 
 ## Overview ##
+
 Game genre: 2D platformer, puzzle
 
 The game will contain a series of short levels organized by themed sections. Levels will alternate between more frenetic and fast-paced platformer sequences and calmer more puzzle-like levels.
@@ -15,6 +16,7 @@ The game will contain a series of short levels organized by themed sections. Lev
 Platforms: PC, possibly mobile
 
 ## Setting ##
+
 The protagonist of the game is an ice cube, living in a bag of ice inside a supermarket frozen products aisle. One day, it breaks free of the rest of the bag of ice and decide to explore the freezer world: its goal will be to traverse all the freezer compartments in order to reach the end.
 
 Possible motivations:
@@ -28,7 +30,7 @@ The levels will be laid out on a map representing the different freezer compartm
 
 ### Core gameplay ###
 
-The base mechanic of the game is jumping. The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. The ice cubes changes direction when it hits an obstacle such as a wall or a platform.
+The base mechanic of the game is jumping. The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
 
 The horizontal speed can be affected by:
 1. Interactions with the environment: sliding on a frosty platform will make the cube slower, while sliding on a slippery platform will make the cube faster.
@@ -36,14 +38,12 @@ The horizontal speed can be affected by:
 
 However, the horizontal speed will never be zero. 
 
-The player can choose the duration of the jump by pressing the "jump" button for a different time duration, up to a maximum jump height. Additionally, it is possible to “cancel jumps” mid-air, which results in the ice cube falling down more quickly.
-
-Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
+When jumping, the player can choose the duration of the jump by pressing the "jump" button for a different time duration, up to a maximum jump height.
 
 While the player is in the air, the following actions are allowed:
-1. Wall jump: if the player hits a platform or a wall, it can press the "jump" button again to jump off the obstacle. This is allowed only once until the character touches the ground again.
+1. Wall jump: if the player hits a platform or a wall, they can press the "jump" button again to jump off the obstacle. This is allowed only once until the character touches the ground again.
 2. Mid-air dash: to be discussed
-3. Fall down quicker
+3. Fall down quicker: the player can press a "fall down" button in order to fall down quicker if the jump was too long.
 
 The following commands are allowed:
 1. jump
@@ -101,7 +101,19 @@ Levels must be completed sequentially (it is necessary to complete a level to be
 ## Deadlines ##
 
 Official deadlines:
-- November 6th - Game Design Document
-- December 10th - Prototype Submission
-- January 13th - Beta Submission
-- February 27th - Final Project Submission
+- 6th November 2023 - Game Design Document
+- 10th December 2023 - Prototype Submission
+- 13th January 2024 - Beta Submission
+- 27th February 2024- Final Project Submission
+
+### Deadline 1 - 2nd November 2023 ###
+- Finalise the player controller (Sara Merengo, Emanuele Santoro)
+    - revise the controller and make the script more modular
+    - add dashing
+    - add wall jumps
+    - add fall down quicker
+    - adapt the speed updates for fans (forces instead of velocity updates)
+- Implement spikes and moving obstacles (Alessandro Ricci)
+- Implement heated platforms (Emanuele Santoro)
+- GameManager class (death and respawn) (Andrea Sanguineti)
+- Camera boundaries (Alessandro Ricci)

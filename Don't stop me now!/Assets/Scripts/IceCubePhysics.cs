@@ -24,7 +24,7 @@ public class IceCubePhysics : MonoBehaviour
     [SerializeField] private float acceleration = 20.0f;
     [SerializeField] private float deceleration = 20.0f;
     [Tooltip("Set max vertical speed to avoid breaking colliders")]
-    [SerializeField] private float maxVerticalSpeed = 20.0f;
+    [SerializeField] private float maxVerticalSpeed = 40.0f;
     
     [Header("Jump")]
     [Tooltip("Max height reached by jump")]
@@ -32,98 +32,52 @@ public class IceCubePhysics : MonoBehaviour
     [SerializeField] private float upwardGravityMultiplier = 6.0f;
     [SerializeField] private float downwardGravityMultiplier = 8.0f;
     [SerializeField] private float defaultGravityMultiplier = 1.0f;
-    [SerializeField] private float maxJumpBufferTime = 0.1f;
-    [SerializeField] private float maxCoyoteTime = 0.1f;
-
+    [SerializeField] protected float maxJumpBufferTime = 0.1f;
+    [SerializeField] protected float maxCoyoteTime = 0.1f;
+    
+    // maximum tolerance for normals in collision handling
     private const float Epsilon = 0.1f;
     
-    private bool _onGround;
-    private float _jumpBufferCounter;
-    private float _coyoteTimeCounter;
-    private float _jumpCounter;
-    private bool _shouldJump;
+    protected bool OnGround;
+    protected bool ShouldJump;
+    protected float JumpCounter;
     
+    // should be Vector2.left or Vector2.right; does not take into account vertical movement
     private Vector2 _currentDirection;
     private float _horizontalSpeed;
-    private float _xInput;
+    // updated using the horizontal axis
+    protected float XInput;
     
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
     
     void Start()
     {
-        _onGround = false;
+        OnGround = false;
         _spriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = defaultGravityMultiplier;
         // _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
         _horizontalSpeed = normalSpeed;
-        _xInput = 0.0f;
+        XInput = 0.0f;
     }
     
-    void Update()
+    protected virtual void Update()
     {
-        HandleInput();
         if (debug)
-            _spriteRenderer.color = _onGround ? Color.green : Color.red;
+            _spriteRenderer.color = OnGround ? Color.green : Color.red;
     }
 
     private void FixedUpdate()
     {
         Move();
-        if (_shouldJump)
+        if (ShouldJump)
         {
             Jump();
-            _shouldJump = false;
+            ShouldJump = false;
         }
     }
-
-    #region Input
-    
-    /// <summary>
-    /// Handles player input. To be called inside Update.
-    /// This function also handles coyote time and jump buffer time.
-    /// </summary>
-    private void HandleInput()
-    {
-        // jump buffer handling
-        if (Input.GetButtonDown("Jump"))
-        {
-            _jumpBufferCounter = maxJumpBufferTime;
-        }
-        else
-        {
-            _jumpBufferCounter -= Time.deltaTime;
-        }
-        // coyote time handling
-        if (_onGround)
-        {
-            _coyoteTimeCounter = maxCoyoteTime;
-        }
-        else
-        {
-            _coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        _jumpCounter -= Time.deltaTime;
-        // jump input
-        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
-        {
-            _shouldJump = true;
-            _jumpBufferCounter = 0.0f;
-            _coyoteTimeCounter = 0.0f;
-        }
-        if (Input.GetButtonUp("Jump"))
-        {
-            CancelJump();
-        }
-        
-        // speed input (speed update is computed in Move())
-        _xInput = Input.GetAxis("Horizontal");
-    }
-
-    #endregion
 
     #region Movement
     
@@ -140,7 +94,7 @@ public class IceCubePhysics : MonoBehaviour
         Vector2 velocity = new Vector2();
         
         // update horizontal speed
-        float speedInput = _xInput * Mathf.Sign(_currentDirection.x);
+        float speedInput = XInput * Mathf.Sign(_currentDirection.x);
         // case 1: xInput in the current direction of the cube
         // increase speed to match fast speed
         if (speedInput > 0.0f)
@@ -175,7 +129,7 @@ public class IceCubePhysics : MonoBehaviour
         velocity.x = _horizontalSpeed * Mathf.Sign(_currentDirection.x);
         
         // if cube is not on the ground, adjust gravity scale
-        if (!_onGround)
+        if (!OnGround)
         {
             float velocityY = _rigidbody2D.velocity.y;
             if (velocityY > 0)
@@ -205,8 +159,8 @@ public class IceCubePhysics : MonoBehaviour
                                      upwardGravityMultiplier * maxJumpHeight);
         // _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
         _rigidbody2D.AddForce(jumpSpeed*Vector2.up, ForceMode2D.Impulse);
-        _onGround = false;
-        _jumpCounter = maxCoyoteTime + Mathf.Epsilon;
+        OnGround = false;
+        JumpCounter = maxCoyoteTime + Mathf.Epsilon;
     }
     
     /// <summary>
@@ -214,7 +168,7 @@ public class IceCubePhysics : MonoBehaviour
     /// "jump" button.
     /// If the vertical velocity is > 0, it divides it by 2.
     /// </summary>
-    private void CancelJump()
+    protected void CancelJump()
     {
         Vector2 prevVelocity = _rigidbody2D.velocity;
         if (prevVelocity.y > 0)
@@ -264,7 +218,7 @@ public class IceCubePhysics : MonoBehaviour
                     stillGrounded = true;
             }
         }
-        _onGround = stillGrounded;
+        OnGround = stillGrounded;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -279,7 +233,7 @@ public class IceCubePhysics : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        _onGround = false;
+        OnGround = false;
     }
     
     #endregion

@@ -28,7 +28,7 @@ public class IceCubePhysics : MonoBehaviour
     
     [Header("Jump")]
     [Tooltip("Max height reached by jump")]
-    [SerializeField] private float maxJumpHeight = 2.5f;
+    [SerializeField] private float maxJumpHeight = 3.0f;
     [SerializeField] private float upwardGravityMultiplier = 3.0f;
     [SerializeField] private float downwardGravityMultiplier = 6.0f;
     [SerializeField] private float defaultGravityMultiplier = 1.0f;
@@ -41,6 +41,7 @@ public class IceCubePhysics : MonoBehaviour
     private float _jumpBufferCounter;
     private float _coyoteTimeCounter;
     private float _jumpCounter;
+    private bool _shouldJump;
     
     private Vector2 _currentDirection;
     private float _horizontalSpeed;
@@ -65,13 +66,18 @@ public class IceCubePhysics : MonoBehaviour
     void Update()
     {
         HandleInput();
+        if (debug)
+            _spriteRenderer.color = _onGround ? Color.green : Color.red;
     }
 
     private void FixedUpdate()
     {
         Move();
-        if (debug)
-            _spriteRenderer.color = _onGround ? Color.green : Color.red;
+        if (_shouldJump)
+        {
+            Jump();
+            _shouldJump = false;
+        }
     }
 
     #region Input
@@ -105,7 +111,7 @@ public class IceCubePhysics : MonoBehaviour
         // jump input
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && _jumpCounter < 0.0f)
         {
-            Jump();
+            _shouldJump = true;
             _jumpBufferCounter = 0.0f;
             _coyoteTimeCounter = 0.0f;
         }
@@ -198,7 +204,8 @@ public class IceCubePhysics : MonoBehaviour
         // compute jump speed to reach maxJumpHeight
         float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * 
                                      upwardGravityMultiplier * maxJumpHeight);
-        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
+        // _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
+        _rigidbody2D.AddForce(jumpSpeed*Vector2.up, ForceMode2D.Impulse);
         _onGround = false;
         _jumpCounter = maxCoyoteTime + Mathf.Epsilon;
     }
@@ -263,6 +270,7 @@ public class IceCubePhysics : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.Log("Enter: " + _rigidbody2D.velocity);
         HandleCollisions(other);
     }
 

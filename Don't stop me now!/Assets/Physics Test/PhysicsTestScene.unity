@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 403768281}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.2, z: -10}
+  m_LocalPosition: {x: -0.2, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7385,7 +7385,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.5
-  m_GravityScale: 0
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -7395,7 +7395,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!212 &1861155907
 SpriteRenderer:
@@ -7458,7 +7458,7 @@ Transform:
   m_GameObject: {fileID: 1861155904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.2, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0.5, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7527,10 +7527,10 @@ MonoBehaviour:
   fastSpeed: 7
   acceleration: 20
   deceleration: 20
-  maxVerticalSpeed: 20
-  maxJumpHeight: 2.5
-  upwardGravityMultiplier: 3
-  downwardGravityMultiplier: 6
+  maxVerticalSpeed: 25
+  maxJumpHeight: 5
+  upwardGravityMultiplier: 6
+  downwardGravityMultiplier: 8
   defaultGravityMultiplier: 1
   maxJumpBufferTime: 0.5
   maxCoyoteTime: 0.5

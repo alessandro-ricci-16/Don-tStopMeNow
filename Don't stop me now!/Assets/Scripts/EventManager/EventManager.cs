@@ -186,7 +186,6 @@ public class EventManager : Singleton<EventManager>
 
     public static void TriggerEvent(string eventName, float value)
     {
-        Debug.Log("TriggerEvent(" + eventName + ", " + value +".");
         UnityEvent<float> thisEvent = null;
         if (Instance._floatEventDictionary.TryGetValue(eventName, out thisEvent))
         {

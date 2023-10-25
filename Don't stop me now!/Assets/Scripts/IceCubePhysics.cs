@@ -50,8 +50,10 @@ public class IceCubePhysics : MonoBehaviour
     // updated using the horizontal axis
     protected float XInput;
     
-    private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
+    
+    // TODO delete this variable
+    protected SpriteRenderer _spriteRenderer;
     
     void Start()
     {
@@ -240,6 +242,7 @@ public class IceCubePhysics : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other)
     {
         OnGround = false;
+        OnWall = false;
     }
     
     #endregion

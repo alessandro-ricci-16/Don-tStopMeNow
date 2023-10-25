@@ -57,16 +57,21 @@ public class IceCubeInput : IceCubePhysics
         {
             ShouldJump = true;
             _jumpBufferCounter = 0.0f;
+            // to avoid jumping two times with the same input when close to a wall
+            _wallJumpBufferCounter = 0.0f;
             _coyoteTimeCounter = 0.0f;
         }
-        if (_wallJumpBufferCounter > 0.0f && _wallCoyoteTimeCounter > 0.0f)
+        if (_wallCoyoteTimeCounter > 0.0f && _wallJumpBufferCounter > 0.0f)
         {
             ShouldJump = true;
+            _spriteRenderer.color = Color.magenta;
+            Debug.Log("WJ. JB: " + _wallJumpBufferCounter + ", CT: " + _wallCoyoteTimeCounter);
             _wallJumpBufferCounter = 0.0f;
             _wallCoyoteTimeCounter = 0.0f;
         }
         if (Input.GetButtonUp("Jump"))
         {
+            _spriteRenderer.color = Color.white;
             InterruptJump();
         }
         

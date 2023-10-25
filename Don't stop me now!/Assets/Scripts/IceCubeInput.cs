@@ -53,7 +53,7 @@ public class IceCubeInput : IceCubePhysics
         }
         
         // speed input (speed update is computed in Move())
-        XInput = Input.GetAxis("Horizontal");
+        XInput = Input.GetAxisRaw("Horizontal");
     }
 
 }

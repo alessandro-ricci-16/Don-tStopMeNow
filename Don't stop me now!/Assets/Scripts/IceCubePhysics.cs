@@ -7,22 +7,25 @@ using UnityEngine.Serialization;
 /*
  * TODO:
  * - handle jumpCounter better (currently there to avoid double jumping in
- *   the coyote time timeframe) -> integer jump counter? -> also for cancel jump
- * - make sure the player actually jumped before calling cancel jump?
+ *   the coyote time timeframe) -> integer jump counter? -> also for interrupt jump
+ * - make sure the player actually jumped before calling interrupt jump?
+ */
+
+/*
+ * NOTES
+ * - ice cube and platforms must have a physics material 2D with friction = 0 and bounciness = 0
  */
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class IceCubePhysics : MonoBehaviour
 {
-    [SerializeField] private bool debug = true;
-    public Vector2 prevVelocity;
-    
     [Header("Movement")]
     [SerializeField] private float defaultSpeed = 5.0f;
     [SerializeField] private float slowSpeed = 3.5f;
     [SerializeField] private float fastSpeed = 7.0f;
     [SerializeField] private float acceleration = 20.0f;
+    [Tooltip("Must be > 0")]
     [SerializeField] private float deceleration = 20.0f;
     
     [Header("Jump")]
@@ -56,15 +59,14 @@ public class IceCubePhysics : MonoBehaviour
         _spriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = defaultGravityMultiplier;
-        // _rigidbody2D.freezeRotation = true;
+        _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
         XInput = 0.0f;
     }
     
     protected virtual void Update()
     {
-        // if (debug)
-        //     _spriteRenderer.color = OnGround ? Color.green : Color.red;
+        
     }
 
     private void FixedUpdate()
@@ -80,53 +82,46 @@ public class IceCubePhysics : MonoBehaviour
     #region Movement
     
     /// <summary>
-    /// Updates the rigidbody velocity and the gravity scale.
-    /// x axis -> the speed is updated according to _xInput
-    /// y axis -> the value is clamped to avoid excessive speeds which
-    /// might break the colliders.
-    /// The gravity scale is updated to reflect whether the character is going
+    /// Updates the movement of the rigidbody.
+    /// x axis -> the velocity is updated according to _xInput by applying forces.
+    /// y axis -> the gravity scale is updated to reflect whether the character is going
     /// upwards or downwards.
     /// </summary>
     private void Move()
     {
-        prevVelocity = _rigidbody2D.velocity;
+        // current body velocity
+        Vector2 prevVelocity = _rigidbody2D.velocity;
         
-        // update horizontal speed
-        //speedInput is >0 if the input and the velocity are coherent
+        // X AXIS
+        
+        // speedInput > 0 if user input and current direction are concordant
         float speedInput = XInput * Mathf.Sign(_currentDirection.x);
+        
         // case 1: xInput in the current direction of the cube
-        // increase speed to match fast speed
+        // add force to increase speed to match fast speed
         if (speedInput > 0.0f)
         {
             if (Mathf.Abs(prevVelocity.x) < fastSpeed)
                 _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 2: xInput in opposite direction of the cube
-        // decrease speed to match slow speed
+        // add force to decrease speed to match slow speed
         else if (speedInput < 0.0f)
         {
             if (Mathf.Abs(prevVelocity.x) > slowSpeed)
                 _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 3: no input
-        // modify speed to match normal speed
+        // add force to modify speed to match default speed
         else
         {
             if (Mathf.Abs(prevVelocity.x) < defaultSpeed - Epsilon)
             {
-                // Debug.Log("Accelerating");
-                _spriteRenderer.color = Color.magenta;
                 _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
             }
             else if (Mathf.Abs(prevVelocity.x) > defaultSpeed + Epsilon)
             {
-                // Debug.Log("Decelerating");
-                _spriteRenderer.color = Color.yellow;
                 _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
-            }
-            else
-            {
-                _spriteRenderer.color = Color.white;
             }
         }
         
@@ -145,26 +140,24 @@ public class IceCubePhysics : MonoBehaviour
     /// <summary>
     /// The function computes the jump speed necessary to reach the 
     /// standard maxJumpHeight and sets the rigidbody y velocity to that value.
-    /// The jump can be canceled with CancelJump().
     /// IMPORTANT: the function does NOT check if the player is on the ground.
     /// </summary>
     private void Jump()
     {
         // compute jump speed to reach maxJumpHeight
-        float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * 
+        float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _rigidbody2D.mass *
                                      upwardGravityMultiplier * maxJumpHeight);
-        // _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, jumpSpeed);
         _rigidbody2D.AddForce(jumpSpeed*Vector2.up, ForceMode2D.Impulse);
         OnGround = false;
         JumpCounter = maxCoyoteTime + Mathf.Epsilon;
     }
     
     /// <summary>
-    /// Cancels a jump. This function is called when the player releases the
+    /// Interrupts a jump. This function is called when the player releases the
     /// "jump" button.
     /// If the vertical velocity is > 0, it divides it by 2.
     /// </summary>
-    protected void CancelJump()
+    protected void InterruptJump()
     {
         Vector2 prevVelocity = _rigidbody2D.velocity;
         if (prevVelocity.y > 0)
@@ -181,7 +174,8 @@ public class IceCubePhysics : MonoBehaviour
     /// Function to be called inside OnCollisionEnter2D and OnCollisionStay2D.
     /// Takes as input the Collision2D and checks all normals of collision points.
     /// If the normal is Vector2.left or Vector2.right, it adjust the variable
-    /// _currentDirection accordingly.
+    /// _currentDirection accordingly and applies an impulse to the body in order
+    /// to change direction.
     /// If the normal is Vector2.up, it sets _onGround to true.
     /// </summary>
     /// <param name="other"></param> parameter from OnCollisionEnter2D or
@@ -203,7 +197,7 @@ public class IceCubePhysics : MonoBehaviour
             Vector2 normal = c.normal;
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                // direction check: avoid applying force multiple times for diff contact points
+                // direction check: avoid applying force multiple times for different contact points
                 if (prevVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
                 {
                     _currentDirection = Vector2.left;

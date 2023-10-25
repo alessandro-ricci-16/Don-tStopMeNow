@@ -49,7 +49,7 @@ public class IceCubeInput : IceCubePhysics
         }
         if (Input.GetButtonUp("Jump"))
         {
-            CancelJump();
+            InterruptJump();
         }
         
         // speed input (speed update is computed in Move())

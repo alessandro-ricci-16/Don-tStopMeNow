@@ -42,7 +42,6 @@ public class IceCubePhysics : MonoBehaviour
     
     protected bool OnGround;
     protected bool ShouldJump;
-    protected float JumpCounter;
     
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement
@@ -149,7 +148,6 @@ public class IceCubePhysics : MonoBehaviour
                                      upwardGravityMultiplier * maxJumpHeight);
         _rigidbody2D.AddForce(jumpSpeed*Vector2.up, ForceMode2D.Impulse);
         OnGround = false;
-        JumpCounter = maxCoyoteTime + Mathf.Epsilon;
     }
     
     /// <summary>

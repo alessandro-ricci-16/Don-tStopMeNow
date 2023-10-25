@@ -38,10 +38,9 @@ public class IceCubeInput : IceCubePhysics
         {
             _coyoteTimeCounter -= Time.deltaTime;
         }
-
-        JumpCounter -= Time.deltaTime;
+        
         // jump input
-        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && JumpCounter < 0.0f)
+        if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f)
         {
             ShouldJump = true;
             _jumpBufferCounter = 0.0f;

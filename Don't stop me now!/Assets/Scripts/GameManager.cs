@@ -1,27 +1,20 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
-    public static GameManager Instance { get; private set; }
+   
 
-    private void Awake() 
+    protected override void Awake() 
     { 
-        // singleton stuff
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this.gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-        
+        //to still have the awake method of the singleton class
+        base.Awake();
         // get animator component
         _canvasAnimator = GetComponent<Animator>();
         // try to get the vignette component of the post processing volume

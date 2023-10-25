@@ -1,17 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 public class HeatedPlatform : MonoBehaviour
 {
     //we have to create a function that whne the player enters the heated platform, it will start a timer. As long as it stays in contact with the platform the timer will enhance,
     //when it reaches a max value the player will die
-
-    [SerializeField] private float maxTime = 5f;
-    [SerializeField]
-    [Range(0.01f, float.MaxValue)] // Set a minimum value of 0.01, which is greater than 0
-    private float recoveryScale = 1f;
+    
+    public HeatableSettings heatableSettings;
     private float _timer;
     private bool _isPlayerOn;
 
@@ -19,13 +17,15 @@ public class HeatedPlatform : MonoBehaviour
     {
         if (_isPlayerOn)
         {
-            _timer += Time.deltaTime;
+            _timer += heatableSettings.heatScale*Time.deltaTime;
+            EventManager.TriggerEvent("OnHeatedPlatform", _timer);
             
         }
         else if (_timer > 0)
         {
-            _timer -= recoveryScale*Time.deltaTime;
-            _timer = Mathf.Clamp(_timer, 0, maxTime);
+            EventManager.TriggerEvent("OffHeatedPlatform", _timer);
+            _timer -= heatableSettings.recoveryScale*Time.deltaTime;
+            _timer = Mathf.Clamp(_timer, 0, heatableSettings.maxTime);
         }
     }
 
@@ -40,7 +40,7 @@ public class HeatedPlatform : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (_timer >= maxTime)
+        if (_timer >= heatableSettings.maxTime)
         {
             GameManager.Instance.Die(other.transform.position);
         }

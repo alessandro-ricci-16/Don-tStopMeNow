@@ -41,6 +41,7 @@ public class IceCubePhysics : MonoBehaviour
     private const float Epsilon = 0.1f;
     
     protected bool OnGround;
+    protected bool OnWall;
     protected bool ShouldJump;
     
     // should be Vector2.left or Vector2.right;
@@ -186,8 +187,9 @@ public class IceCubePhysics : MonoBehaviour
         other.GetContacts(contacts);
         Vector2 prevVelocity = _rigidbody2D.velocity;
         
-        // assume I am not on the ground
-        bool stillGrounded = false;
+        // assume I am not on the ground and not on a wall
+        bool isPlayerOnGround = false;
+        bool isPlayerOnWall = false;
         
         // iterate and check normals
         foreach (ContactPoint2D c in contacts)
@@ -195,6 +197,7 @@ public class IceCubePhysics : MonoBehaviour
             Vector2 normal = c.normal;
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
+                isPlayerOnWall = true;
                 // direction check: avoid applying force multiple times for different contact points
                 if (prevVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
                 {
@@ -204,6 +207,7 @@ public class IceCubePhysics : MonoBehaviour
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
+                isPlayerOnWall = true;
                 if (prevVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
                 {
                     _currentDirection = Vector2.right;
@@ -216,10 +220,11 @@ public class IceCubePhysics : MonoBehaviour
                 // (problem with spamming jump button during coyoteTime)
                 // TODO: check if this actually changes anything
                 if (_rigidbody2D.velocity.y < Epsilon)
-                    stillGrounded = true;
+                    isPlayerOnGround = true;
             }
         }
-        OnGround = stillGrounded;
+        OnGround = isPlayerOnGround;
+        OnWall = isPlayerOnWall;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

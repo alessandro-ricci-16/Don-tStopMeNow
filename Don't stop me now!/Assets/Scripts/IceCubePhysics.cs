@@ -16,15 +16,14 @@ using UnityEngine.Serialization;
 public class IceCubePhysics : MonoBehaviour
 {
     [SerializeField] private bool debug = true;
+    public Vector2 prevVelocity;
     
     [Header("Movement")]
-    [SerializeField] private float normalSpeed = 5.0f;
+    [SerializeField] private float defaultSpeed = 5.0f;
     [SerializeField] private float slowSpeed = 3.5f;
     [SerializeField] private float fastSpeed = 7.0f;
     [SerializeField] private float acceleration = 20.0f;
     [SerializeField] private float deceleration = 20.0f;
-    [Tooltip("Set max vertical speed to avoid breaking colliders")]
-    [SerializeField] private float maxVerticalSpeed = 40.0f;
     
     [Header("Jump")]
     [Tooltip("Max height reached by jump")]
@@ -42,9 +41,9 @@ public class IceCubePhysics : MonoBehaviour
     protected bool ShouldJump;
     protected float JumpCounter;
     
-    // should be Vector2.left or Vector2.right; does not take into account vertical movement
+    // should be Vector2.left or Vector2.right;
+    // does not take into account vertical movement
     private Vector2 _currentDirection;
-    private float _horizontalSpeed;
     // updated using the horizontal axis
     protected float XInput;
     
@@ -59,14 +58,13 @@ public class IceCubePhysics : MonoBehaviour
         _rigidbody2D.gravityScale = defaultGravityMultiplier;
         // _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
-        _horizontalSpeed = normalSpeed;
         XInput = 0.0f;
     }
     
     protected virtual void Update()
     {
-        if (debug)
-            _spriteRenderer.color = OnGround ? Color.green : Color.red;
+        // if (debug)
+        //     _spriteRenderer.color = OnGround ? Color.green : Color.red;
     }
 
     private void FixedUpdate()
@@ -91,59 +89,57 @@ public class IceCubePhysics : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        Vector2 velocity = new Vector2();
+        prevVelocity = _rigidbody2D.velocity;
         
         // update horizontal speed
+        //speedInput is >0 if the input and the velocity are coherent
         float speedInput = XInput * Mathf.Sign(_currentDirection.x);
         // case 1: xInput in the current direction of the cube
         // increase speed to match fast speed
         if (speedInput > 0.0f)
         {
-            _horizontalSpeed = Mathf.Min(fastSpeed, 
-                _horizontalSpeed + acceleration * Time.deltaTime);
+            if (Mathf.Abs(prevVelocity.x) < fastSpeed)
+                _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 2: xInput in opposite direction of the cube
         // decrease speed to match slow speed
         else if (speedInput < 0.0f)
         {
-            _horizontalSpeed = Mathf.Max(slowSpeed, 
-                _horizontalSpeed - deceleration * Time.deltaTime);
+            if (Mathf.Abs(prevVelocity.x) > slowSpeed)
+                _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 3: no input
         // modify speed to match normal speed
         else
         {
-            if (_horizontalSpeed < normalSpeed)
+            if (Mathf.Abs(prevVelocity.x) < defaultSpeed - Epsilon)
             {
-                _horizontalSpeed = Mathf.Min(normalSpeed, 
-                    _horizontalSpeed + acceleration * Time.deltaTime);
+                // Debug.Log("Accelerating");
+                _spriteRenderer.color = Color.magenta;
+                _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
             }
-            else if (_horizontalSpeed > normalSpeed)
+            else if (Mathf.Abs(prevVelocity.x) > defaultSpeed + Epsilon)
             {
-                _horizontalSpeed = Mathf.Max(normalSpeed,
-                    _horizontalSpeed - deceleration * Time.deltaTime);
+                // Debug.Log("Decelerating");
+                _spriteRenderer.color = Color.yellow;
+                _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
+            }
+            else
+            {
+                _spriteRenderer.color = Color.white;
             }
         }
-        
-        // set horizontal velocity
-        velocity.x = _horizontalSpeed * Mathf.Sign(_currentDirection.x);
         
         // if cube is not on the ground, adjust gravity scale
         if (!OnGround)
         {
-            float velocityY = _rigidbody2D.velocity.y;
-            if (velocityY > 0)
+            if (prevVelocity.y > 0)
                 _rigidbody2D.gravityScale = upwardGravityMultiplier;
-            else if (velocityY < 0)
+            else if (prevVelocity.y < 0)
                 _rigidbody2D.gravityScale = downwardGravityMultiplier;
-            else if (velocityY == 0)
+            else if (prevVelocity.y == 0)
                 _rigidbody2D.gravityScale = defaultGravityMultiplier;
         }
-   
-        velocity = new Vector2(velocity.x, _rigidbody2D.velocity.y);
-        velocity.y = Mathf.Clamp(velocity.y, -maxVerticalSpeed, maxVerticalSpeed);
-        
-        _rigidbody2D.velocity = velocity;
     }
     
     /// <summary>
@@ -196,6 +192,7 @@ public class IceCubePhysics : MonoBehaviour
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
         other.GetContacts(contacts);
+        Vector2 prevVelocity = _rigidbody2D.velocity;
         
         // assume I am not on the ground
         bool stillGrounded = false;
@@ -206,14 +203,26 @@ public class IceCubePhysics : MonoBehaviour
             Vector2 normal = c.normal;
             if ((normal - Vector2.left).magnitude < Epsilon)
             {
-                _currentDirection = Vector2.left;
+                // direction check: avoid applying force multiple times for diff contact points
+                if (prevVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
+                {
+                    _currentDirection = Vector2.left;
+                    _rigidbody2D.AddForce(defaultSpeed*Vector2.left, ForceMode2D.Impulse);
+                }
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
-                _currentDirection = Vector2.right;
+                if (prevVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
+                {
+                    _currentDirection = Vector2.right;
+                    _rigidbody2D.AddForce(defaultSpeed*Vector2.right, ForceMode2D.Impulse);
+                }
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)
             {
+                // if velocity.y > 0, then I'm jumping and I'm leaving the platform
+                // (problem with spamming jump button during coyoteTime)
+                // TODO: check if this actually changes anything
                 if (_rigidbody2D.velocity.y < Epsilon)
                     stillGrounded = true;
             }

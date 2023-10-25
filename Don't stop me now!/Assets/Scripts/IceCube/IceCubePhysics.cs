@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,22 +21,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(BoxCollider2D))]
 public class IceCubePhysics : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private float defaultSpeed = 5.0f;
-    [SerializeField] private float slowSpeed = 3.5f;
-    [SerializeField] private float fastSpeed = 7.0f;
-    [SerializeField] private float acceleration = 20.0f;
-    [Tooltip("Must be > 0")]
-    [SerializeField] private float deceleration = 20.0f;
-    
-    [Header("Jump")]
-    [Tooltip("Max height reached by jump")]
-    [SerializeField] private float maxJumpHeight = 4.0f;
-    [SerializeField] private float upwardGravityMultiplier = 6.0f;
-    [SerializeField] private float downwardGravityMultiplier = 8.0f;
-    [SerializeField] private float defaultGravityMultiplier = 1.0f;
-    [SerializeField] protected float maxJumpBufferTime = 0.1f;
-    [SerializeField] protected float maxCoyoteTime = 0.1f;
+    [SerializeField] protected IceCubeParameters parameters;
     
     // maximum tolerance for normals in collision handling
     private const float Epsilon = 0.1f;
@@ -43,24 +29,24 @@ public class IceCubePhysics : MonoBehaviour
     protected bool OnGround;
     protected bool OnWall;
     protected bool ShouldJump;
+    // updated using the horizontal axis
+    protected float XInput;
     
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement
     private Vector2 _currentDirection;
-    // updated using the horizontal axis
-    protected float XInput;
     
     private Rigidbody2D _rigidbody2D;
     
     // TODO delete this variable
-    protected SpriteRenderer _spriteRenderer;
+    protected SpriteRenderer SpriteRenderer;
     
     void Start()
     {
         OnGround = false;
-        _spriteRenderer = this.GetComponent<SpriteRenderer>();
+        SpriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        _rigidbody2D.gravityScale = defaultGravityMultiplier;
+        _rigidbody2D.gravityScale = parameters.defaultGravityMultiplier;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
         XInput = 0.0f;
@@ -103,27 +89,27 @@ public class IceCubePhysics : MonoBehaviour
         // add force to increase speed to match fast speed
         if (speedInput > 0.0f)
         {
-            if (Mathf.Abs(prevVelocity.x) < fastSpeed)
-                _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
+            if (Mathf.Abs(prevVelocity.x) < parameters.fastSpeed)
+                _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 2: xInput in opposite direction of the cube
         // add force to decrease speed to match slow speed
         else if (speedInput < 0.0f)
         {
-            if (Mathf.Abs(prevVelocity.x) > slowSpeed)
-                _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
+            if (Mathf.Abs(prevVelocity.x) > parameters.slowSpeed)
+                _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 3: no input
         // add force to modify speed to match default speed
         else
         {
-            if (Mathf.Abs(prevVelocity.x) < defaultSpeed - Epsilon)
+            if (Mathf.Abs(prevVelocity.x) < parameters.defaultSpeed - Epsilon)
             {
-                _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
+                _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
             }
-            else if (Mathf.Abs(prevVelocity.x) > defaultSpeed + Epsilon)
+            else if (Mathf.Abs(prevVelocity.x) > parameters.defaultSpeed + Epsilon)
             {
-                _rigidbody2D.AddForce(- deceleration * _currentDirection, ForceMode2D.Force);
+                _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
             }
         }
         
@@ -131,11 +117,11 @@ public class IceCubePhysics : MonoBehaviour
         if (!OnGround)
         {
             if (prevVelocity.y > 0)
-                _rigidbody2D.gravityScale = upwardGravityMultiplier;
+                _rigidbody2D.gravityScale = parameters.upwardGravityMultiplier;
             else if (prevVelocity.y < 0)
-                _rigidbody2D.gravityScale = downwardGravityMultiplier;
+                _rigidbody2D.gravityScale = parameters.downwardGravityMultiplier;
             else if (prevVelocity.y == 0)
-                _rigidbody2D.gravityScale = defaultGravityMultiplier;
+                _rigidbody2D.gravityScale = parameters.defaultGravityMultiplier;
         }
     }
     
@@ -147,9 +133,10 @@ public class IceCubePhysics : MonoBehaviour
     private void Jump()
     {
         // compute jump speed to reach maxJumpHeight
-        float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * _rigidbody2D.mass *
-                                     upwardGravityMultiplier * maxJumpHeight);
-        _rigidbody2D.AddForce(jumpSpeed*Vector2.up, ForceMode2D.Impulse);
+        float jumpForce = Mathf.Sqrt(-2f * Physics2D.gravity.y * _rigidbody2D.mass *
+                                     parameters.upwardGravityMultiplier * parameters.maxJumpHeight);
+        jumpForce -= _rigidbody2D.velocity.y;
+        _rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
         OnGround = false;
     }
     
@@ -204,7 +191,7 @@ public class IceCubePhysics : MonoBehaviour
                 if (prevVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
                 {
                     _currentDirection = Vector2.left;
-                    _rigidbody2D.AddForce(defaultSpeed*Vector2.left, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.left, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
@@ -213,7 +200,7 @@ public class IceCubePhysics : MonoBehaviour
                 if (prevVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
                 {
                     _currentDirection = Vector2.right;
-                    _rigidbody2D.AddForce(defaultSpeed*Vector2.right, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.right, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)

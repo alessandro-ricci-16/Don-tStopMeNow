@@ -25,8 +25,8 @@ public class IceCubeInput : IceCubePhysics
         // jump buffer 
         if (Input.GetButtonDown("Jump"))
         {
-            _jumpBufferCounter = maxJumpBufferTime;
-            _wallJumpBufferCounter = maxJumpBufferTime;
+            _jumpBufferCounter = parameters.maxJumpBufferTime;
+            _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
         }
         else
         {
@@ -36,7 +36,7 @@ public class IceCubeInput : IceCubePhysics
         // normal jump coyote time
         if (OnGround)
         {
-            _coyoteTimeCounter = maxCoyoteTime;
+            _coyoteTimeCounter = parameters.maxCoyoteTime;
         }
         else
         {
@@ -45,7 +45,7 @@ public class IceCubeInput : IceCubePhysics
         // wall jump coyote time
         if (OnWall)
         {
-            _wallCoyoteTimeCounter = maxCoyoteTime;
+            _wallCoyoteTimeCounter = parameters.maxWallCoyoteTime;
         }
         else
         {
@@ -64,14 +64,12 @@ public class IceCubeInput : IceCubePhysics
         if (_wallCoyoteTimeCounter > 0.0f && _wallJumpBufferCounter > 0.0f)
         {
             ShouldJump = true;
-            _spriteRenderer.color = Color.magenta;
-            Debug.Log("WJ. JB: " + _wallJumpBufferCounter + ", CT: " + _wallCoyoteTimeCounter);
             _wallJumpBufferCounter = 0.0f;
             _wallCoyoteTimeCounter = 0.0f;
         }
         if (Input.GetButtonUp("Jump"))
         {
-            _spriteRenderer.color = Color.white;
+            SpriteRenderer.color = Color.white;
             InterruptJump();
         }
         

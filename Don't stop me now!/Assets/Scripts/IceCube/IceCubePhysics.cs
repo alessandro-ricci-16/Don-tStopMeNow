@@ -29,12 +29,16 @@ public class IceCubePhysics : MonoBehaviour
     protected bool OnGround;
     protected bool OnWall;
     protected bool ShouldJump;
+    protected bool ShouldGroundPound;
+    protected bool IsGroundPounding;
     // updated using the horizontal axis
     protected float XInput;
     
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement
     private Vector2 _currentDirection;
+    // velocity at the previous frame
+    private Vector2 _prevFrameVelocity;
     
     private Rigidbody2D _rigidbody2D;
     
@@ -59,11 +63,22 @@ public class IceCubePhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _prevFrameVelocity = _rigidbody2D.velocity;
         Move();
         if (ShouldJump)
         {
             Jump();
             ShouldJump = false;
+        }
+        if (ShouldGroundPound)
+        {
+            GroundPound();
+            ShouldGroundPound = false;
+        }
+        // when I get on the ground I'm not ground pounding anymore
+        if (OnGround)
+        {
+            IsGroundPounding = false;
         }
     }
 
@@ -77,9 +92,6 @@ public class IceCubePhysics : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        // current body velocity
-        Vector2 prevVelocity = _rigidbody2D.velocity;
-        
         // X AXIS
         
         // speedInput > 0 if user input and current direction are concordant
@@ -89,25 +101,25 @@ public class IceCubePhysics : MonoBehaviour
         // add force to increase speed to match fast speed
         if (speedInput > 0.0f)
         {
-            if (Mathf.Abs(prevVelocity.x) < parameters.fastSpeed)
+            if (Mathf.Abs(_prevFrameVelocity.x) < parameters.fastSpeed)
                 _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 2: xInput in opposite direction of the cube
         // add force to decrease speed to match slow speed
         else if (speedInput < 0.0f)
         {
-            if (Mathf.Abs(prevVelocity.x) > parameters.slowSpeed)
+            if (Mathf.Abs(_prevFrameVelocity.x) > parameters.slowSpeed)
                 _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
         }
         // case 3: no input
         // add force to modify speed to match default speed
         else
         {
-            if (Mathf.Abs(prevVelocity.x) < parameters.defaultSpeed - Epsilon)
+            if (Mathf.Abs(_prevFrameVelocity.x) < parameters.defaultSpeed - Epsilon)
             {
                 _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
             }
-            else if (Mathf.Abs(prevVelocity.x) > parameters.defaultSpeed + Epsilon)
+            else if (Mathf.Abs(_prevFrameVelocity.x) > parameters.defaultSpeed + Epsilon)
             {
                 _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
             }
@@ -116,11 +128,11 @@ public class IceCubePhysics : MonoBehaviour
         // if cube is not on the ground, adjust gravity scale
         if (!OnGround)
         {
-            if (prevVelocity.y > 0)
+            if (_prevFrameVelocity.y > 0)
                 _rigidbody2D.gravityScale = parameters.upwardGravityMultiplier;
-            else if (prevVelocity.y < 0)
+            else if (_prevFrameVelocity.y < 0)
                 _rigidbody2D.gravityScale = parameters.downwardGravityMultiplier;
-            else if (prevVelocity.y == 0)
+            else if (_prevFrameVelocity.y == 0)
                 _rigidbody2D.gravityScale = parameters.defaultGravityMultiplier;
         }
     }
@@ -135,7 +147,7 @@ public class IceCubePhysics : MonoBehaviour
         // compute jump speed to reach maxJumpHeight
         float jumpForce = Mathf.Sqrt(-2f * Physics2D.gravity.y * _rigidbody2D.mass *
                                      parameters.upwardGravityMultiplier * parameters.maxJumpHeight);
-        jumpForce -= _rigidbody2D.velocity.y;
+        jumpForce -= _prevFrameVelocity.y;
         _rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
         OnGround = false;
     }
@@ -147,11 +159,20 @@ public class IceCubePhysics : MonoBehaviour
     /// </summary>
     protected void InterruptJump()
     {
-        Vector2 prevVelocity = _rigidbody2D.velocity;
-        if (prevVelocity.y > 0)
+        if (_prevFrameVelocity.y > 0)
         {
-            _rigidbody2D.velocity = new Vector2(prevVelocity.x, prevVelocity.y / 2);
+            _rigidbody2D.velocity = new Vector2(_prevFrameVelocity.x, _prevFrameVelocity.y / 2);
         }
+    }
+
+    protected void GroundPound()
+    {
+        IsGroundPounding = true;
+        // set the gravity scale to zero so only the vertical force affects the rigidbody
+        _rigidbody2D.gravityScale = 0.0f;
+        // temporarily reset velocity
+        _rigidbody2D.velocity = Vector2.zero;
+        _rigidbody2D.AddForce(parameters.groundPoundSpeed * Vector2.down, ForceMode2D.Impulse);
     }
     
     #endregion
@@ -164,7 +185,7 @@ public class IceCubePhysics : MonoBehaviour
     /// If the normal is Vector2.left or Vector2.right, it adjust the variable
     /// _currentDirection accordingly and applies an impulse to the body in order
     /// to change direction.
-    /// If the normal is Vector2.up, it sets _onGround to true.
+    /// If the normal is Vector2.up, it sets onGround to true.
     /// </summary>
     /// <param name="other"></param> parameter from OnCollisionEnter2D or
     /// OnCollisionStay2D
@@ -174,7 +195,6 @@ public class IceCubePhysics : MonoBehaviour
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
         other.GetContacts(contacts);
-        Vector2 prevVelocity = _rigidbody2D.velocity;
         
         // assume I am not on the ground and not on a wall
         bool isPlayerOnGround = false;
@@ -188,7 +208,7 @@ public class IceCubePhysics : MonoBehaviour
             {
                 isPlayerOnWall = true;
                 // direction check: avoid applying force multiple times for different contact points
-                if (prevVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
+                if (_prevFrameVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
                 {
                     _currentDirection = Vector2.left;
                     _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.left, ForceMode2D.Impulse);
@@ -197,7 +217,7 @@ public class IceCubePhysics : MonoBehaviour
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
                 isPlayerOnWall = true;
-                if (prevVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
+                if (_prevFrameVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
                 {
                     _currentDirection = Vector2.right;
                     _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.right, ForceMode2D.Impulse);
@@ -208,7 +228,7 @@ public class IceCubePhysics : MonoBehaviour
                 // if velocity.y > 0, then I'm jumping and I'm leaving the platform
                 // (problem with spamming jump button during coyoteTime)
                 // TODO: check if this actually changes anything
-                if (_rigidbody2D.velocity.y < Epsilon)
+                if (_prevFrameVelocity.y < Epsilon)
                     isPlayerOnGround = true;
             }
         }

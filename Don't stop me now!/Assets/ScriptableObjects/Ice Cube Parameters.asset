@@ -25,3 +25,4 @@ MonoBehaviour:
   maxCoyoteTime: 0.1
   maxWallJumpBufferTime: 0.2
   maxWallCoyoteTime: 0.2
+  groundPoundSpeed: 20

@@ -25,6 +25,9 @@ namespace ScriptableObjects
         public float maxCoyoteTime = 0.1f;
         public float maxWallJumpBufferTime = 0.2f;
         public float maxWallCoyoteTime = 0.2f;
+
+        [Header("Other")] 
+        public float groundPoundSpeed = 25.0f;
     }
     
 }

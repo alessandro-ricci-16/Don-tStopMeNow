@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3609020314181764704}
   - component: {fileID: 8651664534158652353}
   - component: {fileID: 3949838637484961772}
-  - component: {fileID: 3787805589351043445}
   - component: {fileID: 6110191658268348298}
   - component: {fileID: 1722827066842682407}
   - component: {fileID: 7692313673614089162}
+  - component: {fileID: 3883472333883734822}
   m_Layer: 0
   m_Name: HeatedPlatforms
   m_TagString: Untagged
@@ -222,20 +222,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &3787805589351043445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3034554262967138831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45eefa8dc89c7440b31cdc5b12a57ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxTime: 0.5
-  recoveryScale: 1
 --- !u!19719996 &6110191658268348298
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -356,3 +342,16 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 3034554262967138831}
+--- !u!114 &3883472333883734822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3034554262967138831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45eefa8dc89c7440b31cdc5b12a57ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}

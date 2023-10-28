@@ -12,18 +12,18 @@ public class EventTrigger : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.E))
 		{
-			Debug.Log("Triggering Explode");
-			EventManager.TriggerEvent("Explode");
+			//Debug.Log("Triggering Explode");
+			//EventManager.TriggerEvent("Explode");
 		}
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			EventManager.TriggerEvent ("RunAway");			
+			//EventManager.TriggerEvent ("RunAway");			
 		}
 
 		if (Input.GetKeyDown(KeyCode.S))
 		{
-			EventManager.TriggerEvent("Spawn");
+			//EventManager.TriggerEvent("Spawn");
 		}
 
 	}

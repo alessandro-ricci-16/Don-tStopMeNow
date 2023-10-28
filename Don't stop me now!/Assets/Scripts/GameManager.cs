@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
 
     protected override void Awake() 
     { 
-        //to still have the awake method of the singleton class
+        //invoke the awake method of the singleton class
         base.Awake();
         // get animator component
         _canvasAnimator = GetComponent<Animator>();

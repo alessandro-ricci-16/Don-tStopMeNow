@@ -17,7 +17,7 @@ public class HeatedPlatform : MonoBehaviour
     {
         if (_isPlayerOn)
         {
-            _timer += heatableSettings.heatScale * Time.deltaTime;
+            _timer += Time.deltaTime;
 
         }
         else if (_timer > 0)
@@ -29,10 +29,9 @@ public class HeatedPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Collision");
         if (other.gameObject.CompareTag("Player"))
         {
-            EventManager.TriggerEvent("OnHeatedPlatform", _timer);
+            EventManager.TriggerEvent(EventNames.OnHeatedPlatform, _timer);
             _isPlayerOn = true;
         }
     }
@@ -50,7 +49,7 @@ public class HeatedPlatform : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             _isPlayerOn = false;
-            EventManager.TriggerEvent("OffHeatedPlatform", _timer);
+            EventManager.TriggerEvent(EventNames.OffHeatedPlatform, _timer);
         }
     }
 }

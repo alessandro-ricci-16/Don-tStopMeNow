@@ -30,37 +30,46 @@ The levels will be laid out on a map representing the different freezer compartm
 
 ### Core gameplay ###
 
-The base mechanic of the game is jumping. The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
+**Movement**
+
+The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor. Everytime the ice cube reaches the floor its vertical velocity will be zero. 
 
 The horizontal speed can be affected by:
 1. Interactions with the environment: sliding on a frosty platform will make the cube slower, while sliding on a slippery platform will make the cube faster.
 2. User input: the player can temporarily slow down or accelerate the character within an allowed range of speed.
 
-However, the horizontal speed will never be zero. 
+**Jump** 
 
-When jumping, the player can choose the duration of the jump by pressing the "jump" button for a different time duration, up to a maximum jump height.
+The player can make the ice cube jump. The jump has variable height up to a fixed maximum height; the height of the jump depends on how long the player presses the "jump" button for. 
 
 While the player is in the air, the following actions are allowed:
-1. Wall jump: if the player hits a platform or a wall, they can press the "jump" button again to jump off the obstacle. This is allowed only once until the character touches the ground again.
+1. Wall jump: if the player hits a platform or a wall, they can press the "jump" button again to jump off the obstacle.
 2. Mid-air dash: to be discussed
-3. Fall down quicker: the player can press a "fall down" button in order to fall down quicker if the jump was too long.
+3. Ground pound: the player can press a "fall down" button in order to fall down quicker if the jump was too long.
+
+**Ground pound**
+
+While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
+
+**Recap**
 
 The following commands are allowed:
 1. jump
-2. fall down quicker
+2. ground pound
 3. accelerate
 4. slow down
 5. mid-air dash
 
-Other decisions:
-- The ice cube collider will not rotate but be static
+**Other decisions**
+
+- The ice cube will not rotate
 - There are no slopes in the world
 
 ### Gameplay elements ###
 
 Priorities:
-1. Spikes / traps: if the ice cube falls directly on a spike / trap, it will die
-2. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them
+1. Spikes / traps: if the ice cube collides directly with a spike / trap, it will die
+2. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them (to be discussed: can the ice cubes walk on top of them?)
 3. Fans: fans will produce wind, which will affect the speed and direction of the ice cube
 4. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
 To be discussed: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red.

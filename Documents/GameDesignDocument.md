@@ -45,11 +45,15 @@ The player can make the ice cube jump. The jump has variable height up to a fixe
 While the player is in the air, the following actions are allowed:
 1. Wall jump: if the player hits a platform or a wall, they can press the "jump" button again to jump off the obstacle.
 2. Mid-air dash: to be discussed
-3. Ground pound: the player can press a "fall down" button in order to fall down quicker if the jump was too long.
+3. Ground pound: the player can press a "ground pound" button in order to fall down quicker.
 
 **Ground pound**
 
 While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
+
+**Mid-air dash**
+
+To be further discussed.
 
 **Recap**
 
@@ -60,6 +64,10 @@ The following commands are allowed:
 4. slow down
 5. mid-air dash
 
+**Input mapping**
+
+To be further discussed.
+
 **Other decisions**
 
 - The ice cube will not rotate
@@ -67,34 +75,42 @@ The following commands are allowed:
 
 ### Gameplay elements ###
 
-Priorities:
-1. Spikes / traps: if the ice cube collides directly with a spike / trap, it will die
-2. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them (to be discussed: can the ice cubes walk on top of them?)
-3. Fans: fans will produce wind, which will affect the speed and direction of the ice cube
-4. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
-To be discussed: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red.
+The world elements that are part of the fridge or of the background are placed on a grid.
 
-If time permits:
-1. Breakable platforms
+Grid elements (all of these elements are static):
+1. Regular platforms: these are platforms the ice cube can slide on and bounce off with no consequence. They represent patches of ice, parts of the plastic shelves or floor in the freezer, other contents of the freezer such as boxes of food,...
+2. Spikes: these represent ice shards in the freezer or other static obstacles which will be letal to the ice cube. The ice cube will die if it collides directly with them. They can be attached to other regular platforms in all four directions.
+3. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
+
+All of these elements can be placed on the floor of the level but also mid-air with nothing supporting them (there is no regard to gravity in this sense).
+
+Stand-alone elements:
+1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground.
+2. Fans: fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. If the force of the fan is strong enough to contrast the acceleration of the ice cube, it can change its direction.
+3. Breakable platforms
     1. that break after the ice cube passes on them once
-    2. that break if the ice cube performs a jump cancel and falls down quickly on them
-2. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
+    2. that break if the ice cube ground pounds or dashes on them
+4. Collectibles: every level will contain 3 collectible objects away from the main path
+5. Enemies: some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them.
+6. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
+
+Other mechanics:
+1. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
     1. hit platforms or other obstacles to get rid of the additional ice cubes
     2. double jump by separating the rest of the “body” made of ice cubes
     3. if the player lands on spikes, only the ice cube at the bottom gets shattered
-4. Collectibles: every level will contain 3 collectible objects away from the main path
-5. Enemies: enemy ice cubes, e.g. using ice shards as projectiles
 
+To be discussed:
+1. Fans: should the force be the same in the entire force field or be modulated depending on how close you get to the fan?
+2. Heated platforms: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red
 
 ### Death ###
 
 The ice cube shatters and dies if:
 1. It falls off a bottomless pit
-2. It collides directly with non-allowed elements: spikes, obstacles, enemies
+2. It collides directly with non-allowed elements: spikes, obstacles, enemies, projectiles,...
 
-After death the ice cube restarts at the beginning of the level.
-
-To be discussed: check-points
+After death the ice cube restarts at the nearest check-point.
 
 ### Game Flow ###
 
@@ -106,6 +122,7 @@ To be discussed: order of introduction of additional elements
 
 Levels must be completed sequentially (it is necessary to complete a level to be able to access the following ones). The player can select which level to play from a level map and can select to replay a previously completed level.
 
+Each level will contain multiple check-points, so that the player does not have to repeat previously completed sequences.
 
 ## Deadlines ##
 
@@ -126,3 +143,13 @@ Official deadlines:
 - Implement heated platforms (Emanuele Santoro)
 - GameManager class (death and respawn) (Andrea Sanguineti)
 - Camera boundaries (Alessandro Ricci)
+
+### Deadline 2 - 14th November 2023 ###
+- Controller:
+    - correct jump height calculation and ground pount (Sara Merengo)
+- Implement basic menu and level selection layout, UIManager (Sara Merengo)
+- Create a basic level prototype (everyone). Experiment with:
+    - ice cube movement parameters
+    - ice cube size with respect to the platform tiles
+    - screen size, camera zoom
+    - horizontal scrolling vs one screen per checkpoint

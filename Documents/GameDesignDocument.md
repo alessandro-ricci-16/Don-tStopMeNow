@@ -32,24 +32,34 @@ The levels will be laid out on a map representing the different freezer compartm
 
 **Movement**
 
-The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor. Everytime the ice cube reaches the floor its vertical velocity will be zero. 
+The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor. Everytime the ice cube reaches the floor its vertical velocity will be zero.
+
+The ice cube is affected by gravity and can fall off platforms. Falling off platforms does not damage the ice cube.
 
 The horizontal speed can be affected by:
 1. Interactions with the environment: sliding on a frosty platform will make the cube slower, while sliding on a slippery platform will make the cube faster.
 2. User input: the player can temporarily slow down or accelerate the character within an allowed range of speed.
 
-**Jump** 
+While the player keeps the "accelerate" ("decelerate") input pressed, the ice cube will accelerate (decelerate) at a constant rate until it reaches a fixed "fast (slow) speed" value. When the "accelerate" ("decelerate") input is released, the ice cube will decelerate (accelerate) until it reaches the default speed again. 
 
-The player can make the ice cube jump. The jump has variable height up to a fixed maximum height; the height of the jump depends on how long the player presses the "jump" button for. 
+In general, the ice cube is always trying to reach or keep a certain fixed horizontal speed which depends on the "accelerate"/"decelerate" input (or absence thereof). The only exception is when using the "ground pound" and "mid-air dash" moves (see later).
 
-While the player is in the air, the following actions are allowed:
-1. Wall jump: if the player hits a platform or a wall, they can press the "jump" button again to jump off the obstacle.
-2. Mid-air dash: to be discussed
-3. Ground pound: the player can press a "ground pound" button in order to fall down quicker.
+Vertical speed is determined by gravity, jump and ground pound input.
 
 **Ground pound**
 
 While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
+
+**Jump** 
+
+The player can make the ice cube jump. The jump has variable height up to a fixed maximum height; the height of the jump depends on how long the player presses the "jump" button for. 
+
+The player can jump only if the player is on the ground or on a wall (wall jump). Only one wall jump is allowed until the character comes back to the ground.
+
+While the player is in the air, the following actions are allowed:
+1. Wall jump
+2. Mid-air dash: to be discussed
+3. Ground pound
 
 **Mid-air dash**
 
@@ -137,7 +147,7 @@ Official deadlines:
     - revise the controller and make the script more modular
     - add dashing
     - add wall jumps
-    - add fall down quicker
+    - add ground pound
     - adapt the speed updates for fans (forces instead of velocity updates)
 - Implement spikes and moving obstacles (Alessandro Ricci)
 - Implement heated platforms (Emanuele Santoro)
@@ -146,10 +156,13 @@ Official deadlines:
 
 ### Deadline 2 - 14th November 2023 ###
 - Controller:
-    - correct jump height calculation and ground pount (Sara Merengo)
+    - correct jump height calculation and ground pound (Sara Merengo)
+    - only one wall jump until the character hits the ground again
 - Implement basic menu and level selection layout, UIManager (Sara Merengo)
 - Create a basic level prototype (everyone). Experiment with:
     - ice cube movement parameters
     - ice cube size with respect to the platform tiles
     - screen size, camera zoom
     - horizontal scrolling vs one screen per checkpoint
+- Breakable platforms
+- Fans

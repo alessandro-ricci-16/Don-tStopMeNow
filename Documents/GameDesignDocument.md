@@ -76,7 +76,11 @@ The following commands are allowed:
 
 **Input mapping**
 
-To be further discussed.
+- W: jump
+- A: left; accelerate when the current direction of the character is left, decelerate if the current direction is right
+- D: right; accelerate when the current direction of the character is right, decelerate if the current direction is left
+- S: ground pound
+- Q: mid-air dash
 
 **Other decisions**
 
@@ -157,7 +161,8 @@ Official deadlines:
 ### Deadline 2 - 14th November 2023 ###
 - Controller:
     - correct jump height calculation and ground pound (Sara Merengo)
-    - only one wall jump until the character hits the ground again
+    - only one wall jump until the character hits the ground again (Sara Merengo)
+    - redo player input: input map instead of hard coded in the controller
 - Implement basic menu and level selection layout, UIManager (Sara Merengo)
 - Create a basic level prototype (everyone). Experiment with:
     - ice cube movement parameters
@@ -166,3 +171,4 @@ Official deadlines:
     - horizontal scrolling vs one screen per checkpoint
 - Breakable platforms
 - Fans
+- Basic character asset and tileset (Mohammadjavad Sami)

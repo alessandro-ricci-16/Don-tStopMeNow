@@ -8186,7 +8186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9b93299d5ed8e4aae8f1b04ade5a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
+  heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
 --- !u!95 &1861155913
 Animator:
   serializedVersion: 5

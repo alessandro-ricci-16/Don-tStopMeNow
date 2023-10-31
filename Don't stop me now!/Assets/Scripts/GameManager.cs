@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 {
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
+    private Action _functionToPlay;
    
 
     protected override void Awake() 
@@ -36,7 +37,14 @@ public class GameManager : Singleton<GameManager>
             _vignetteEffect.center.value = vignetteCenter;
         }
         // play the reload scene state of the animator that will trigger the ReloadScene() method at the end
-        _canvasAnimator.Play("ReloadScene");
+        _functionToPlay = ReloadScene;
+        _canvasAnimator.Play("ChangeScene");
+    }
+
+    public void AnimationCallbackHandler()
+    {
+        // play the function set in the attribute, use this at the end of an animation
+        _functionToPlay();
     }
     
     public void ReloadScene()

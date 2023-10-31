@@ -14,10 +14,10 @@ AnimatorStateMachine:
     m_Position: {x: 170, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -473299655812519666}
-    m_Position: {x: 240, y: 80, z: 0}
+    m_Position: {x: 280, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6638752495202639543}
-    m_Position: {x: 275, y: 145, z: 0}
+    m_Position: {x: 350, y: 140, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -109,7 +109,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ReloadScene
+  m_Name: ChangeScene
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

@@ -162,13 +162,13 @@ Official deadlines:
 - Controller:
     - correct jump height calculation and ground pound (Sara Merengo)
     - only one wall jump until the character hits the ground again (Sara Merengo)
-    - redo player input: input map instead of hard coded in the controller
+    - redo player input: input map instead of hard coded in the controller (Emanuele Santoro)
 - Implement basic menu and level selection layout, UIManager (Sara Merengo)
-- Create a basic level prototype (everyone). Experiment with:
+- Create a basic level prototype containing only basic blocks (everyone). Experiment with:
     - ice cube movement parameters
     - ice cube size with respect to the platform tiles
     - screen size, camera zoom
     - horizontal scrolling vs one screen per checkpoint
-- Breakable platforms
+- Breakable platforms (Andrea Sanguineti)
 - Fans
 - Basic character asset and tileset (Mohammadjavad Sami)

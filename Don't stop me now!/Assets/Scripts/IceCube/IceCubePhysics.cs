@@ -50,7 +50,7 @@ public class IceCubePhysics : MonoBehaviour
         OnGround = false;
         SpriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        _rigidbody2D.gravityScale = parameters.defaultGravityMultiplier;
+        _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
         XInput = 0.0f;
@@ -129,11 +129,9 @@ public class IceCubePhysics : MonoBehaviour
         if (!OnGround)
         {
             if (_prevFrameVelocity.y > 0)
-                _rigidbody2D.gravityScale = parameters.upwardGravityMultiplier;
-            else if (_prevFrameVelocity.y < 0)
-                _rigidbody2D.gravityScale = parameters.downwardGravityMultiplier;
-            else if (_prevFrameVelocity.y == 0)
-                _rigidbody2D.gravityScale = parameters.defaultGravityMultiplier;
+                _rigidbody2D.gravityScale = parameters.upwardGravityScale;
+            else if (_prevFrameVelocity.y <= 0)
+                _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         }
     }
     
@@ -145,8 +143,11 @@ public class IceCubePhysics : MonoBehaviour
     private void Jump()
     {
         // compute jump speed to reach maxJumpHeight
-        float jumpForce = Mathf.Sqrt(-2f * Physics2D.gravity.y * _rigidbody2D.mass *
-                                     parameters.upwardGravityMultiplier * parameters.maxJumpHeight);
+        float jumpForce = Mathf.Sqrt(-2f * Physics2D.gravity.y *
+                                     parameters.upwardGravityScale * parameters.maxJumpHeight);
+        // if not already updated, set the gravity multiplier to the upwards gravity scale
+        // (otherwise it will update next frame and create problems)
+        _rigidbody2D.gravityScale = parameters.upwardGravityScale;
         jumpForce -= _prevFrameVelocity.y;
         _rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
         OnGround = false;
@@ -162,6 +163,7 @@ public class IceCubePhysics : MonoBehaviour
         if (_prevFrameVelocity.y > 0)
         {
             _rigidbody2D.velocity = new Vector2(_prevFrameVelocity.x, _prevFrameVelocity.y / 2);
+            Debug.Log("Interrumpting jump");
         }
     }
 

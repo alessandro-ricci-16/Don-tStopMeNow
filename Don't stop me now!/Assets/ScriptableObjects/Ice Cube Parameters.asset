@@ -12,17 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
   m_Name: Ice Cube Parameters
   m_EditorClassIdentifier: 
-  defaultSpeed: 6.99
+  defaultSpeed: 5
   slowSpeed: 3.5
   fastSpeed: 7
   acceleration: 20
   deceleration: 20
   maxJumpHeight: 4
-  upwardGravityMultiplier: 6
-  downwardGravityMultiplier: 8
-  defaultGravityMultiplier: 1
+  upwardGravityScale: 6
+  downwardGravityScale: 8
+  groundPoundSpeed: 30
   maxJumpBufferTime: 0.1
   maxCoyoteTime: 0.1
   maxWallJumpBufferTime: 0.2
   maxWallCoyoteTime: 0.2
-  groundPoundSpeed: 20

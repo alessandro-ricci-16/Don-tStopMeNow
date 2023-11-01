@@ -36,6 +36,8 @@ namespace ScriptableObjects
         public float maxWallJumpBufferTime = 0.2f;
         [Tooltip("Same as the coyote time but for the wall jump; leave a little bigger than the normal one")]
         public float maxWallCoyoteTime = 0.2f;
+        [Tooltip("Max number of wall jumps the player can perform before touching the ground again")]
+        public int maxWallJumpsNumber = 1;
     }
     
 }

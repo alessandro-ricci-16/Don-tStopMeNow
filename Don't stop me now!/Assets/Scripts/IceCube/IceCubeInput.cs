@@ -14,6 +14,7 @@ public class IceCubeInput : IceCubePhysics
     private float _coyoteTimeCounter;
     private float _wallJumpBufferCounter;
     private float _wallCoyoteTimeCounter;
+    private int _wallJumpCounter;
 
     protected override void Update()
     {
@@ -45,8 +46,10 @@ public class IceCubeInput : IceCubePhysics
     /// </summary>
     private void HandleJumpInput()
     {
-        // jump buffer 
-        if (Input.GetButtonDown("Jump"))
+        // TIMERS AND COUNTERS UPDATE
+        
+        // jump buffer (input is not considered while ground pounding)
+        if (Input.GetButtonDown("Jump") && !IsGroundPounding)
         {
             _jumpBufferCounter = parameters.maxJumpBufferTime;
             _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
@@ -56,10 +59,12 @@ public class IceCubeInput : IceCubePhysics
             _jumpBufferCounter -= Time.deltaTime;
             _wallJumpBufferCounter -= Time.deltaTime;
         }
-        // normal jump coyote time
         if (OnGround)
         {
+            // normal jump coyote time
             _coyoteTimeCounter = parameters.maxCoyoteTime;
+            // possibility to wall jump resets
+            _wallJumpCounter = 0;
         }
         else
         {
@@ -75,7 +80,9 @@ public class IceCubeInput : IceCubePhysics
             _wallCoyoteTimeCounter -= Time.deltaTime;
         }
         
-        // jump input (cannot jump while ground pounding)
+        // JUMP INPUT
+        
+        // normal jump input (cannot jump while ground pounding)
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f && !IsGroundPounding)
         {
             ShouldJump = true;
@@ -85,9 +92,12 @@ public class IceCubeInput : IceCubePhysics
             _wallJumpBufferCounter = 0.0f;
             _wallCoyoteTimeCounter = 0.0f;
         }
-        if (_wallCoyoteTimeCounter > 0.0f && _wallJumpBufferCounter > 0.0f)
+        // wall jump input (cannot jump while ground pounding, cannot wall jump more than the max number of times)
+        if (_wallJumpCounter < parameters.maxWallJumpsNumber && _wallCoyoteTimeCounter > 0.0f 
+                                                             && _wallJumpBufferCounter > 0.0f && !IsGroundPounding)
         {
             ShouldJump = true;
+            _wallJumpCounter += 1;
             _wallJumpBufferCounter = 0.0f;
             _wallCoyoteTimeCounter = 0.0f;
         }

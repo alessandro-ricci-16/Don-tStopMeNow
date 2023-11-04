@@ -8,6 +8,7 @@
 - Mohammadjavad Sami (art)
 
 ## Overview ##
+
 Game genre: 2D platformer, puzzle
 
 The game will contain a series of short levels organized by themed sections. Levels will alternate between more frenetic and fast-paced platformer sequences and calmer more puzzle-like levels.
@@ -15,6 +16,7 @@ The game will contain a series of short levels organized by themed sections. Lev
 Platforms: PC, possibly mobile
 
 ## Setting ##
+
 The protagonist of the game is an ice cube, living in a bag of ice inside a supermarket frozen products aisle. One day, it breaks free of the rest of the bag of ice and decide to explore the freezer world: its goal will be to traverse all the freezer compartments in order to reach the end.
 
 Possible motivations:
@@ -28,41 +30,101 @@ The levels will be laid out on a map representing the different freezer compartm
 
 ### Core gameplay ###
 
-The base mechanic of the game is jumping. The ice cube will move at a constant speed and the player will not be able to stop it, change the speed or change the direction directly, only to jump. The ice cubes changes direction when it hits an obstacle such as a wall or a platform. The horizontal speed instead never changes.
+**Movement**
 
-It is possible to “cancel jumps” mid-air, which results in the ice cube falling down more quickly and then continuing in the previous direction.
+The ice cube will move constantly and the player will not be able to stop it or change the direction directly, only to jump. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor. Everytime the ice cube reaches the floor its vertical velocity will be zero.
 
-There are two commands:
+The ice cube is affected by gravity and can fall off platforms. Falling off platforms does not damage the ice cube.
+
+The horizontal speed can be affected by:
+1. Interactions with the environment: sliding on a frosty platform will make the cube slower, while sliding on a slippery platform will make the cube faster.
+2. User input: the player can temporarily slow down or accelerate the character within an allowed range of speed.
+
+While the player keeps the "accelerate" ("decelerate") input pressed, the ice cube will accelerate (decelerate) at a constant rate until it reaches a fixed "fast (slow) speed" value. When the "accelerate" ("decelerate") input is released, the ice cube will decelerate (accelerate) until it reaches the default speed again. 
+
+In general, the ice cube is always trying to reach or keep a certain fixed horizontal speed which depends on the "accelerate"/"decelerate" input (or absence thereof). The only exception is when using the "ground pound" and "mid-air dash" moves (see later).
+
+Vertical speed is determined by gravity, jump and ground pound input.
+
+**Ground pound**
+
+While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
+
+**Jump** 
+
+The player can make the ice cube jump. The jump has variable height up to a fixed maximum height; the height of the jump depends on how long the player presses the "jump" button for. 
+
+The player can jump only if the player is on the ground or on a wall (wall jump). Only one wall jump is allowed until the character comes back to the ground.
+
+While the player is in the air, the following actions are allowed:
+1. Wall jump
+2. Mid-air dash: to be discussed
+3. Ground pound
+
+**Mid-air dash**
+
+To be further discussed.
+
+**Recap**
+
+The following commands are allowed:
 1. jump
-2. cancel jump / fall down
+2. ground pound
+3. accelerate
+4. slow down
+5. mid-air dash
 
-Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor.
+**Input mapping**
 
-The jump always reaches a fixed height, if the ice cube hits a wall or other obstacle mid-jump the trajectory simply gets mirrored to the other direction and the jump continues.
+- W: jump
+- A: left; accelerate when the current direction of the character is left, decelerate if the current direction is right
+- D: right; accelerate when the current direction of the character is right, decelerate if the current direction is left
+- S: ground pound
+- Q: mid-air dash
+
+**Other decisions**
+
+- The ice cube will not rotate
+- There are no slopes in the world
 
 ### Gameplay elements ###
-1. Spikes / traps → if the ice cube falls directly on a spike / trap, it will die
-2. Breakable platforms
+
+The world elements that are part of the fridge or of the background are placed on a grid.
+
+Grid elements (all of these elements are static):
+1. Regular platforms: these are platforms the ice cube can slide on and bounce off with no consequence. They represent patches of ice, parts of the plastic shelves or floor in the freezer, other contents of the freezer such as boxes of food,...
+2. Spikes: these represent ice shards in the freezer or other static obstacles which will be letal to the ice cube. The ice cube will die if it collides directly with them. They can be attached to other regular platforms in all four directions.
+3. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
+
+All of these elements can be placed on the floor of the level but also mid-air with nothing supporting them (there is no regard to gravity in this sense).
+
+Stand-alone elements:
+1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground.
+2. Fans: fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. If the force of the fan is strong enough to contrast the acceleration of the ice cube, it can change its direction.
+3. Breakable platforms
     1. that break after the ice cube passes on them once
-    2. that break if the ice cube performs a jump cancel and falls down quickly on them
-3. Stack on other ice cubes → the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
+    2. that break if the ice cube ground pounds or dashes on them
+4. Collectibles: every level will contain 3 collectible objects away from the main path
+5. Enemies: some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them.
+6. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
+
+Other mechanics:
+1. Stack on other ice cubes: the ice cube can stack with other ice cubes inside the freezer by jumping on top of them
     1. hit platforms or other obstacles to get rid of the additional ice cubes
     2. double jump by separating the rest of the “body” made of ice cubes
     3. if the player lands on spikes, only the ice cube at the bottom gets shattered
-4. Enemy ice cubes coming at the player → possibly different behaviours, e.g. mirroring the player's actions
-5. Dashing
-6. Ziplines
-7. The player can leave a trail and make the ice cube smaller (up to a certain amount) in order to go faster
-8. The last level of every section is close to the freezer door which can open periodically, therefore the player must be careful to complete the level without melting the ice cube
+
+To be discussed:
+1. Fans: should the force be the same in the entire force field or be modulated depending on how close you get to the fan?
+2. Heated platforms: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red
 
 ### Death ###
 
 The ice cube shatters and dies if:
 1. It falls off a bottomless pit
-2. It falls on spikes / traps
-3. It crashes into enemy ice cubes
+2. It collides directly with non-allowed elements: spikes, obstacles, enemies, projectiles,...
 
-After death the ice cube restarts at the beginning of the level.
+After death the ice cube restarts at the nearest check-point.
 
 ### Game Flow ###
 
@@ -70,13 +132,43 @@ The game is made up of multiple short levels, which are organised in sections. E
 
 The first few levels only have the basic jump mechanic and normal blocks; new level and sections will gradually introduce more mechanics and combine them. 
 
+To be discussed: order of introduction of additional elements
+
 Levels must be completed sequentially (it is necessary to complete a level to be able to access the following ones). The player can select which level to play from a level map and can select to replay a previously completed level.
 
+Each level will contain multiple check-points, so that the player does not have to repeat previously completed sequences.
 
 ## Deadlines ##
 
 Official deadlines:
-- November 6th - Game Design Document
-- December 10th - Prototype Submission
-- January 13th - Beta Submission
-- February 27th - Final Project Submission
+- 6th November 2023 - Game Design Document
+- 10th December 2023 - Prototype Submission
+- 13th January 2024 - Beta Submission
+- 27th February 2024- Final Project Submission
+
+### Deadline 1 - 2nd November 2023 ###
+- Finalise the player controller (Sara Merengo, Emanuele Santoro)
+    - revise the controller and make the script more modular
+    - add dashing
+    - add wall jumps
+    - add ground pound
+    - adapt the speed updates for fans (forces instead of velocity updates)
+- Implement spikes and moving obstacles (Alessandro Ricci)
+- Implement heated platforms (Emanuele Santoro)
+- GameManager class (death and respawn) (Andrea Sanguineti)
+- Camera boundaries (Alessandro Ricci)
+
+### Deadline 2 - 14th November 2023 ###
+- Controller:
+    - correct jump height calculation and ground pound (Sara Merengo)
+    - only one wall jump until the character hits the ground again (Sara Merengo)
+    - redo player input: input map instead of hard coded in the controller (Emanuele Santoro)
+- Implement basic menu and level selection layout, UIManager (Sara Merengo)
+- Create a basic level prototype containing only basic blocks (everyone). Experiment with:
+    - ice cube movement parameters
+    - ice cube size with respect to the platform tiles
+    - screen size, camera zoom
+    - horizontal scrolling vs one screen per checkpoint
+- Breakable platforms (Andrea Sanguineti)
+- Fans
+- Basic character asset and tileset (Mohammadjavad Sami)

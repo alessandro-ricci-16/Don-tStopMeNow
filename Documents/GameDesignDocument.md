@@ -203,7 +203,7 @@ All physics is handled within FixedUpdate. Also in FixedUpdate, the script check
 
 The position of the cube should *never* be set explicitly to avoid problems with the collision detection. The velocity should also never be set explicitly for the same reason; the only exception is when it is set to Vector2.zero during the GroundPound function.
 
-## Tilemaps ##
+### Tilemaps ###
 
 A tilemap must have the following components:
 1. TilemapCollider2D with flag used by composite set to true

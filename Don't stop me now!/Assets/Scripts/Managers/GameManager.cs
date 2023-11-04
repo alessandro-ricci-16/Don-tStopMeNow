@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
         //invoke the awake method of the singleton class
         base.Awake();
         
-        // FOR PROCESSING
+        // PROCESSING
         // get animator component
         _canvasAnimator = GetComponent<Animator>();
         // try to get the vignette component of the post processing volume
@@ -49,7 +49,7 @@ public class GameManager : Singleton<GameManager>
         _functionToPlay = ReloadScene;
         _canvasAnimator.Play("ChangeScene");
     }
-
+    
     public void AnimationCallbackHandler()
     {
         // play the function set in the attribute, use this at the end of an animation
@@ -61,10 +61,14 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void MenuScene()
+    public void LoadMainMenuScene()
     {
-        // menu scene will be scene 0
-        ChangeScene(0);
+        ChangeScene(ScenesData.MainMenuSceneName());
+    }
+
+    public void LoadLevelSelectionScene()
+    {
+        ChangeScene(ScenesData.LevelSelectionSceneName());
     }
     
     public void NextScene()
@@ -73,7 +77,14 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    #region Scene Loading
+    
     private void ChangeScene(int scene)
+    {
+        StartCoroutine(LoadAsyncScene(scene));
+    }
+    
+    private void ChangeScene(string scene)
     {
         StartCoroutine(LoadAsyncScene(scene));
     }
@@ -93,4 +104,22 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1.0f;
         // Debug.Log("Loaded scene " + scene);
     }
+    
+    private IEnumerator LoadAsyncScene(string scene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            // float progress = asyncLoad.progress;
+            yield return null;
+        }
+        // play the fadeout animation once the scene is loaded
+        _canvasAnimator.Play("FadeOut");
+        // reset the time scale to normal
+        Time.timeScale = 1.0f;
+        // Debug.Log("Loaded scene " + scene);
+    }
+    
+    #endregion
 }

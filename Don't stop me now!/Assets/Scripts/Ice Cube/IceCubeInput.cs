@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,14 @@ public class IceCubeInput : IceCubePhysics
     private float _wallJumpBufferCounter;
     private float _wallCoyoteTimeCounter;
     private int _wallJumpCounter;
+    private  PlayerInputAction _playerInputAction;
+
+    private void OnEnable()
+    {
+        _playerInputAction = new PlayerInputAction();
+        _playerInputAction.Gameplay.Enable();
+        _playerInputAction.Gameplay.Jump.started+= ctx => ShouldJump = true;
+    }
 
     protected override void Update()
     {

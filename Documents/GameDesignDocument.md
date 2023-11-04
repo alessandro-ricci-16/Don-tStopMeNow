@@ -172,3 +172,33 @@ Official deadlines:
 - Breakable platforms (Andrea Sanguineti)
 - Fans
 - Basic character asset and tileset (Mohammadjavad Sami)
+
+## Implementation details ##
+
+This section is meant for the programmers to keep track of implementation details.
+
+### Ice cube ##
+
+There are two scripts influencing the behaviour of the cube:
+1. IceCubePhysics describes the physics behaviours (movement, jump, ground pound, dash...); it contains all functions to actually move the ice cube in the physical world. It does not contain input handling.
+2. IceCubeInput inherits from IceCubePhysics and is the script to be attached to the ice cube GameObject. It contains all input handling as well as handling coyote time and jump buffer timers. It interacts with IceCubePhysics by setting true boolean variables ShouldJump, ShouldGroundPound,... that are protected variables from IceCubePhysics.
+
+**Ice Cube GameObject**
+
+The ice cube GameObject should have the following components:
+1. IceCubeInput script
+2. Rigidbody2D set to dynamic, having a PhysicsMaterial2D with 0 friction; collision detection should be set to continuous to avoid problems with the collisions at high speeds
+3. BoxCollider2D with no rounding at the edges (this is needed for precise collision detection)
+4. IceCubeAnimatorManager script
+5. Animator
+6. SpriteRenderer
+
+**Ice Cube Physics**
+
+The physics of the ice cube exploits Unity physics simulation (which is why the Rigidbody2D should be set to dynamic). The ice cube is affected by gravity and its speed is modified only by applying forces to the Rigidbody2D.
+
+IceCubePhysics stores a variable Vector2 _currentDirection which indicates whether the cube should be moving left or right. _currentDirection should only be either Vector2.left or Vector2.right, it does not account for vertical movement. This variable is updated when the ice cube collides with other objects (see function HandleCollisions).
+
+All physics is handled within FixedUpdate. Also in FixedUpdate, the script checks if there is any input to be acted on through the variables ShouldJump, ShouldGroundPound,... and calls the appropriate function.
+
+The position of the cube should *never* be set explicitly to avoid problems with the collision detection. The velocity should also never be set explicitly for the same reason; the only exception is when it is set to Vector2.zero during the GroundPound function.

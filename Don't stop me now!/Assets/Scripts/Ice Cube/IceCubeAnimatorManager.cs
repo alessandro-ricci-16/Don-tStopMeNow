@@ -5,7 +5,7 @@ using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 
-
+[RequireComponent(typeof(Animator))]
 public class IceCubeAnimatorManager : MonoBehaviour
 {
     private Animator _animator;

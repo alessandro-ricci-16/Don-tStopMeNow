@@ -28,7 +28,9 @@ public class GameManager : Singleton<GameManager>
             _vignetteEffect = tmp;
         else
             Debug.Log("Cannot get vignette effect");
-
+        
+        // DEATH
+        // add Die function to the Death event
         _onDeathAction += Die;
         EventManager.StartListening(EventNames.Death, _onDeathAction);
     }

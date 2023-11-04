@@ -91,6 +91,9 @@ public class IceCubePhysics : MonoBehaviour
             HorizontalMovement();
             AdjustGravityScale();
         }
+
+        // adjust sprite to current direction
+        SpriteRenderer.flipX = _currentDirection == Vector2.left;
     }
 
     #region Movement

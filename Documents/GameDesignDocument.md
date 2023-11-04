@@ -202,3 +202,10 @@ IceCubePhysics stores a variable Vector2 _currentDirection which indicates wheth
 All physics is handled within FixedUpdate. Also in FixedUpdate, the script checks if there is any input to be acted on through the variables ShouldJump, ShouldGroundPound,... and calls the appropriate function.
 
 The position of the cube should *never* be set explicitly to avoid problems with the collision detection. The velocity should also never be set explicitly for the same reason; the only exception is when it is set to Vector2.zero during the GroundPound function.
+
+## Tilemaps ##
+
+A tilemap must have the following components:
+1. TilemapCollider2D with flag used by composite set to true
+2. Rigidbody2D set to static
+3. CompositeCollider2D (this is to make sure the tilemap has a single collider with no lines for every single tile, which makes collision handling better)

@@ -61,6 +61,15 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    
+    public void NextScene()
+    {
+        // call me to load the next scene
+        ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    #region Scene Loading
+    
     public void LoadMainMenuScene()
     {
         ChangeScene(ScenesData.MainMenuSceneName());
@@ -71,13 +80,11 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(ScenesData.LevelSelectionSceneName());
     }
     
-    public void NextScene()
+    // TODO: add check that scene exists
+    public void LoadLevel(string levelSceneName)
     {
-        // call me to load the next scene
-        ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+        ChangeScene(levelSceneName);
     }
-
-    #region Scene Loading
     
     private void ChangeScene(int scene)
     {

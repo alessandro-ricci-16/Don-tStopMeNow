@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class HeatedPlatform : MonoBehaviour
 {
-    //we have to create a function that whne the player enters the heated platform, it will start a timer. As long as it stays in contact with the platform the timer will enhance,
-    //when it reaches a max value the player will die
+    // we have to create a function that when the player enters the heated platform, it will start a timer.
+    // As long as it stays in contact with the platform the timer will increase,
+    // when it reaches a max value the player will die
     
     public HeatableSettings heatableSettings;
     private float _timer;
@@ -40,7 +41,7 @@ public class HeatedPlatform : MonoBehaviour
     {
         if (_timer >= heatableSettings.maxTime)
         {
-            GameManager.Instance.Die(other.transform.position);
+            EventManager.TriggerEvent(EventNames.Death, other.transform.position);
         }
     }
 

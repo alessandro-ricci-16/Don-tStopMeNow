@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -10,12 +11,15 @@ public class GameManager : Singleton<GameManager>
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
     private Action _functionToPlay;
-   
 
+    private UnityAction<Vector3> _onDeathAction;
+    
     protected override void Awake() 
     { 
         //invoke the awake method of the singleton class
         base.Awake();
+        
+        // FOR PROCESSING
         // get animator component
         _canvasAnimator = GetComponent<Animator>();
         // try to get the vignette component of the post processing volume
@@ -24,9 +28,12 @@ public class GameManager : Singleton<GameManager>
             _vignetteEffect = tmp;
         else
             Debug.Log("Cannot get vignette effect");
+
+        _onDeathAction += Die;
+        EventManager.StartListening(EventNames.Death, _onDeathAction);
     }
 
-    public void Die(Vector3 playerPosition)
+    private void Die(Vector3 playerPosition)
     {
         // freeze time
         Time.timeScale = 0.0f;

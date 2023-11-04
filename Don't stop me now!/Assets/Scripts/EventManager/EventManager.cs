@@ -1,20 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 using System.Collections.Generic;
-
-
-class IntUnityEvent : UnityEvent<int>
-{
-}
-
-class FloatUnityEvent : UnityEvent<float>
-{
-}
-
-class StringUnityEvent : UnityEvent<string>
-{
-}
 
 public class EventManager : Singleton<EventManager>
 {
@@ -22,6 +8,7 @@ public class EventManager : Singleton<EventManager>
     private Dictionary<EventNames, UnityEvent<int>> _intEventDictionary;
     private Dictionary<EventNames, UnityEvent<float>> _floatEventDictionary;
     private Dictionary<EventNames, UnityEvent<string>> _stringEventDictionary;
+    private Dictionary<EventNames, UnityEvent<Vector3>> _vector3EventDictionary;
 
 
     private static EventManager _eventManager;
@@ -30,7 +17,10 @@ public class EventManager : Singleton<EventManager>
         base.Awake();
         Init();
     }
-
+    
+    /// <summary>
+    /// Initialize all dictionaries.
+    /// </summary>
     void Init()
     {
         if (_simpleEventDictionary == null)
@@ -51,6 +41,11 @@ public class EventManager : Singleton<EventManager>
         if (_stringEventDictionary == null)
         {
             _stringEventDictionary = new Dictionary<EventNames, UnityEvent<string>>();
+        }
+        
+        if (_vector3EventDictionary == null)
+        {
+            _vector3EventDictionary = new Dictionary<EventNames, UnityEvent<Vector3>>();
         }
     }
 
@@ -80,7 +75,7 @@ public class EventManager : Singleton<EventManager>
         }
         else
         {
-            thisEvent = new IntUnityEvent();
+            thisEvent = new UnityEvent<int>();
             thisEvent.AddListener(listener);
             Instance._intEventDictionary.Add(eventName, thisEvent);
         }
@@ -95,7 +90,7 @@ public class EventManager : Singleton<EventManager>
         }
         else
         {
-            thisEvent = new FloatUnityEvent();
+            thisEvent = new UnityEvent<float>();
             thisEvent.AddListener(listener);
             Instance._floatEventDictionary.Add(eventName, thisEvent);
         }
@@ -111,9 +106,25 @@ public class EventManager : Singleton<EventManager>
         }
         else
         {
-            thisEvent = new StringUnityEvent();
+            thisEvent = new UnityEvent<string>();
             thisEvent.AddListener(listener);
             Instance._stringEventDictionary.Add(eventName, thisEvent);
+        }
+    }
+    
+    public static void StartListening(EventNames eventName, UnityAction<Vector3> listener)
+    {
+        UnityEvent<Vector3> thisEvent = null;
+        
+        if (Instance._vector3EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<Vector3>();
+            thisEvent.AddListener(listener);
+            Instance._vector3EventDictionary.Add(eventName, thisEvent);
         }
     }
 
@@ -160,6 +171,16 @@ public class EventManager : Singleton<EventManager>
             thisEvent.RemoveListener(listener);
         }
     }
+    
+    public static void StopListening(EventNames eventName, UnityAction<Vector3> listener)
+    {
+        if (_eventManager == null) return;
+        UnityEvent<Vector3> thisEvent = null;
+        if (Instance._vector3EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
 
     #endregion
 
@@ -196,6 +217,15 @@ public class EventManager : Singleton<EventManager>
     {
         UnityEvent<string> thisEvent = null;
         if (Instance._stringEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(value);
+        }
+    }
+    
+    public static void TriggerEvent(EventNames eventName, Vector3 value)
+    {
+        UnityEvent<Vector3> thisEvent = null;
+        if (Instance._vector3EventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(value);
         }

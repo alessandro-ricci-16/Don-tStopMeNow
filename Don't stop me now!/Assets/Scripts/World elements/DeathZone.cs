@@ -6,6 +6,6 @@ public class DeathZone : MonoBehaviour
     {
         // if the player enters the death zone dies :)
         if(other.CompareTag("Player"))
-            GameManager.Instance.Die(other.transform.position);
+            EventManager.TriggerEvent(EventNames.Death, other.transform.position);
     }
 }

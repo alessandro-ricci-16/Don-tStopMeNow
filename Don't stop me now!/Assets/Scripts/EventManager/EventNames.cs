@@ -1,6 +1,7 @@
 public enum EventNames
 {
     OnHeatedPlatform,
-    OffHeatedPlatform
-
+    OffHeatedPlatform,
+    Death,
+    CheckpointPassed
 }

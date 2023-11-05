@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,7 +17,6 @@ using UnityEngine.Serialization;
  * NOTES
  * - ice cube and platforms must have a physics material 2D with friction = 0 and bounciness = 0
  */
-
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class IceCubePhysics : MonoBehaviour
@@ -44,12 +44,14 @@ public class IceCubePhysics : MonoBehaviour
     
     // TODO delete this variable (only here for debugging)
     protected SpriteRenderer SpriteRenderer;
-    
+    //TODO this is just put here for implementing and showing result: it can probably be deleted later
+    private IceCubeInput _iceCubeInput;
     void Start()
     {
         OnGround = false;
         SpriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
+        _iceCubeInput = this.GetComponent<IceCubeInput>();
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
@@ -64,13 +66,15 @@ public class IceCubePhysics : MonoBehaviour
     private void FixedUpdate()
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
-        
-        // CHECK INPUT
-        if (ShouldJump)
+        _iceCubeInput.GetCurrentState().PerformPhysicsAction(_rigidbody2D, parameters, _currentDirection);
+        // TODO THIS IS HERE JUST FOR TESTING IF THE STATES WOKR BUT IT'S REALLY BAD
+        if (_iceCubeInput.GetCurrentState().GetCurrentState() == IceCubeStatesEnum.IsJumping)
         {
-            Jump();
-            ShouldJump = false;
+            SetGrounded(false);
         }
+        
+
+        
         if (ShouldGroundPound)
         {
             GroundPound();
@@ -127,17 +131,7 @@ public class IceCubePhysics : MonoBehaviour
         }
         // case 3: no input
         // add force to modify speed to match default speed
-        else
-        {
-            if (Mathf.Abs(_prevFrameVelocity.x) < parameters.defaultSpeed - Epsilon)
-            {
-                _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
-            }
-            else if (Mathf.Abs(_prevFrameVelocity.x) > parameters.defaultSpeed + Epsilon)
-            {
-                _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
-            }
-        }
+        
     }
     
     /// <summary>
@@ -157,23 +151,7 @@ public class IceCubePhysics : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// The function computes the jump speed necessary to reach the 
-    /// standard maxJumpHeight and sets the rigidbody y velocity to that value.
-    /// IMPORTANT: the function does NOT check if the player is on the ground.
-    /// </summary>
-    private void Jump()
-    {
-        // compute jump speed to reach maxJumpHeight
-        float jumpForce = Mathf.Sqrt(-2f * Physics2D.gravity.y *
-                                     parameters.upwardGravityScale * parameters.maxJumpHeight);
-        // if not already updated, set the gravity multiplier to the upwards gravity scale
-        // (otherwise it will update next frame and create problems)
-        _rigidbody2D.gravityScale = parameters.upwardGravityScale;
-        jumpForce -= _prevFrameVelocity.y;
-        _rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
-        OnGround = false;
-    }
+    
     
     /// <summary>
     /// Interrupts a jump. This function is called when the player releases the
@@ -255,7 +233,7 @@ public class IceCubePhysics : MonoBehaviour
                     isPlayerOnGround = true;
             }
         }
-        OnGround = isPlayerOnGround;
+        SetGrounded(isPlayerOnGround);
         OnWall = isPlayerOnWall;
     }
 
@@ -271,9 +249,17 @@ public class IceCubePhysics : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        OnGround = false;
+        SetGrounded(false);
         OnWall = false;
     }
     
     #endregion
+    private void SetGrounded(bool grounded)
+    {
+        if (OnGround != grounded)
+        {
+            OnGround = grounded;
+            EventManager.TriggerEvent(EventNames.OnGround, grounded);
+        }
+    }
 }

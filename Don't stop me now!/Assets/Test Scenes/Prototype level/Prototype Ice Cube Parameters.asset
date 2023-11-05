@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
   m_Name: Prototype Ice Cube Parameters
   m_EditorClassIdentifier: 
-  defaultSpeed: 5
+  defaultSpeed: 16.42
   slowSpeed: 3.5
   fastSpeed: 7
   acceleration: 20

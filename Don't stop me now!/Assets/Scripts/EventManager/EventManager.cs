@@ -9,6 +9,7 @@ public class EventManager : Singleton<EventManager>
     private Dictionary<EventNames, UnityEvent<float>> _floatEventDictionary;
     private Dictionary<EventNames, UnityEvent<string>> _stringEventDictionary;
     private Dictionary<EventNames, UnityEvent<Vector3>> _vector3EventDictionary;
+    private Dictionary<EventNames, UnityEvent<bool>>_boolEventDictionary;
 
 
     private static EventManager _eventManager;
@@ -47,6 +48,10 @@ public class EventManager : Singleton<EventManager>
         {
             _vector3EventDictionary = new Dictionary<EventNames, UnityEvent<Vector3>>();
         }
+        if( _boolEventDictionary == null)
+        {
+            _boolEventDictionary = new Dictionary<EventNames, UnityEvent<bool>>();
+        }
     }
 
     #region StartListening
@@ -63,6 +68,20 @@ public class EventManager : Singleton<EventManager>
             thisEvent = new UnityEvent();
             thisEvent.AddListener(listener);
             Instance._simpleEventDictionary.Add(eventName, thisEvent);
+        }
+    }
+    public static void StartListening(EventNames eventName, UnityAction<bool> listener)
+    {
+        UnityEvent<bool> thisEvent = null;
+        if (Instance._boolEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<bool>();
+            thisEvent.AddListener(listener);
+            Instance._boolEventDictionary.Add(eventName, thisEvent);
         }
     }
 
@@ -141,6 +160,15 @@ public class EventManager : Singleton<EventManager>
             thisEvent.RemoveListener(listener);
         }
     }
+    public static void StopListening(EventNames eventName, UnityAction<bool> listener)
+    {
+        if (_eventManager == null) return;
+        UnityEvent<bool> thisEvent = null;
+        if (Instance._boolEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
 
     public static void StopListening(EventNames eventName, UnityAction<int> listener)
     {
@@ -194,7 +222,14 @@ public class EventManager : Singleton<EventManager>
             thisEvent.Invoke();
         }
     }
-
+    public static void TriggerEvent(EventNames eventName, bool value)
+    {
+        UnityEvent<bool> thisEvent = null;
+        if (Instance._boolEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(value);
+        }
+    }
     public static void TriggerEvent(EventNames eventName, int value)
     {
         UnityEvent<int> thisEvent = null;

@@ -4,5 +4,6 @@ public enum EventNames
     OffHeatedPlatform,
     Death,
     CheckpointPassed,
-    LevelPassed
+    LevelPassed,
+    OnGround
 }

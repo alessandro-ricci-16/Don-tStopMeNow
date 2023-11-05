@@ -24,7 +24,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputAction"",
     ""maps"": [
         {
-            ""name"": ""Gameplay"",
+            ""name"": ""OnGround"",
             ""id"": ""52250a99-8d64-407b-ab9b-447ca74829bb"",
             ""actions"": [
                 {
@@ -37,27 +37,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""GroundPound"",
-                    ""type"": ""Button"",
-                    ""id"": ""0c8b4604-3290-4e54-b4cf-e397a206f319"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""934d412c-3c85-41d0-a2c1-4538508f2a63"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Acceleration"",
                     ""type"": ""Value"",
-                    ""id"": ""292f5e1f-4a01-43ed-894d-8a1884d45576"",
+                    ""id"": ""28026163-0339-4b25-853c-a3cf61a5b326"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -88,41 +70,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1320e9f7-685b-46d4-b55c-c904a9df1eac"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GroundPound"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""697a964b-e6c8-4372-a599-cf3178c1e1e0"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""350c22ff-cc44-4eed-b20a-472f602a5fb7"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""1D Axis"",
-                    ""id"": ""2fc7c09f-8d62-4dcd-b85f-6d8160eeb0f3"",
+                    ""id"": ""594174cf-b78a-4c15-94ce-4567d79daafc"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -133,7 +82,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""b0d4fb7f-e629-41d9-abcd-b8da3cc19bd9"",
+                    ""id"": ""fe74b41f-ddf2-4c9f-a735-c824419036eb"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -144,7 +93,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""710796ac-f142-4dcd-8984-655e47e42cdf"",
+                    ""id"": ""c5535529-d327-415a-bc87-52de4e9e39bb"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -155,7 +104,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""1D Axis"",
-                    ""id"": ""194d989f-e7c1-49e1-8343-97d58fe72472"",
+                    ""id"": ""d3bb80f0-54d1-4838-9373-548915d01846"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -166,7 +115,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""a2c496fe-9c72-4a8b-94ff-ca3eed79e9c9"",
+                    ""id"": ""ddd29c01-2a82-49c9-aa0f-a2e55ea7186f"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -177,7 +126,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""5d367ec7-6f2c-42bc-9c35-5366742cf36e"",
+                    ""id"": ""8d8806d4-3fcd-4454-a2e9-1216c0c19025"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -187,16 +136,77 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""OnAir"",
+            ""id"": ""58d490fd-e149-4695-90eb-70cd8a9b52a1"",
+            ""actions"": [
+                {
+                    ""name"": ""GroundPound"",
+                    ""type"": ""Button"",
+                    ""id"": ""6cb290c3-20c0-4772-b098-475854a2ea9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""148ef6e0-ca99-4d71-ba7f-6cab05b18c24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""308cc2e7-6cd4-4c25-9b86-06a13273c0a0"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""591078b5-4f70-4169-abc5-35093b6de0ff"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f71070df-22b7-4d66-aefa-fc4babf94a9c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GroundPound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
-        m_Gameplay_GroundPound = m_Gameplay.FindAction("GroundPound", throwIfNotFound: true);
-        m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
-        m_Gameplay_Acceleration = m_Gameplay.FindAction("Acceleration", throwIfNotFound: true);
+        // OnGround
+        m_OnGround = asset.FindActionMap("OnGround", throwIfNotFound: true);
+        m_OnGround_Jump = m_OnGround.FindAction("Jump", throwIfNotFound: true);
+        m_OnGround_Acceleration = m_OnGround.FindAction("Acceleration", throwIfNotFound: true);
+        // OnAir
+        m_OnAir = asset.FindActionMap("OnAir", throwIfNotFound: true);
+        m_OnAir_GroundPound = m_OnAir.FindAction("GroundPound", throwIfNotFound: true);
+        m_OnAir_Dash = m_OnAir.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -255,80 +265,121 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_Jump;
-    private readonly InputAction m_Gameplay_GroundPound;
-    private readonly InputAction m_Gameplay_Dash;
-    private readonly InputAction m_Gameplay_Acceleration;
-    public struct GameplayActions
+    // OnGround
+    private readonly InputActionMap m_OnGround;
+    private List<IOnGroundActions> m_OnGroundActionsCallbackInterfaces = new List<IOnGroundActions>();
+    private readonly InputAction m_OnGround_Jump;
+    private readonly InputAction m_OnGround_Acceleration;
+    public struct OnGroundActions
     {
         private @PlayerInputAction m_Wrapper;
-        public GameplayActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
-        public InputAction @GroundPound => m_Wrapper.m_Gameplay_GroundPound;
-        public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
-        public InputAction @Acceleration => m_Wrapper.m_Gameplay_Acceleration;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        public OnGroundActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Jump => m_Wrapper.m_OnGround_Jump;
+        public InputAction @Acceleration => m_Wrapper.m_OnGround_Acceleration;
+        public InputActionMap Get() { return m_Wrapper.m_OnGround; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
-        public void AddCallbacks(IGameplayActions instance)
+        public static implicit operator InputActionMap(OnGroundActions set) { return set.Get(); }
+        public void AddCallbacks(IOnGroundActions instance)
         {
-            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_OnGroundActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnGroundActionsCallbackInterfaces.Add(instance);
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Acceleration.started += instance.OnAcceleration;
+            @Acceleration.performed += instance.OnAcceleration;
+            @Acceleration.canceled += instance.OnAcceleration;
+        }
+
+        private void UnregisterCallbacks(IOnGroundActions instance)
+        {
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Acceleration.started -= instance.OnAcceleration;
+            @Acceleration.performed -= instance.OnAcceleration;
+            @Acceleration.canceled -= instance.OnAcceleration;
+        }
+
+        public void RemoveCallbacks(IOnGroundActions instance)
+        {
+            if (m_Wrapper.m_OnGroundActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IOnGroundActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OnGroundActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OnGroundActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public OnGroundActions @OnGround => new OnGroundActions(this);
+
+    // OnAir
+    private readonly InputActionMap m_OnAir;
+    private List<IOnAirActions> m_OnAirActionsCallbackInterfaces = new List<IOnAirActions>();
+    private readonly InputAction m_OnAir_GroundPound;
+    private readonly InputAction m_OnAir_Dash;
+    public struct OnAirActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public OnAirActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @GroundPound => m_Wrapper.m_OnAir_GroundPound;
+        public InputAction @Dash => m_Wrapper.m_OnAir_Dash;
+        public InputActionMap Get() { return m_Wrapper.m_OnAir; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OnAirActions set) { return set.Get(); }
+        public void AddCallbacks(IOnAirActions instance)
+        {
+            if (instance == null || m_Wrapper.m_OnAirActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnAirActionsCallbackInterfaces.Add(instance);
             @GroundPound.started += instance.OnGroundPound;
             @GroundPound.performed += instance.OnGroundPound;
             @GroundPound.canceled += instance.OnGroundPound;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Acceleration.started += instance.OnAcceleration;
-            @Acceleration.performed += instance.OnAcceleration;
-            @Acceleration.canceled += instance.OnAcceleration;
         }
 
-        private void UnregisterCallbacks(IGameplayActions instance)
+        private void UnregisterCallbacks(IOnAirActions instance)
         {
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @GroundPound.started -= instance.OnGroundPound;
             @GroundPound.performed -= instance.OnGroundPound;
             @GroundPound.canceled -= instance.OnGroundPound;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Acceleration.started -= instance.OnAcceleration;
-            @Acceleration.performed -= instance.OnAcceleration;
-            @Acceleration.canceled -= instance.OnAcceleration;
         }
 
-        public void RemoveCallbacks(IGameplayActions instance)
+        public void RemoveCallbacks(IOnAirActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_OnAirActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IGameplayActions instance)
+        public void SetCallbacks(IOnAirActions instance)
         {
-            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_OnAirActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_OnAirActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public GameplayActions @Gameplay => new GameplayActions(this);
-    public interface IGameplayActions
+    public OnAirActions @OnAir => new OnAirActions(this);
+    public interface IOnGroundActions
     {
         void OnJump(InputAction.CallbackContext context);
+        void OnAcceleration(InputAction.CallbackContext context);
+    }
+    public interface IOnAirActions
+    {
         void OnGroundPound(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnAcceleration(InputAction.CallbackContext context);
     }
 }

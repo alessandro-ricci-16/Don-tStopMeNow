@@ -82,6 +82,10 @@ The following commands are allowed:
 - S: ground pound
 - Q: mid-air dash
 
+The following diagram represents the states finite state machine. (x input is the horizontal input)
+
+![image](Diagrams/IceCubeInputFSA.jpg)
+
 **Other decisions**
 
 - The ice cube will not rotate

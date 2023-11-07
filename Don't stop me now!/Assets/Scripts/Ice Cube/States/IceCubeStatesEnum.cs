@@ -12,8 +12,8 @@ namespace Ice_Cube.States
         OnAir,
         IsJumping,
         IsAccelerating,
-        /*Dashing,
-        GroundPounding,
-        Jumping*/
+        IsWallJumping,
+        IsDashing,
+        IsGroundPounding
     }
 }

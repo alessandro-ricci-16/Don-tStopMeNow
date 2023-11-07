@@ -151,6 +151,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""WallJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f94b17c-a9ec-442e-a870-f72b5556c2d3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""148ef6e0-ca99-4d71-ba7f-6cab05b18c24"",
@@ -193,6 +202,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""GroundPound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""817ace65-a1b5-4f69-9002-91ba508f6860"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49849bfb-6e0e-4760-9cbf-2a873f47f87d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +237,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         // OnAir
         m_OnAir = asset.FindActionMap("OnAir", throwIfNotFound: true);
         m_OnAir_GroundPound = m_OnAir.FindAction("GroundPound", throwIfNotFound: true);
+        m_OnAir_WallJump = m_OnAir.FindAction("WallJump", throwIfNotFound: true);
         m_OnAir_Dash = m_OnAir.FindAction("Dash", throwIfNotFound: true);
     }
 
@@ -323,12 +355,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_OnAir;
     private List<IOnAirActions> m_OnAirActionsCallbackInterfaces = new List<IOnAirActions>();
     private readonly InputAction m_OnAir_GroundPound;
+    private readonly InputAction m_OnAir_WallJump;
     private readonly InputAction m_OnAir_Dash;
     public struct OnAirActions
     {
         private @PlayerInputAction m_Wrapper;
         public OnAirActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @GroundPound => m_Wrapper.m_OnAir_GroundPound;
+        public InputAction @WallJump => m_Wrapper.m_OnAir_WallJump;
         public InputAction @Dash => m_Wrapper.m_OnAir_Dash;
         public InputActionMap Get() { return m_Wrapper.m_OnAir; }
         public void Enable() { Get().Enable(); }
@@ -342,6 +376,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GroundPound.started += instance.OnGroundPound;
             @GroundPound.performed += instance.OnGroundPound;
             @GroundPound.canceled += instance.OnGroundPound;
+            @WallJump.started += instance.OnWallJump;
+            @WallJump.performed += instance.OnWallJump;
+            @WallJump.canceled += instance.OnWallJump;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -352,6 +389,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GroundPound.started -= instance.OnGroundPound;
             @GroundPound.performed -= instance.OnGroundPound;
             @GroundPound.canceled -= instance.OnGroundPound;
+            @WallJump.started -= instance.OnWallJump;
+            @WallJump.performed -= instance.OnWallJump;
+            @WallJump.canceled -= instance.OnWallJump;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -380,6 +420,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     public interface IOnAirActions
     {
         void OnGroundPound(InputAction.CallbackContext context);
+        void OnWallJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
 }

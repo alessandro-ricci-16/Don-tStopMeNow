@@ -5,23 +5,27 @@ namespace Ice_Cube.States
 {
     public class IsAcceleratingState : IceCubeState
     {
-        float _xinput;
+        float _xinput = 0;
 
+        //use the base constructor
+        public IsAcceleratingState(PlayerInputAction playerInputAction, Rigidbody2D rigidbody2D, IceCubeParameters parameters)
+            : base(playerInputAction, rigidbody2D, parameters)
+        {
+        }
         public override IceCubeStatesEnum GetEnumState()
         {
             return IceCubeStatesEnum.IsAccelerating;
         }
 
-        public override void EnterState(PlayerInputAction playerInputAction)
+        public override void EnterState()
         {
-            playerInputAction.OnGround.Acceleration.performed += ctx => Accelerate(ctx.ReadValue<float>());
-            playerInputAction.OnGround.Acceleration.canceled += ctx => _xinput = 0; // Reset _xinput when the input is released
+            PlayerInputAction.OnGround.Acceleration.performed += ctx => Accelerate(ctx.ReadValue<float>());
+            PlayerInputAction.OnGround.Acceleration.canceled += ctx => _xinput = 0; // Reset _xinput when the input is released
         }
 
-        public override void PerformPhysicsAction(Rigidbody2D rigidbody2D, IceCubeParameters parameters,
-            Vector2 currentDirection)
+        public override void PerformPhysicsAction(Vector2 currentDirection)
         {
-            Vector2 rigidbody2DVelocity= rigidbody2D.velocity;
+            Vector2 rigidbody2DVelocity= Rigidbody2D.velocity;
             // speedInput > 0 if user input and current direction are concordant
             float speedInput = _xinput * Mathf.Sign(currentDirection.x);
         
@@ -29,15 +33,15 @@ namespace Ice_Cube.States
             // add force to increase speed to match fast speed
             if (speedInput > 0.0f)
             {
-                if (Mathf.Abs(rigidbody2DVelocity.x) < parameters.fastSpeed)
-                    rigidbody2D.AddForce(parameters.acceleration * currentDirection, ForceMode2D.Force);
+                if (Mathf.Abs(rigidbody2DVelocity.x) < Parameters.fastSpeed)
+                    Rigidbody2D.AddForce(Parameters.acceleration * currentDirection, ForceMode2D.Force);
             }
             // case 2: xInput in opposite direction of the cube
             // add force to decrease speed to match slow speed
             else if (speedInput < 0.0f)
             {
-                if (Mathf.Abs(rigidbody2DVelocity.x) > parameters.slowSpeed)
-                    rigidbody2D.AddForce(- parameters.deceleration * currentDirection, ForceMode2D.Force);
+                if (Mathf.Abs(rigidbody2DVelocity.x) > Parameters.slowSpeed)
+                    Rigidbody2D.AddForce(- Parameters.deceleration * currentDirection, ForceMode2D.Force);
             }
         }
 

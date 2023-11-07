@@ -129,6 +129,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "WallJump",
+                    "type": "Button",
+                    "id": "8f94b17c-a9ec-442e-a870-f72b5556c2d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "148ef6e0-ca99-4d71-ba7f-6cab05b18c24",
@@ -169,6 +178,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "GroundPound",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "817ace65-a1b5-4f69-9002-91ba508f6860",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WallJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49849bfb-6e0e-4760-9cbf-2a873f47f87d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WallJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

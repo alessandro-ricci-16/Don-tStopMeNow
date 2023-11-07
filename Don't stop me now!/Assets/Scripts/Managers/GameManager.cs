@@ -8,11 +8,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    public Vector3 LastCheckpoint { get; private set; }
+    
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
     private Action _functionToPlay;
-
+    
+    // actions for event manager
     private UnityAction<Vector3> _onDeathAction;
+    private UnityAction<Vector3> _onCheckpointPassedAction;
     
     protected override void Awake() 
     { 
@@ -33,8 +37,14 @@ public class GameManager : Singleton<GameManager>
         // add Die function to the Death event
         _onDeathAction += Die;
         EventManager.StartListening(EventNames.Death, _onDeathAction);
+        
+        // checkpoint passed
+        _onCheckpointPassedAction += CheckpointPassed;
+        EventManager.StartListening(EventNames.CheckpointPassed, _onCheckpointPassedAction);
     }
 
+    #region Events functions
+    
     private void Die(Vector3 playerPosition)
     {
         // freeze time
@@ -49,6 +59,13 @@ public class GameManager : Singleton<GameManager>
         _functionToPlay = ReloadScene;
         _canvasAnimator.Play("ChangeScene");
     }
+
+    private void CheckpointPassed(Vector3 checkpointPosition)
+    {
+        LastCheckpoint = checkpointPosition;
+    }
+    
+    #endregion
     
     public void AnimationCallbackHandler()
     {

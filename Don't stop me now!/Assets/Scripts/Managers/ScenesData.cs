@@ -20,16 +20,16 @@ public static class ScenesData
         return _levelSelectionSceneName;
     }
     
-    public static string NextLevelSceneName(string levelName)
+    public static string NextLevelSceneName(string currentLevelName)
     {
-        if (!_levels.Contains(levelName))
+        if (!_levels.Contains(currentLevelName))
         {
-            Debug.LogError("Invalid scene name: " + levelName + " is not contained in LevelData");
+            Debug.LogError("Invalid scene name: " + currentLevelName + " is not contained in LevelData");
             return null;
         }
         else
         {
-            return _levels[_levels.IndexOf(levelName)+1];
+            return _levels[_levels.IndexOf(currentLevelName)+1];
         }
     }
 

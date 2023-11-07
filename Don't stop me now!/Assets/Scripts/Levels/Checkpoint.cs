@@ -15,5 +15,9 @@ public class Checkpoint : MonoBehaviour
         {
             EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
         }
+        else
+        {
+            EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position);
+        }
     }
 }

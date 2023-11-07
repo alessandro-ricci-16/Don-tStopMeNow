@@ -19,6 +19,8 @@ namespace ScriptableObjects
         [Header("Jump")]
         [Tooltip("Max height reached by jump")]
         public float maxJumpHeight = 4.0f;
+        [Tooltip("Max height reached by wall jump")]
+        public float maxWallJumpHeight = 4.0f;
         [Tooltip("Gravity scale when the ice cube is going upwards; increase for faster and more vertical jump")]
         public float upwardGravityScale = 6.0f;
         [Tooltip("Gravity scale when the ice cube is going downwards; increase for faster fall in jumps")]

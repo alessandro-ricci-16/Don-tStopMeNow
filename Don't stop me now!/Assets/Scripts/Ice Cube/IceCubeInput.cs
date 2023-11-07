@@ -15,8 +15,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(IceCubeStateManager))]
 public class IceCubeInput : IceCubePhysics
 {
-    //caching the ground check
-    private bool _isGrounded;
+    
     private float _jumpBufferCounter;
     private float _coyoteTimeCounter;
     private float _wallJumpBufferCounter;
@@ -25,52 +24,32 @@ public class IceCubeInput : IceCubePhysics
     private PlayerInputAction _playerInputAction;
     private IceCubeState _currentState;
     private IceCubeStateManager _stateManager;
-    
+
     private void OnEnable()
-    {   
-        
+    {
         _playerInputAction = new PlayerInputAction();
-        _stateManager= GetComponent<IceCubeStateManager>();
+        _stateManager = GetComponent<IceCubeStateManager>();
         _stateManager.SetPlayerInputAction(_playerInputAction);
         _playerInputAction.OnGround.Enable();
         _playerInputAction.OnGround.Jump.started += context => JumpStarted();
-       // _playerInputAction.OnAir.Jump.started += context => JumpStarted();
+        // _playerInputAction.OnAir.Jump.started += context => JumpStarted();
         //_playerInputAction.OnAir.Jump.started+= context => JumpStarted();
         _playerInputAction.OnGround.Jump.canceled += context => JumpCanceled();
-        _playerInputAction.OnAir.Dash.started+= context => DashStarted();
+        _playerInputAction.OnAir.Dash.started += context => DashStarted();
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
-        EventManager.StartListening(EventNames.OnGround,ListenToGround );
-        _currentState = _stateManager.SetNextState(IceCubeStatesEnum.OnAir);
-
+        _stateManager.SetNextState(IceCubeStatesEnum.OnAir);
     }
+
     private void AccelerationStarted(InputAction.CallbackContext value)
     {
-        _currentState = _stateManager.SetNextState(IceCubeStatesEnum.IsAccelerating);
+        _stateManager.SetNextState(IceCubeStatesEnum.IsAccelerating);
     }
-    private void OnDestroy()
-    {
-        EventManager.StopListening(EventNames.OnGround, ListenToGround);
-    }
-
-    private void ListenToGround(bool value)
-    {
-        if(_isGrounded!= value)
-        {
-            _isGrounded = value;
-            if (_isGrounded)
-            {
-                _currentState = _stateManager.SetNextState(IceCubeStatesEnum.OnGround);
-            }
-            else
-            {
-                _currentState = _stateManager.SetNextState(IceCubeStatesEnum.OnAir);
-            }
-        }
-    }
+    
     private void DashStarted()
     {
         //Debug.Log("Dash started");
     }
+
     private void JumpCanceled()
     {
         //TODO This is just here because also before it was here, but I don't know if it's correct to do it not in the fixed update.
@@ -83,14 +62,12 @@ public class IceCubeInput : IceCubePhysics
     /// </summary>
     private void JumpStarted()
     {
-        Debug.Log("Here");
         _jumpBufferCounter = parameters.maxJumpBufferTime;
         _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
     }
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
         GetPlayerInput();
     }
 
@@ -151,7 +128,7 @@ public class IceCubeInput : IceCubePhysics
         // normal jump input 
         if (_coyoteTimeCounter > 0.0f && _jumpBufferCounter > 0.0f)
         {
-            _currentState = _stateManager.SetNextState(IceCubeStatesEnum.IsJumping);
+             _stateManager.SetNextState(IceCubeStatesEnum.IsJumping);
             _jumpBufferCounter = 0.0f;
             _coyoteTimeCounter = 0.0f;
             // to avoid jumping two times with the same input when close to a wall
@@ -163,7 +140,8 @@ public class IceCubeInput : IceCubePhysics
         if (_wallJumpCounter < parameters.maxWallJumpsNumber && _wallCoyoteTimeCounter > 0.0f
                                                              && _wallJumpBufferCounter > 0.0f && !IsGroundPounding)
         {
-            _currentState = _stateManager.SetNextState(IceCubeStatesEnum.IsJumping);
+            //TODO CHANGE IN WALL JUMPING
+            _stateManager.SetNextState(IceCubeStatesEnum.IsJumping);
             _wallJumpCounter += 1;
             _wallJumpBufferCounter = 0.0f;
             _wallCoyoteTimeCounter = 0.0f;
@@ -176,9 +154,5 @@ public class IceCubeInput : IceCubePhysics
         {
             ShouldGroundPound = true;
         }
-    }
-    public IceCubeState GetCurrentState()
-    {
-        return _currentState;
     }
 }

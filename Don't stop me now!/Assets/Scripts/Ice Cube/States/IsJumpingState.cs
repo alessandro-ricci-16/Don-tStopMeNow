@@ -5,7 +5,7 @@ namespace Ice_Cube.States
 {
     public class IsJumpingState: IceCubeState
     {
-        public override  IceCubeStatesEnum GetCurrentState()
+        public override  IceCubeStatesEnum GetEnumState()
         {
             return IceCubeStatesEnum.IsJumping;
         }

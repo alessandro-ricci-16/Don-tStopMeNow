@@ -45,30 +45,25 @@ public class IceCubePhysics : MonoBehaviour
     // TODO delete this variable (only here for debugging)
     protected SpriteRenderer SpriteRenderer;
     //TODO this is just put here for implementing and showing result: it can probably be deleted later
-    private IceCubeInput _iceCubeInput;
+    private IceCubeStateManager _iceCubeStateManager;
+    
     void Start()
     {
         OnGround = false;
         SpriteRenderer = this.GetComponent<SpriteRenderer>();
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        _iceCubeInput = this.GetComponent<IceCubeInput>();
+        _iceCubeStateManager = this.GetComponent<IceCubeStateManager>();
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
         XInput = 0.0f;
     }
-    
-    protected virtual void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
-        _iceCubeInput.GetCurrentState().PerformPhysicsAction(_rigidbody2D, parameters, _currentDirection);
+        _iceCubeStateManager.GetCurrentState().PerformPhysicsAction(_rigidbody2D, parameters, _currentDirection);
         // TODO THIS IS HERE JUST FOR TESTING IF THE STATES WOKR BUT IT'S REALLY BAD
-        if (_iceCubeInput.GetCurrentState().GetCurrentState() == IceCubeStatesEnum.IsJumping)
+        if (_iceCubeStateManager.GetCurrentState().GetEnumState() == IceCubeStatesEnum.IsJumping)
         {
             SetGrounded(false);
         }
@@ -92,7 +87,7 @@ public class IceCubePhysics : MonoBehaviour
         // if ice cube is ground pounding, it should follow different movement rules
         if (!IsGroundPounding)
         {
-            HorizontalMovement();
+            //HorizontalMovement();
             AdjustGravityScale();
         }
 
@@ -108,31 +103,7 @@ public class IceCubePhysics : MonoBehaviour
     /// This function should be called only if the ice cube is not ground pounding. If the ice cube is ground pounding,
     /// no forces should be added on the horizontal axis until it reaches the ground.
     /// </summary>
-    private void HorizontalMovement()
-    {
-        // X AXIS
-        
-        // speedInput > 0 if user input and current direction are concordant
-        float speedInput = XInput * Mathf.Sign(_currentDirection.x);
-        
-        // case 1: xInput in the current direction of the cube
-        // add force to increase speed to match fast speed
-        if (speedInput > 0.0f)
-        {
-            if (Mathf.Abs(_prevFrameVelocity.x) < parameters.fastSpeed)
-                _rigidbody2D.AddForce(parameters.acceleration * _currentDirection, ForceMode2D.Force);
-        }
-        // case 2: xInput in opposite direction of the cube
-        // add force to decrease speed to match slow speed
-        else if (speedInput < 0.0f)
-        {
-            if (Mathf.Abs(_prevFrameVelocity.x) > parameters.slowSpeed)
-                _rigidbody2D.AddForce(- parameters.deceleration * _currentDirection, ForceMode2D.Force);
-        }
-        // case 3: no input
-        // add force to modify speed to match default speed
-        
-    }
+    
     
     /// <summary>
     /// This function updates the gravity scale according to whether the ice cube is going upwards or downwards.

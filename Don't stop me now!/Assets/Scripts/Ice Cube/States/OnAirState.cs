@@ -11,7 +11,7 @@ namespace Ice_Cube.States
             playerInputAction.OnAir.Enable();
         }
 
-        public override IceCubeStatesEnum GetCurrentState()
+        public override IceCubeStatesEnum GetEnumState()
         {
             return IceCubeStatesEnum.OnAir;
         }

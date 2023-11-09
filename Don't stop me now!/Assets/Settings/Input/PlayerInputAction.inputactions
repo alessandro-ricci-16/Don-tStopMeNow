@@ -6,15 +6,6 @@
             "id": "52250a99-8d64-407b-ab9b-447ca74829bb",
             "actions": [
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "aae4edcb-dc9d-4cb0-a851-196bcc4e2f95",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Acceleration",
                     "type": "Value",
                     "id": "28026163-0339-4b25-853c-a3cf61a5b326",
@@ -25,28 +16,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "edf697ff-2ea8-4b86-b5dd-372e44dccfa4",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fb92ee12-990a-4f45-b307-e9216f34e609",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "594174cf-b78a-4c15-94ce-4567d79daafc",
@@ -129,15 +98,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "WallJump",
-                    "type": "Button",
-                    "id": "8f94b17c-a9ec-442e-a870-f72b5556c2d3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "148ef6e0-ca99-4d71-ba7f-6cab05b18c24",
@@ -180,26 +140,43 @@
                     "action": "GroundPound",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Jump",
+            "id": "46fc3664-33f5-4f10-869e-c32bbcc9bae4",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "52926afe-ca6f-4860-a822-5b440cc5ff62",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "817ace65-a1b5-4f69-9002-91ba508f6860",
+                    "id": "a02b2365-e2c1-4208-b138-bbcef89fc974",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "WallJump",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "49849bfb-6e0e-4760-9cbf-2a873f47f87d",
+                    "id": "16e38777-0ff7-4398-bea3-3ddfbba3002c",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "WallJump",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

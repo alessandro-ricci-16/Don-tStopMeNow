@@ -17,9 +17,9 @@ MonoBehaviour:
   fastSpeed: 10
   acceleration: 20
   deceleration: 20
-  maxJumpHeight: 4.71
+  maxJumpHeight: 3.59
   maxWallJumpHeight: 4
-  upwardGravityScale: 10.41
+  upwardGravityScale: 9.47
   downwardGravityScale: 19.7
   groundPoundSpeed: 30
   maxJumpBufferTime: 0.1

@@ -19,10 +19,10 @@ using UnityEngine.InputSystem;
 public class IceCubeInput : MonoBehaviour
 {
     [SerializeField] protected IceCubeParameters parameters;
-    
+
     // maximum tolerance for normals in collision handling
     private const float Epsilon = 0.1f;
-    
+
     private bool _onGround;
     private bool _onWall;
     private float _jumpBufferCounter;
@@ -30,16 +30,17 @@ public class IceCubeInput : MonoBehaviour
     private float _wallJumpBufferCounter;
     private float _wallCoyoteTimeCounter;
     private int _wallJumpCounter;
-    
-    
+
+
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement by design
     private Vector2 _currentDirection;
+
     // velocity at the previous frame
     private Vector2 _prevFrameVelocity;
-    
+
     private Rigidbody2D _rigidbody2D;
-    
+
     // TODO delete this variable (only here for debugging)
     private SpriteRenderer _spriteRenderer;
     private PlayerInputAction _playerInputAction;
@@ -52,14 +53,15 @@ public class IceCubeInput : MonoBehaviour
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
         _stateManager.SetPlayerInputAction(_playerInputAction);
-        _playerInputAction.OnGround.Enable();
-        _playerInputAction.OnGround.Jump.started += NormalJumpStarted;
+        //_playerInputAction.OnGround.Enable();
+        _playerInputAction.Jump.Enable();
+        _playerInputAction.Jump.Jump.started += JumpStarted;
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
 
         _playerInputAction.OnAir.GroundPound.started += GroundPoundStarted;
         _playerInputAction.OnAir.Dash.started += DashStarted;
-        _playerInputAction.OnAir.WallJump.started += JumpWallStarted;
-        
+        _playerInputAction.Jump.Jump.canceled += InterruptJump;
+
         //class initialization
         _onGround = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -76,14 +78,15 @@ public class IceCubeInput : MonoBehaviour
         HandleJumpInput();
         _spriteRenderer.flipX = _currentDirection == Vector2.left;
     }
+
     private void FixedUpdate()
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
         _stateManager.GetCurrentState().PerformPhysicsAction(_currentDirection);
     }
-    
+
     #region Collisions
-    
+
     /// <summary>
     /// Function to be called inside OnCollisionEnter2D and OnCollisionStay2D.
     /// Takes as input the Collision2D and checks all normals of collision points.
@@ -100,11 +103,11 @@ public class IceCubeInput : MonoBehaviour
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
         other.GetContacts(contacts);
-        
+
         // assume I am not on the ground and not on a wall
         bool isPlayerOnGround = false;
         bool isPlayerOnWall = false;
-        
+
         // iterate and check normals
         foreach (ContactPoint2D c in contacts)
         {
@@ -116,7 +119,7 @@ public class IceCubeInput : MonoBehaviour
                 if (_prevFrameVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
                 {
                     _currentDirection = Vector2.left;
-                    _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.left, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(parameters.defaultSpeed * Vector2.left, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
@@ -125,7 +128,7 @@ public class IceCubeInput : MonoBehaviour
                 if (_prevFrameVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
                 {
                     _currentDirection = Vector2.right;
-                    _rigidbody2D.AddForce(parameters.defaultSpeed*Vector2.right, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(parameters.defaultSpeed * Vector2.right, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)
@@ -137,6 +140,7 @@ public class IceCubeInput : MonoBehaviour
                     isPlayerOnGround = true;
             }
         }
+
         SetGrounded(isPlayerOnGround);
         _onWall = isPlayerOnWall;
     }
@@ -156,10 +160,10 @@ public class IceCubeInput : MonoBehaviour
         SetGrounded(false);
         _onWall = false;
     }
-    
+
     #endregion
-    
-    
+
+
     /// <summary>
     /// Handle jump input with jump buffer and coyone time. When it can jump it invokes jump or wallJump state
     /// </summary>
@@ -217,6 +221,7 @@ public class IceCubeInput : MonoBehaviour
             _wallCoyoteTimeCounter = 0.0f;
         }
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -229,6 +234,7 @@ public class IceCubeInput : MonoBehaviour
             EventManager.TriggerEvent(EventNames.OnGround, grounded);
         }
     }
+
     #region CallBacks
 
     private void GroundPoundStarted(InputAction.CallbackContext obj)
@@ -250,18 +256,22 @@ public class IceCubeInput : MonoBehaviour
     /// JumpStarted get called when the jump button is pressed. It doesn't automatically mean that the player will jump.
     /// It will just set the jump buffer counter to the max value.
     /// </summary>
-    private void NormalJumpStarted(InputAction.CallbackContext value)
+    /// <param name="value"></param>
+    private void JumpStarted(InputAction.CallbackContext value)
     {
-        _jumpBufferCounter = parameters.maxJumpBufferTime;
+        if (!_onGround)
+            _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
+        else
+            _jumpBufferCounter = parameters.maxJumpBufferTime;
     }
 
-    /// <summary>
-    /// JumpWallStarted get called when the jump button is pressed. It doesn't automatically mean that the player will jump.
-    /// It will just set the wall jump buffer counter to the max value.
-    /// </summary>
-    private void JumpWallStarted(InputAction.CallbackContext value)
+    private void InterruptJump(InputAction.CallbackContext value)
     {
-        _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
+        var velocity = _rigidbody2D.velocity;
+        if (velocity.y > 0)
+        {
+            _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 2);
+        }
     }
 
     #endregion

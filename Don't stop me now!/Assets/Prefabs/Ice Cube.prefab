@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6051845806482763412}
   - component: {fileID: 7235359981567558844}
   - component: {fileID: 1593892162703338945}
+  - component: {fileID: 5102245008745954775}
   m_Layer: 0
   m_Name: Ice Cube
   m_TagString: Player
@@ -322,3 +323,16 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &5102245008745954775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604428878795886695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150e8bcf24614d78b53c7dfd93ce317f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}

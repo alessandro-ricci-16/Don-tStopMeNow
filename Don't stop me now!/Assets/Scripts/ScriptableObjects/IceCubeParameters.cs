@@ -29,9 +29,10 @@ namespace ScriptableObjects
         [Header("Ground pound")] 
         public float groundPoundSpeed = 25.0f;
         
-        [Header("Dash")]
-        public float dashSpeed = 20.0f;
+        [FormerlySerializedAs("dashSpeed")] [Header("Dash")]
+        public float dashIntensity = 20.0f;
         public float dashDuration = 0.4f;
+        public int maxDashesNumber = 1;
         
         [Header("Input parameters")]
         [Tooltip("How much time (in seconds) before actually reaching the ground you're allowed to press jump")]

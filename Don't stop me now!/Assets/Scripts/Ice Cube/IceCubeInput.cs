@@ -30,6 +30,7 @@ public class IceCubeInput : MonoBehaviour
     private float _wallJumpBufferCounter;
     private float _wallCoyoteTimeCounter;
     private int _wallJumpCounter;
+    private int _dashCounter;
 
 
     // should be Vector2.left or Vector2.right;
@@ -49,6 +50,16 @@ public class IceCubeInput : MonoBehaviour
 
     private void Start()
     {
+        
+        //class initialization
+        _onGround = false;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _stateManager = GetComponent<IceCubeStateManager>();
+        _rigidbody2D.gravityScale = parameters.downwardGravityScale;
+        _rigidbody2D.freezeRotation = true;
+        _currentDirection = Vector2.right;
+        
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
@@ -62,16 +73,24 @@ public class IceCubeInput : MonoBehaviour
         _playerInputAction.OnAir.Dash.started += DashStarted;
         _playerInputAction.Jump.Jump.canceled += InterruptJump;
 
-        //class initialization
-        _onGround = false;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _stateManager = GetComponent<IceCubeStateManager>();
-        _rigidbody2D.gravityScale = parameters.downwardGravityScale;
-        _rigidbody2D.freezeRotation = true;
-        _currentDirection = Vector2.right;
+        
     }
 
+    private void OnDestroy()
+    {
+        // Unsubscribe from events and clean up resources
+        if (_playerInputAction != null)
+        {
+            _playerInputAction.Jump.Jump.started -= JumpStarted;
+            _playerInputAction.OnGround.Acceleration.started -= AccelerationStarted;
+            _playerInputAction.OnAir.GroundPound.started -= GroundPoundStarted;
+            _playerInputAction.OnAir.Dash.started -= DashStarted;
+            _playerInputAction.Jump.Jump.canceled -= InterruptJump;
+
+            // Clean up the _playerInputAction object
+            _playerInputAction.Dispose();
+        }
+    }
 
     private void Update()
     {
@@ -182,6 +201,8 @@ public class IceCubeInput : MonoBehaviour
             _coyoteTimeCounter = parameters.maxCoyoteTime;
             // possibility to wall jump resets
             _wallJumpCounter = 0;
+            // possibility to dash resets
+            _dashCounter = 0;
         }
         else
         {
@@ -249,7 +270,11 @@ public class IceCubeInput : MonoBehaviour
 
     private void DashStarted(InputAction.CallbackContext value)
     {
-        //Debug.Log("Dash started");
+        if (_dashCounter < parameters.maxDashesNumber)
+        {
+            _stateManager.SetNextState(IceCubeStatesEnum.IsDashing);
+            _dashCounter += 1;
+        }
     }
 
     /// <summary>

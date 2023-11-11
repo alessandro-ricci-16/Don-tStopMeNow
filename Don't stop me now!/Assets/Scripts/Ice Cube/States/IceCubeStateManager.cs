@@ -45,8 +45,11 @@ namespace Ice_Cube.States
             {
                 if (_currentState.ShouldBeSwitchedOnEnd())
                 {
-                    //if the current state should be switched on the end we have to dequeue the previous state and set it as the current state
-                    switchState(_stateQueue.Dequeue());
+                    //if the current state should be switched on the end we have to set OnGround or OnAir
+                    if (_isGrounded)
+                        SetNextState(IceCubeStatesEnum.OnGround);
+                    else
+                        SetNextState(IceCubeStatesEnum.OnAir);
                 }
             }
         }
@@ -71,8 +74,8 @@ namespace Ice_Cube.States
                 }
             }
         }
-        
-        
+
+
         /// <summary>
         /// Returns the current state.
         /// </summary>
@@ -110,13 +113,14 @@ namespace Ice_Cube.States
                                                       className);
             }
         }
-        
+
         private void Init()
         {
             foreach (var state in Enum.GetValues(typeof(IceCubeStatesEnum)))
             {
                 _stateDictionary[(IceCubeStatesEnum)state] = CreateIceCubeState((IceCubeStatesEnum)state);
             }
+
             _currentState = _stateDictionary[IceCubeStatesEnum.OnAir];
         }
 
@@ -128,7 +132,7 @@ namespace Ice_Cube.States
         /// <param name="stateEnum">The enum value representing the desired state.</param>
         public void SetNextState(IceCubeStatesEnum stateEnum)
         {
-            if (_stateDurationLeft == 0 && _stateDictionary.TryGetValue(stateEnum, out var stateInstance))
+            if (_stateDurationLeft <= 0 && _stateDictionary.TryGetValue(stateEnum, out var stateInstance))
             {
                 if (stateInstance.ShouldBeSwitchedOnEnd())
                 {
@@ -137,7 +141,7 @@ namespace Ice_Cube.States
                     _stateQueue.Enqueue(_currentState);
                 }
 
-                switchState(stateInstance);
+                SwitchState(stateInstance);
                 _stateDurationLeft = _currentState.GetDurationLeft();
             }
         }
@@ -156,7 +160,7 @@ namespace Ice_Cube.States
         /// This method is used to switch the current state. It also calls the EnterState method of the newly set state.
         /// </summary>
         /// <param name="state"> The state that is going to be set</param>
-        private void switchState(IceCubeState state)
+        private void SwitchState(IceCubeState state)
         {
             _currentState = state;
             _currentState.EnterState();

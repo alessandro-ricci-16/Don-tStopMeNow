@@ -50,7 +50,6 @@ public class IceCubeInput : MonoBehaviour
 
     private void Start()
     {
-        
         //class initialization
         _onGround = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -59,7 +58,7 @@ public class IceCubeInput : MonoBehaviour
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
-        
+
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
@@ -72,8 +71,6 @@ public class IceCubeInput : MonoBehaviour
         _playerInputAction.OnAir.GroundPound.started += GroundPoundStarted;
         _playerInputAction.OnAir.Dash.started += DashStarted;
         _playerInputAction.Jump.Jump.canceled += InterruptJump;
-
-        
     }
 
     private void OnDestroy()
@@ -284,10 +281,8 @@ public class IceCubeInput : MonoBehaviour
     /// <param name="value"></param>
     private void JumpStarted(InputAction.CallbackContext value)
     {
-        if (!_onGround)
-            _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
-        else
-            _jumpBufferCounter = parameters.maxJumpBufferTime;
+        _wallJumpBufferCounter = parameters.maxWallJumpBufferTime;
+        _jumpBufferCounter = parameters.maxJumpBufferTime;
     }
 
     private void InterruptJump(InputAction.CallbackContext value)

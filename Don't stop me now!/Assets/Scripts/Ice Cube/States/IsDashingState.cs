@@ -57,9 +57,14 @@ namespace Ice_Cube.States
             return IceCubeStatesEnum.IsDashing;
         }
 
-        public override bool ShouldBeSwitchedOnEnd()
+        public override bool ShouldBeInterrupted()
         {
             return !_inExecution;
+        }
+
+        public override bool ChangeStateOnFinish()
+        {
+            return true;
         }
     }
 }

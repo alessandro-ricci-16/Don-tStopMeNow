@@ -23,7 +23,6 @@ namespace Ice_Cube.States
         //caching the ground check
         private bool _isGrounded;
         public bool IsGrounded => _isGrounded;
-        private float _stateDurationLeft;
 
         /// <summary>
         /// Initializes the state dictionary by creating instances of all IceCubeState classes
@@ -37,21 +36,16 @@ namespace Ice_Cube.States
 
         private void Update()
         {
-            if (_stateDurationLeft > 0)
+            
+            if (_currentState.ChangeStateOnFinish())
             {
-                _stateDurationLeft -= Time.deltaTime;
+                //if the current state should be switched on the end we have to set OnGround or OnAir
+                if (_isGrounded)
+                    SetNextState(IceCubeStatesEnum.OnGround);
+                else
+                    SetNextState(IceCubeStatesEnum.OnAir);
             }
-            else
-            {
-                if (_currentState.ShouldBeSwitchedOnEnd())
-                {
-                    //if the current state should be switched on the end we have to set OnGround or OnAir
-                    if (_isGrounded)
-                        SetNextState(IceCubeStatesEnum.OnGround);
-                    else
-                        SetNextState(IceCubeStatesEnum.OnAir);
-                }
-            }
+            
         }
 
         private void OnDestroy()
@@ -132,17 +126,10 @@ namespace Ice_Cube.States
         /// <param name="stateEnum">The enum value representing the desired state.</param>
         public void SetNextState(IceCubeStatesEnum stateEnum)
         {
-            if (_stateDurationLeft <= 0 && _stateDictionary.TryGetValue(stateEnum, out var stateInstance))
+            if (stateEnum != _currentState.GetEnumState() && _stateDictionary.TryGetValue(stateEnum, out var stateInstance))
             {
-                if (stateInstance.ShouldBeSwitchedOnEnd())
-                {
-                    //if the next state should be switched on the end we have to queue the current state
-                    //IMPORTANT DO NOT CHANGE THE ORDER OF THE FOLLOWING LINES
-                    _stateQueue.Enqueue(_currentState);
-                }
-
-                SwitchState(stateInstance);
-                _stateDurationLeft = _currentState.GetDurationLeft();
+                if (_currentState.ShouldBeInterrupted())
+                    SwitchState(stateInstance);
             }
         }
 
@@ -162,8 +149,11 @@ namespace Ice_Cube.States
         /// <param name="state"> The state that is going to be set</param>
         private void SwitchState(IceCubeState state)
         {
-            _currentState = state;
-            _currentState.EnterState();
+            if (_currentState.GetEnumState() != state.GetEnumState())
+            {
+                _currentState = state;
+                _currentState.EnterState();
+            }
         }
     }
 }

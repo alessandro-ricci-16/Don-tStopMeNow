@@ -40,9 +40,14 @@ namespace Ice_Cube.States
             _isExecuting = false;
         }
 
-        public override bool ShouldBeSwitchedOnEnd()
+        public override bool ShouldBeInterrupted()
         {
             return !_isExecuting;
+        }
+
+        public override bool ChangeStateOnFinish()
+        {
+            return true;
         }
     }
 }

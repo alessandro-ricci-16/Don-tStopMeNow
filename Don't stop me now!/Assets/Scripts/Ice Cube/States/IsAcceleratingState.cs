@@ -54,9 +54,8 @@ namespace Ice_Cube.States
             _xinput = ctx.ReadValue<float>();
         }
 
-        public override bool ShouldBeSwitchedOnEnd()
+        public override bool ShouldBeInterrupted()
         {
-            //if the input is equal to 0 then this should be immediately be switched
             if (_xinput == 0)
             {
                 PlayerInputAction.OnGround.Acceleration.performed -= Accelerate;
@@ -64,6 +63,11 @@ namespace Ice_Cube.States
             }
 
             return false;
+        }
+
+        public override bool ChangeStateOnFinish()
+        {
+            return true;
         }
     }
 }

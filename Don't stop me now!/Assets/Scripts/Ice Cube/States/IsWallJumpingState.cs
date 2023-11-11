@@ -32,10 +32,16 @@ namespace Ice_Cube.States
             //since we only have to execute for 1 fixed update we can set this to true
             _inExecution = false;
         }
-        //This is true because after the wall jump the player should be on air
-        public override bool ShouldBeSwitchedOnEnd()
+        
+        
+        public override bool ShouldBeInterrupted()
         {
             return !_inExecution;
+        }
+
+        public override bool ChangeStateOnFinish()
+        {
+            return true;
         }
 
         public override IceCubeStatesEnum GetEnumState()

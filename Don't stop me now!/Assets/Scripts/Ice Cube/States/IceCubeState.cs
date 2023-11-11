@@ -35,27 +35,27 @@ namespace Ice_Cube.States
         /// Method called when entering this state. Derived classes should implement this method.
         /// </summary>
         public abstract void EnterState();
-
-        //TODO PASSING PARAMETERS IS PROBABLY BAD REMOVE IT LATER
+        
         public abstract void PerformPhysicsAction(Vector2 currentDirection);
 
         /// <summary>
-        /// This method can be called to understand if we can interrupt the current state or not. The state manager will start a counter based on the duration: only when it ends it will switch to next state.
-        /// </summary>
-        /// <returns>Defaul value = 0 (which means it can interrupted in any moments). Ovverride it to change</returns>
-        public virtual float GetDurationLeft()
-        {
-            return 0;
-        }
-
-        /// <summary>
-        /// This method is called to understand if the state should be switched to the next one when it's duration is 0. If it returns true, the state will be switched to the one in the queue.
-        /// Override when I want that my state is switched to the next one when it's duration is 0.
+        /// Should the State Manager check at every update if the state can be interrupted?
+        /// Should be false for OnGround and OnAir.
         /// </summary>
         /// <returns></returns>
-        public virtual bool ShouldBeSwitchedOnEnd()
+        public virtual bool ChangeStateOnFinish()
         {
             return false;
+        }
+        
+        /// <summary>
+        /// Should the state be interrupted?
+        /// Should always be true for OnGround and OnAir.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool ShouldBeInterrupted()
+        {
+            return true;
         }
     }
 }

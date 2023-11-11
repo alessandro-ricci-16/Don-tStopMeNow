@@ -5,6 +5,7 @@ namespace Ice_Cube.States
 {
     public class IsJumpingState: IceCubeState
     {
+        private bool _isExecuting;
         //use the base constructor
         public IsJumpingState(PlayerInputAction playerInputAction, Rigidbody2D rigidbody2D, IceCubeParameters parameters)
             : base(playerInputAction, rigidbody2D, parameters)
@@ -19,6 +20,7 @@ namespace Ice_Cube.States
         {
             PlayerInputAction.OnAir.Disable();
             PlayerInputAction.OnGround.Disable();
+            _isExecuting = true;
         }
         /// <summary>
         /// The function computes the jump speed necessary to reach the 
@@ -35,8 +37,12 @@ namespace Ice_Cube.States
             Rigidbody2D.gravityScale = Parameters.upwardGravityScale;
             jumpForce -= Rigidbody2D.velocity.y;
             Rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
-            
+            _isExecuting = false;
         }
-        
+
+        public override bool ShouldBeSwitchedOnEnd()
+        {
+            return !_isExecuting;
+        }
     }
 }

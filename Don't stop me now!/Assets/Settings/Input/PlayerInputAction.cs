@@ -28,15 +28,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             ""id"": ""52250a99-8d64-407b-ab9b-447ca74829bb"",
             ""actions"": [
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""aae4edcb-dc9d-4cb0-a851-196bcc4e2f95"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Acceleration"",
                     ""type"": ""Value"",
                     ""id"": ""28026163-0339-4b25-853c-a3cf61a5b326"",
@@ -47,28 +38,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""edf697ff-2ea8-4b86-b5dd-372e44dccfa4"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fb92ee12-990a-4f45-b307-e9216f34e609"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""594174cf-b78a-4c15-94ce-4567d79daafc"",
@@ -151,15 +120,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""WallJump"",
-                    ""type"": ""Button"",
-                    ""id"": ""8f94b17c-a9ec-442e-a870-f72b5556c2d3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""148ef6e0-ca99-4d71-ba7f-6cab05b18c24"",
@@ -202,26 +162,43 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""GroundPound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
+                }
+            ]
+        },
+        {
+            ""name"": ""Jump"",
+            ""id"": ""46fc3664-33f5-4f10-869e-c32bbcc9bae4"",
+            ""actions"": [
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""52926afe-ca6f-4860-a822-5b440cc5ff62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""817ace65-a1b5-4f69-9002-91ba508f6860"",
+                    ""id"": ""a02b2365-e2c1-4208-b138-bbcef89fc974"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""WallJump"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""49849bfb-6e0e-4760-9cbf-2a873f47f87d"",
+                    ""id"": ""16e38777-0ff7-4398-bea3-3ddfbba3002c"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""WallJump"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -232,13 +209,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
 }");
         // OnGround
         m_OnGround = asset.FindActionMap("OnGround", throwIfNotFound: true);
-        m_OnGround_Jump = m_OnGround.FindAction("Jump", throwIfNotFound: true);
         m_OnGround_Acceleration = m_OnGround.FindAction("Acceleration", throwIfNotFound: true);
         // OnAir
         m_OnAir = asset.FindActionMap("OnAir", throwIfNotFound: true);
         m_OnAir_GroundPound = m_OnAir.FindAction("GroundPound", throwIfNotFound: true);
-        m_OnAir_WallJump = m_OnAir.FindAction("WallJump", throwIfNotFound: true);
         m_OnAir_Dash = m_OnAir.FindAction("Dash", throwIfNotFound: true);
+        // Jump
+        m_Jump = asset.FindActionMap("Jump", throwIfNotFound: true);
+        m_Jump_Jump = m_Jump.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -300,13 +278,11 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     // OnGround
     private readonly InputActionMap m_OnGround;
     private List<IOnGroundActions> m_OnGroundActionsCallbackInterfaces = new List<IOnGroundActions>();
-    private readonly InputAction m_OnGround_Jump;
     private readonly InputAction m_OnGround_Acceleration;
     public struct OnGroundActions
     {
         private @PlayerInputAction m_Wrapper;
         public OnGroundActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_OnGround_Jump;
         public InputAction @Acceleration => m_Wrapper.m_OnGround_Acceleration;
         public InputActionMap Get() { return m_Wrapper.m_OnGround; }
         public void Enable() { Get().Enable(); }
@@ -317,9 +293,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_OnGroundActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_OnGroundActionsCallbackInterfaces.Add(instance);
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
             @Acceleration.started += instance.OnAcceleration;
             @Acceleration.performed += instance.OnAcceleration;
             @Acceleration.canceled += instance.OnAcceleration;
@@ -327,9 +300,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IOnGroundActions instance)
         {
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @Acceleration.started -= instance.OnAcceleration;
             @Acceleration.performed -= instance.OnAcceleration;
             @Acceleration.canceled -= instance.OnAcceleration;
@@ -355,14 +325,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_OnAir;
     private List<IOnAirActions> m_OnAirActionsCallbackInterfaces = new List<IOnAirActions>();
     private readonly InputAction m_OnAir_GroundPound;
-    private readonly InputAction m_OnAir_WallJump;
     private readonly InputAction m_OnAir_Dash;
     public struct OnAirActions
     {
         private @PlayerInputAction m_Wrapper;
         public OnAirActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @GroundPound => m_Wrapper.m_OnAir_GroundPound;
-        public InputAction @WallJump => m_Wrapper.m_OnAir_WallJump;
         public InputAction @Dash => m_Wrapper.m_OnAir_Dash;
         public InputActionMap Get() { return m_Wrapper.m_OnAir; }
         public void Enable() { Get().Enable(); }
@@ -376,9 +344,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GroundPound.started += instance.OnGroundPound;
             @GroundPound.performed += instance.OnGroundPound;
             @GroundPound.canceled += instance.OnGroundPound;
-            @WallJump.started += instance.OnWallJump;
-            @WallJump.performed += instance.OnWallJump;
-            @WallJump.canceled += instance.OnWallJump;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -389,9 +354,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GroundPound.started -= instance.OnGroundPound;
             @GroundPound.performed -= instance.OnGroundPound;
             @GroundPound.canceled -= instance.OnGroundPound;
-            @WallJump.started -= instance.OnWallJump;
-            @WallJump.performed -= instance.OnWallJump;
-            @WallJump.canceled -= instance.OnWallJump;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -412,15 +374,63 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         }
     }
     public OnAirActions @OnAir => new OnAirActions(this);
+
+    // Jump
+    private readonly InputActionMap m_Jump;
+    private List<IJumpActions> m_JumpActionsCallbackInterfaces = new List<IJumpActions>();
+    private readonly InputAction m_Jump_Jump;
+    public struct JumpActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public JumpActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Jump => m_Wrapper.m_Jump_Jump;
+        public InputActionMap Get() { return m_Wrapper.m_Jump; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(JumpActions set) { return set.Get(); }
+        public void AddCallbacks(IJumpActions instance)
+        {
+            if (instance == null || m_Wrapper.m_JumpActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_JumpActionsCallbackInterfaces.Add(instance);
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+        }
+
+        private void UnregisterCallbacks(IJumpActions instance)
+        {
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+        }
+
+        public void RemoveCallbacks(IJumpActions instance)
+        {
+            if (m_Wrapper.m_JumpActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IJumpActions instance)
+        {
+            foreach (var item in m_Wrapper.m_JumpActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_JumpActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public JumpActions @Jump => new JumpActions(this);
     public interface IOnGroundActions
     {
-        void OnJump(InputAction.CallbackContext context);
         void OnAcceleration(InputAction.CallbackContext context);
     }
     public interface IOnAirActions
     {
         void OnGroundPound(InputAction.CallbackContext context);
-        void OnWallJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+    }
+    public interface IJumpActions
+    {
+        void OnJump(InputAction.CallbackContext context);
     }
 }

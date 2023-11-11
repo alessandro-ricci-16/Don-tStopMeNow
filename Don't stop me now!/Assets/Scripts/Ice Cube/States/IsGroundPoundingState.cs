@@ -22,7 +22,7 @@ namespace Ice_Cube.States
         }
 
         public override void PerformPhysicsAction(Vector2 currentDirection)
-        {
+        {  
             if (!_forceAlreadyApplied)
             {
                 // set the gravity scale to zero so only the vertical force affects the rigidbody

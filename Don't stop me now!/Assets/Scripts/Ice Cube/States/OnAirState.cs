@@ -12,13 +12,9 @@ namespace Ice_Cube.States
         }
         public override void EnterState()
         {
+            
             PlayerInputAction.OnGround.Disable();
             PlayerInputAction.OnAir.Enable();
-            PlayerInputAction.OnAir.WallJump.canceled += ctx => InterruptJump();
-        }
-        private void InterruptJump()
-        {
-            
         }
         public override IceCubeStatesEnum GetEnumState()
         {

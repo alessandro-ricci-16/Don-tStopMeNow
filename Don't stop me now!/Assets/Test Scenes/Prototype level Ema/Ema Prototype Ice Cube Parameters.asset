@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
-  m_Name: Ice Cube Parameters
+  m_Name: Ema Prototype Ice Cube Parameters
   m_EditorClassIdentifier: 
-  defaultSpeed: 12.6
-  slowSpeed: 7.99
-  fastSpeed: 15.18
+  defaultSpeed: 16.42
+  slowSpeed: 3.5
+  fastSpeed: 7
   acceleration: 20
   deceleration: 20
-  maxJumpHeight: 10
+  maxJumpHeight: 4
   maxWallJumpHeight: 4
-  upwardGravityScale: 9.47
-  downwardGravityScale: 19.7
-  groundPoundSpeed: 30
-  dashIntensity: 40
-  dashDuration: 0.1
-  maxDashesNumber: 2
+  upwardGravityScale: 1
+  downwardGravityScale: 1
+  groundPoundSpeed: 25
+  dashIntensity: 20
+  dashDuration: 0.4
+  maxDashesNumber: 1
   maxJumpBufferTime: 0.1
   maxCoyoteTime: 0.1
   maxWallJumpBufferTime: 0.2
   maxWallCoyoteTime: 0.2
-  maxWallJumpsNumber: 3
+  maxWallJumpsNumber: 1

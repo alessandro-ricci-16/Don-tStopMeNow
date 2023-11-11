@@ -26,6 +26,7 @@ namespace Ice_Cube.States
 
         public override void PerformPhysicsAction(Vector2 currentDirection)
         {
+            Rigidbody2D.gravityScale=Parameters.upwardGravityScale;
             float epsilon = 0.1f;
             var prevFrameVelocity = Rigidbody2D.velocity;
             if (Mathf.Abs(prevFrameVelocity.x) < Parameters.defaultSpeed - epsilon)

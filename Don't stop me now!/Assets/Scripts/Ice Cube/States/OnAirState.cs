@@ -26,10 +26,13 @@ namespace Ice_Cube.States
         public override void PerformPhysicsAction(Vector2 currentDirection)
         {
             Vector2 velocity= Rigidbody2D.velocity;
-            if(velocity.y > 0)
+            if(velocity.y >= 0)
                 Rigidbody2D.gravityScale = Parameters.upwardGravityScale;
-            else if (velocity.y <= 0)
+            else if (velocity.y < 0)
+            {
+                Debug.Log("Setting gravity scale to downward gravity scale");
                 Rigidbody2D.gravityScale = Parameters.downwardGravityScale;
+            }
         }
     }
 }

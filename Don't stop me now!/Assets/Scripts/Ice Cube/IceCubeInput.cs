@@ -9,10 +9,7 @@ using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
 
-/*
- * TODO:
- * - change input system to event map system
- */
+
 [RequireComponent(typeof(IceCubeStateManager))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -63,7 +60,7 @@ public class IceCubeInput : MonoBehaviour
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
         _stateManager.SetPlayerInputAction(_playerInputAction);
-        //_playerInputAction.OnGround.Enable();
+        
         _playerInputAction.Jump.Enable();
         _playerInputAction.Jump.Jump.started += JumpStarted;
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
@@ -132,19 +129,21 @@ public class IceCubeInput : MonoBehaviour
             {
                 isPlayerOnWall = true;
                 // direction check: avoid applying force multiple times for different contact points
-                if (_prevFrameVelocity.x >= -Mathf.Epsilon && _currentDirection != Vector2.left)
+                if (_currentDirection != Vector2.left)
                 {
+                    _rigidbody2D.velocity = Vector2.zero;
                     _currentDirection = Vector2.left;
-                    _rigidbody2D.AddForce(parameters.defaultSpeed * Vector2.left, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.left, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
             {
                 isPlayerOnWall = true;
-                if (_prevFrameVelocity.x <= Mathf.Epsilon && _currentDirection != Vector2.right)
+                if (_currentDirection != Vector2.right)
                 {
+                    _rigidbody2D.velocity = Vector2.zero;
                     _currentDirection = Vector2.right;
-                    _rigidbody2D.AddForce(parameters.defaultSpeed * Vector2.right, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.right, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)

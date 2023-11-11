@@ -38,7 +38,6 @@ namespace Ice_Cube.States
             //set the direction of the dash
             _startedRightDirection = _previousVelocityX > 0;
         }
-        //function of the coroutine
 
         public override void PerformPhysicsAction(Vector2 currentDirection)
         {

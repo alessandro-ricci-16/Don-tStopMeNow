@@ -5077,11 +5077,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1479971716161303588, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1479971716161303588, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1479971716161303588, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
       propertyPath: m_LocalScale.z
@@ -5134,6 +5134,10 @@ PrefabInstance:
     - target: {fileID: 1593892162703338945, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
       propertyPath: m_Time
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593892162703338945, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1595138921355159094, guid: c3d1c0b08507ecc47b16c2e1e406485d, type: 3}
       propertyPath: m_FlipX

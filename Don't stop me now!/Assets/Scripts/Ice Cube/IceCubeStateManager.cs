@@ -34,7 +34,7 @@ namespace Ice_Cube.States
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             
             if (_currentState.ChangeStateOnFinish())

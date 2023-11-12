@@ -25,7 +25,8 @@ namespace ScriptableObjects
         public float upwardGravityScale = 6.0f;
         [Tooltip("Gravity scale when the ice cube is going downwards; increase for faster fall in jumps")]
         public float downwardGravityScale = 8.0f;
-
+        [Tooltip("Time that passes before halving the velocity after the player releases the jump button")]
+        public float jumpReleaseTime = 0.1f;
         [Header("Ground pound")] 
         public float groundPoundSpeed = 25.0f;
         

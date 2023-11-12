@@ -35,9 +35,7 @@ namespace Ice_Cube.States
             // if not already updated, set the gravity multiplier to the upwards gravity scale
             // (otherwise it will update next frame and create problems)
             //Rigidbody2D.gravityScale = Parameters.upwardGravityScale;
-            
-            
-            Debug.Log("Jump force is " + jumpForce + " and gravity scale is " + Rigidbody2D.gravityScale + " and velocity is " + Rigidbody2D.velocity.y);
+
             Rigidbody2D.AddForce(jumpForce*Vector2.up, ForceMode2D.Impulse);
             _isExecuting = false;
         }

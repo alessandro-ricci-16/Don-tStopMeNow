@@ -30,7 +30,6 @@ namespace Ice_Cube.States
                 Rigidbody2D.gravityScale = Parameters.upwardGravityScale;
             else if (velocity.y < 0)
             {
-                Debug.Log("Setting gravity scale to downward gravity scale");
                 Rigidbody2D.gravityScale = Parameters.downwardGravityScale;
             }
         }

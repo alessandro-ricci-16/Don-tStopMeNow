@@ -286,12 +286,18 @@ public class IceCubeInput : MonoBehaviour
 
     private void InterruptJump(InputAction.CallbackContext value)
     {
+        //create a coroutine that waits for some time and then halves the y velocity if it is positive
+        StartCoroutine(InterruptJumpCoroutine());
+        
+    }
+    private IEnumerator InterruptJumpCoroutine()
+    {
+        yield return new WaitForSeconds(parameters.jumpReleaseTime);
         var velocity = _rigidbody2D.velocity;
         if (velocity.y > 0)
         {
             _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 2);
         }
     }
-
     #endregion
 }

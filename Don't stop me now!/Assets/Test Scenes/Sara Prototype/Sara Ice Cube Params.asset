@@ -21,6 +21,7 @@ MonoBehaviour:
   maxWallJumpHeight: 4
   upwardGravityScale: 7
   downwardGravityScale: 10
+  jumpReleaseTime: 0.5
   groundPoundSpeed: 50
   dashIntensity: 40
   dashDuration: 0.1

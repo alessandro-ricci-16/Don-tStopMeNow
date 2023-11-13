@@ -5,7 +5,7 @@
 - [Emanuele Santoro](https://github.com/emanuelesantoro) (developer)
 - [Andrea Sanguineti](https://github.com/AndreaNeti) (developer)
 - [Alessandro Ricci](https://github.com/alessandro-ricci-16) (developer)
-- Mohammadjavad Sami (art)
+- [Mohammadjavad Sami](https://github.com/MJSami13) (art)
 
 ## Overview ##
 
@@ -48,22 +48,26 @@ Vertical speed is determined by gravity, jump and ground pound input.
 
 **Ground pound**
 
-While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
+While mid-air, the player can press the "ground pound" input to make the character quickly fall down to the ground. Horizontal velocity is temporarily set to zero as the character begins falling down, then resumes in the previous direction once the player hits the ground. If the player presses the input "ground pound", all other input is suspended until the character reaches the ground.
 
 **Jump** 
 
 The player can make the ice cube jump. The jump has variable height up to a fixed maximum height; the height of the jump depends on how long the player presses the "jump" button for. 
 
-The player can jump only if the player is on the ground or on a wall (wall jump). Only one wall jump is allowed until the character comes back to the ground.
+The player can jump only if the character is on the ground or on a wall (wall jump). Only one wall jump is allowed until the character comes back to the ground.
+
+Both the normal jump and the wall jump have coyote time and jump buffer timers that can be set independently.
 
 While the player is in the air, the following actions are allowed:
 1. Wall jump
-2. Mid-air dash: to be discussed
+2. Mid-air dash
 3. Ground pound
 
 **Mid-air dash**
 
-To be further discussed.
+While the character is in the air, the player can perform a mid-air dash. Vertical velocity is set to 0 as well as gravity and the character receives an impulse in the current direction (the player cannot choose in which direction to dash). The characters moves horizontally at a fixed and constant speed (determined by the initial impulse) for a fixed amount of time which does not depend on player input. At the end of the dash, gravity begins to function as normal again and the default speed is restored.
+
+The player is not allowed to dash while the ground pound action is executing.
 
 **Recap**
 
@@ -183,29 +187,17 @@ This section is meant for the programmers to keep track of implementation detail
 
 ### Ice cube ##
 
-There are two scripts influencing the behaviour of the cube:
-1. IceCubePhysics describes the physics behaviours (movement, jump, ground pound, dash...); it contains all functions to actually move the ice cube in the physical world. It does not contain input handling.
-2. IceCubeInput inherits from IceCubePhysics and is the script to be attached to the ice cube GameObject. It contains all input handling as well as handling coyote time and jump buffer timers. It interacts with IceCubePhysics by setting true boolean variables ShouldJump, ShouldGroundPound,... that are protected variables from IceCubePhysics.
-
 **Ice Cube GameObject**
 
 The ice cube GameObject should have the following components:
-1. IceCubeInput script
+1. IceCubeInput script, with the correct IceCubeParameters as parameter
 2. Rigidbody2D set to dynamic, having a PhysicsMaterial2D with 0 friction; collision detection should be set to continuous to avoid problems with the collisions at high speeds
 3. BoxCollider2D with no rounding at the edges (this is needed for precise collision detection)
 4. IceCubeAnimatorManager script
 5. Animator
 6. SpriteRenderer
+7. IceCubeStateManager script, with the same IceCubeParameters as the IceCubeInput script (TODO: find a fix for this)
 
-**Ice Cube Physics**
-
-The physics of the ice cube exploits Unity physics simulation (which is why the Rigidbody2D should be set to dynamic). The ice cube is affected by gravity and its speed is modified only by applying forces to the Rigidbody2D.
-
-IceCubePhysics stores a variable Vector2 _currentDirection which indicates whether the cube should be moving left or right. _currentDirection should only be either Vector2.left or Vector2.right, it does not account for vertical movement. This variable is updated when the ice cube collides with other objects (see function HandleCollisions).
-
-All physics is handled within FixedUpdate. Also in FixedUpdate, the script checks if there is any input to be acted on through the variables ShouldJump, ShouldGroundPound,... and calls the appropriate function.
-
-The position of the cube should *never* be set explicitly to avoid problems with the collision detection. The velocity should also never be set explicitly for the same reason; the only exception is when it is set to Vector2.zero during the GroundPound function.
 
 ### Tilemaps ###
 

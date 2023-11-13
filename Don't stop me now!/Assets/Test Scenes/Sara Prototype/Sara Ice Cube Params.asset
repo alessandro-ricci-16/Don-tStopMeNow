@@ -19,11 +19,11 @@ MonoBehaviour:
   deceleration: 20
   maxJumpHeight: 4
   maxWallJumpHeight: 4
-  upwardGravityScale: 7
-  downwardGravityScale: 10
-  jumpReleaseTime: 0.5
+  upwardGravityScale: 9
+  downwardGravityScale: 12
+  jumpReleaseTime: 0.1
   groundPoundSpeed: 50
-  dashIntensity: 40
+  dashIntensity: 50
   dashDuration: 0.1
   maxDashesNumber: 1
   maxJumpBufferTime: 0.1

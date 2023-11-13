@@ -6,4 +6,4 @@ Team members:
 - [Emanuele Santoro](https://github.com/emanuelesantoro)
 - [Andrea Sanguineti](https://github.com/AndreaNeti)
 - [Alessandro Ricci](https://github.com/alessandro-ricci-16)
-- [Mohammadjavad Sami]
+- [Mohammadjavad Sami](https://github.com/MJSami13)

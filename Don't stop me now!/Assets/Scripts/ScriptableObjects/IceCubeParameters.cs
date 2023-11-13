@@ -27,6 +27,7 @@ namespace ScriptableObjects
         public float downwardGravityScale = 8.0f;
         [Tooltip("Time that passes before halving the velocity after the player releases the jump button")]
         public float jumpReleaseTime = 0.1f;
+        
         [Header("Ground pound")] 
         public float groundPoundSpeed = 25.0f;
         

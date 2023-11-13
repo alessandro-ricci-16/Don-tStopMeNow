@@ -293,6 +293,7 @@ public class IceCubeInput : MonoBehaviour
     private IEnumerator InterruptJumpCoroutine()
     {
         float jumpReleaseTimer = parameters.jumpReleaseTime;
+        
         while (jumpReleaseTimer > 0)
         {
             yield return new WaitForEndOfFrame();
@@ -300,7 +301,9 @@ public class IceCubeInput : MonoBehaviour
             
             // if velocity.y <= this jump has ended, stop updating timer
             if (velocity.y <= 0)
+            {
                 break;
+            }
             
             jumpReleaseTimer -= Time.deltaTime;
             if (jumpReleaseTimer <= 0 && velocity.y > 0)

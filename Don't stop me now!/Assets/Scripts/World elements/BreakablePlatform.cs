@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 public class BreakablePlatform : MonoBehaviour
 {
     private Tilemap _tilemap;
-    public int nFramesToWait = 3;
+    public float msTileBreakTime = 3;
 
     private void Start()
     {
@@ -103,10 +103,8 @@ public class BreakablePlatform : MonoBehaviour
             queue.Enqueue(currentCellPosition + Vector3Int.left);
             queue.Enqueue(currentCellPosition + Vector3Int.up);
             queue.Enqueue(currentCellPosition + Vector3Int.down);
-
-            // Attendere un frame prima di procedere alle prossime celle
-            for(var i = 0; i < nFramesToWait; i++)
-                yield return null;
+            
+            yield return new WaitForSeconds(msTileBreakTime/1000);
         }
     }
 

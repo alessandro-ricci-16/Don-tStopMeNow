@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     public Vector3 LastCheckpoint { get; private set; }
+    public bool StartAtCheckPoint { get; private set; }
     
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
@@ -40,6 +41,7 @@ public class GameManager : Singleton<GameManager>
         
         // checkpoint passed
         _onCheckpointPassedAction += CheckpointPassed;
+        StartAtCheckPoint = false;
         EventManager.StartListening(EventNames.CheckpointPassed, _onCheckpointPassedAction);
     }
 
@@ -62,7 +64,13 @@ public class GameManager : Singleton<GameManager>
 
     private void CheckpointPassed(Vector3 checkpointPosition)
     {
+        StartAtCheckPoint = true;
         LastCheckpoint = checkpointPosition;
+    }
+
+    private void LevelPassed(string levelName)
+    {
+        StartAtCheckPoint = false;
     }
     
     #endregion

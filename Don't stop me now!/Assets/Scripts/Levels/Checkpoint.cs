@@ -8,16 +8,19 @@ using UnityEngine.SceneManagement;
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private bool isFinal = false;
-
-    private void OnCollisionEnter2D(Collision2D other)
+    
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isFinal)
+        if (other.CompareTag("Player"))
         {
-            EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
-        }
-        else
-        {
-            EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position);
+            if (isFinal)
+            {
+                EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position);
+            }
         }
     }
 }

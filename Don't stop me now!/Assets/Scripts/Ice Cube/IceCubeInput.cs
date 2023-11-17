@@ -13,6 +13,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(IceCubeStateManager))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(TrailRenderer))]
 public class IceCubeInput : MonoBehaviour
 {
     [SerializeField] protected IceCubeParameters parameters;
@@ -45,6 +46,8 @@ public class IceCubeInput : MonoBehaviour
     private IceCubeState _currentState;
     private IceCubeStateManager _stateManager;
 
+    #region Setup and Initialization
+    
     private void Start()
     {
         //class initialization
@@ -52,10 +55,28 @@ public class IceCubeInput : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _stateManager = GetComponent<IceCubeStateManager>();
+        TrailRenderer trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer.enabled = false;
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
         _currentDirection = Vector2.right;
 
+        SetPosition();
+
+        trailRenderer.enabled = true;
+        
+        InitializeCallbacks();
+    }
+
+    private void SetPosition()
+    {
+        if (GameManager.Instance.StartAtCheckPoint)
+        {
+            this.transform.position = GameManager.Instance.LastCheckpoint;
+        }
+    }
+    private void InitializeCallbacks()
+    {
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
@@ -85,6 +106,8 @@ public class IceCubeInput : MonoBehaviour
             _playerInputAction.Dispose();
         }
     }
+    
+    #endregion
 
     private void Update()
     {

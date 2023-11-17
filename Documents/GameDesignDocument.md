@@ -104,9 +104,9 @@ Grid elements (all of these elements are static):
 All of these elements can be placed on the floor of the level but also mid-air with nothing supporting them (there is no regard to gravity in this sense).
 
 Stand-alone elements:
-1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground. Some obstacles may have a specific trigger so they start moving only when the player collides with the trigger.
+1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground. Some obstacles may have a specific trigger so they start moving only when the character collides with the trigger.
 2. Fans: fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. Fans should only be placed so that the force is vertical, so they will not affect the horizontal speed of the cube and will not change its direction.
-3. Breakable platforms: platforms that break if the ice cube dashes or ground pounds on them (to be discussed)
+3. Breakable platforms: platforms that break if the ice cube dashes or ground pounds on them
 4. Enemies: some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them. (to be discussed)
 5. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
 6. Movable objects: these objects do not perform any action. The player can move them around using the cube, for example to place them on spikes to be able to pass them.
@@ -148,7 +148,7 @@ Each level is contained in a single scene and can contain up to 3/4 checkpoints.
 
 Each world will contain a bonus level at the end. It will not be necessary to complete the bonus level to progress in the game, it is just an additional and optional challenge. 
 
-Bonus levels contain a certain number of collectibles on the main path. The goal of the bonus level is to progress as far as possible and finally collect all of them. Partial progress will be saved between runs (for example the level selection screen will show that the player has collected 5 out of 10 collectibles). The bonus levels contain no checkpoints. 
+Bonus levels contain a certain number of collectibles on the main path. The goal of the bonus level is to progress as far as possible and eventually collect all of them. Partial progress will be saved between runs (for example the level selection screen will show that the player has collected 5 out of 10 collectibles). The bonus levels contain no checkpoints. 
 
 Bonus levels are meant to be very fast and very challenging, with mainly horizontal scrolling to the right. The character may have different parameters than the normal levels, for example higher speed, higher jumps, faster dash and ground pound. This is to make the level more challenging and force the player to react fast.
 
@@ -189,6 +189,16 @@ Official deadlines:
 - Fans
 - Basic character asset and tileset (Mohammadjavad Sami)
 
+### Deadline 3 - 30th November 2023 ###
+
+- Implement checkpoints (Sara Merengo)
+- Implement moving and falling obstacles, with and without trigger (Alessandro Ricci)
+- Design a small tutorial-like level (Alessandro Ricci)
+- Design a level containing only the jump action and no other mechanic or world elements except for limited use of spikes / death zones (Sara Merengo, Alessandro Ricci, Emanuele Santoro, Andrea Sanguineti)
+- Design a level containing only the jump and one additional action of choice (Sara Merengo, Alessandro Ricci, Emanuele Santoro, Andrea Sanguineti)
+- Implement a way to disable actions for early levels (Emanuele Santoro)
+- Assets for spikes and heated platforms (Mohammadjavad Sami)
+
 ## Implementation details ##
 
 This section is meant for the programmers to keep track of implementation details.
@@ -207,6 +217,17 @@ The ice cube GameObject should have the following components:
 7. IceCubeStateManager script, with the same IceCubeParameters as the IceCubeInput script (TODO: find a fix for this)
 8. "Player" tag (this is necessary for death zones to work)
 
+**Ice cube parameters**
+- Ice cube scale: 1.5
+- Default speed: 17
+- Jump height, wall jump height: 6
+- Upward gravity scale: 20
+- Downward gravity scale: 30
+- Groundpound speed: 50
+- Dash speed: 50
+- Dash duration: 0.1
+- Max Jump Coyote Time and Buffer Time: 0.05
+- Max Wall Jump Coyote Time and Buffer Time: 0.1
 
 ### Tilemaps ###
 

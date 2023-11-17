@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33165fa90335c2e49b2164eb1c9e89be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialDirection: 0
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
 --- !u!50 &430988060846039956
 Rigidbody2D:

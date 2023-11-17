@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFinal: 0
+  startDirection: 1
 --- !u!1001 &180811029
 PrefabInstance:
   m_ObjectHideFlags: 0

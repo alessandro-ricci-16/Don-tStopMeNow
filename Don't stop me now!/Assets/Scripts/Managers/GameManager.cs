@@ -8,8 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public Vector3 LastCheckpoint { get; private set; }
     public bool StartAtCheckPoint { get; private set; }
+    public Vector3 LastCheckpoint { get; private set; }
+    public Direction CheckpointStartDirection { get; private set; }
     
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
@@ -17,7 +18,7 @@ public class GameManager : Singleton<GameManager>
     
     // actions for event manager
     private UnityAction<Vector3> _onDeathAction;
-    private UnityAction<Vector3> _onCheckpointPassedAction;
+    private UnityAction<Vector3, Direction> _onCheckpointPassedAction;
     
     protected override void Awake() 
     { 
@@ -62,10 +63,11 @@ public class GameManager : Singleton<GameManager>
         _canvasAnimator.Play("ChangeScene");
     }
 
-    private void CheckpointPassed(Vector3 checkpointPosition)
+    private void CheckpointPassed(Vector3 checkpointPosition, Direction direction)
     {
         StartAtCheckPoint = true;
         LastCheckpoint = checkpointPosition;
+        CheckpointStartDirection = direction;
     }
 
     private void LevelPassed(string levelName)

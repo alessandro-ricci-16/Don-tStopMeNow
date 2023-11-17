@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private bool isFinal = false;
+    [SerializeField] private Direction startDirection = Direction.Right;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -19,7 +20,7 @@ public class Checkpoint : MonoBehaviour
             }
             else
             {
-                EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position);
+                EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position, startDirection);
             }
         }
     }

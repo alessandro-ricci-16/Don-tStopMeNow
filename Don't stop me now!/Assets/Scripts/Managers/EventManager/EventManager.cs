@@ -10,6 +10,7 @@ public class EventManager : Singleton<EventManager>
     private Dictionary<EventNames, UnityEvent<string>> _stringEventDictionary;
     private Dictionary<EventNames, UnityEvent<Vector3>> _vector3EventDictionary;
     private Dictionary<EventNames, UnityEvent<bool>>_boolEventDictionary;
+    private Dictionary<EventNames, UnityEvent<Vector3, Direction>> _vector3DirectionEventDictionary;
 
 
     private static EventManager _eventManager;
@@ -51,6 +52,11 @@ public class EventManager : Singleton<EventManager>
         if( _boolEventDictionary == null)
         {
             _boolEventDictionary = new Dictionary<EventNames, UnityEvent<bool>>();
+        }
+
+        if (_vector3DirectionEventDictionary == null)
+        {
+            _vector3DirectionEventDictionary = new Dictionary<EventNames, UnityEvent<Vector3, Direction>>();
         }
     }
 
@@ -146,6 +152,22 @@ public class EventManager : Singleton<EventManager>
             Instance._vector3EventDictionary.Add(eventName, thisEvent);
         }
     }
+    
+    public static void StartListening(EventNames eventName, UnityAction<Vector3, Direction> listener)
+    {
+        UnityEvent<Vector3, Direction> thisEvent = null;
+        
+        if (Instance._vector3DirectionEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<Vector3, Direction>();
+            thisEvent.AddListener(listener);
+            Instance._vector3DirectionEventDictionary.Add(eventName, thisEvent);
+        }
+    }
 
     #endregion
 
@@ -209,6 +231,16 @@ public class EventManager : Singleton<EventManager>
             thisEvent.RemoveListener(listener);
         }
     }
+    
+    public static void StopListening(EventNames eventName, UnityAction<Vector3, Direction> listener)
+    {
+        if (_eventManager == null) return;
+        UnityEvent<Vector3, Direction> thisEvent = null;
+        if (Instance._vector3DirectionEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
 
     #endregion
 
@@ -263,6 +295,15 @@ public class EventManager : Singleton<EventManager>
         if (Instance._vector3EventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(value);
+        }
+    }
+    
+    public static void TriggerEvent(EventNames eventName, Vector3 vector, Direction direction)
+    {
+        UnityEvent<Vector3, Direction> thisEvent = null;
+        if (Instance._vector3DirectionEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(vector, direction);
         }
     }
 

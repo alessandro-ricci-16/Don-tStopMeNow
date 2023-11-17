@@ -9,6 +9,8 @@ using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
 
+public enum Direction { Right, Left }
+
 
 [RequireComponent(typeof(IceCubeStateManager))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -16,6 +18,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(TrailRenderer))]
 public class IceCubeInput : MonoBehaviour
 {
+    public Direction initialDirection;
     [SerializeField] protected IceCubeParameters parameters;
 
     // maximum tolerance for normals in collision handling
@@ -59,20 +62,28 @@ public class IceCubeInput : MonoBehaviour
         trailRenderer.enabled = false;
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
-        _currentDirection = Vector2.right;
 
-        SetPosition();
+        SetPositionAndDirection();
+
+        if (initialDirection == Direction.Left)
+            _currentDirection = Vector2.left;
+        else
+            _currentDirection = Vector2.right;
 
         trailRenderer.enabled = true;
         
         InitializeCallbacks();
     }
-
-    private void SetPosition()
+    
+    /// <summary>
+    /// If the level starts at a checkpoint, set the position and the direction of the player accordingly.
+    /// </summary>
+    private void SetPositionAndDirection()
     {
         if (GameManager.Instance.StartAtCheckPoint)
         {
             this.transform.position = GameManager.Instance.LastCheckpoint;
+            this.initialDirection = GameManager.Instance.CheckpointStartDirection;
         }
     }
     private void InitializeCallbacks()

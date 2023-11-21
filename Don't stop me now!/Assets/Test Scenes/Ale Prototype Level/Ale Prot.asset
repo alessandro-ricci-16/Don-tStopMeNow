@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ale Prot
   m_EditorClassIdentifier: 
   defaultSpeed: 17
-  slowSpeed: 7.99
-  fastSpeed: 15.18
+  slowSpeed: 17
+  fastSpeed: 17
   acceleration: 20
   deceleration: 20
   maxJumpHeight: 6

@@ -35,32 +35,25 @@ public class BreakablePlatform : MonoBehaviour
 
             ContactPoint2D[] contactPoints = new ContactPoint2D[other.contactCount];
             other.GetContacts(contactPoints);
-
-            bool toBreak = false;
             
             foreach (var contact in contactPoints)
             {
-                Vector2 norm = new Vector2(Mathf.Round(contact.normal.x), Mathf.Round(contact.normal.y));
+                Vector2 roundedNorm = new Vector2(Mathf.Round(contact.normal.x), Mathf.Round(contact.normal.y));
                 // Get the position of the contact point in the tilemap
                 Vector3Int cellPosition = _tilemap.WorldToCell(contact.point);
                 
-                // Perché sì
-                if (iceCubeState == IceCubeStatesEnum.IsDashing && norm.x != 0)
+                // Break the platform if dashing against a wall
+                if (iceCubeState == IceCubeStatesEnum.IsDashing && roundedNorm.x != 0)
                 {
-                    toBreak = true;
-                    cellPosition += Vector3Int.right * MathF.Sign(norm.x);
+                    cellPosition += Vector3Int.right * MathF.Sign(roundedNorm.x);
+                    StartBreakingPlatform(cellPosition);
+                    break;
                 }
-                else if (iceCubeState == IceCubeStatesEnum.IsGroundPounding && norm.y != 0)
+                // Break the platform if ground pounding against a floor
+                if (iceCubeState == IceCubeStatesEnum.IsGroundPounding && roundedNorm.y != 0)
                 {
-                    toBreak = true;
-                    cellPosition += Vector3Int.up * MathF.Sign(norm.y);
-                }
-                StartBreakingPlatform(cellPosition);
-                
-                // bacino alla Matera Maristella patata
-                if (toBreak)
-                {
-                    Debug.Log("Breaking platform");
+                    cellPosition += Vector3Int.up * MathF.Sign(roundedNorm.y);
+                    StartBreakingPlatform(cellPosition);
                     break;
                 }
             }
@@ -110,6 +103,7 @@ public class BreakablePlatform : MonoBehaviour
 
     private void StartBreakingPlatform(Vector3Int startCellPosition)
     {
+        Debug.Log("Breaking platform");
         StartCoroutine(BreakPlatform(startCellPosition));
     }
 

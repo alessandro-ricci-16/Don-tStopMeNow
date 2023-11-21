@@ -20,6 +20,9 @@ public class IceCubeInput : MonoBehaviour
 {
     public Direction initialDirection;
     [SerializeField] protected IceCubeParameters parameters;
+    [SerializeField] private bool canWallJump = true;
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool canGroundPound = true;
 
     // maximum tolerance for normals in collision handling
     private const float Epsilon = 0.1f;
@@ -96,9 +99,12 @@ public class IceCubeInput : MonoBehaviour
         _playerInputAction.Jump.Enable();
         _playerInputAction.Jump.Jump.started += JumpStarted;
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
-
-        _playerInputAction.OnAir.GroundPound.started += GroundPoundStarted;
-        _playerInputAction.OnAir.Dash.started += DashStarted;
+        
+        if (canGroundPound)
+            _playerInputAction.OnAir.GroundPound.started += GroundPoundStarted;
+        if (canDash)
+            _playerInputAction.OnAir.Dash.started += DashStarted;
+        
         _playerInputAction.Jump.Jump.canceled += InterruptJump;
     }
 
@@ -263,7 +269,7 @@ public class IceCubeInput : MonoBehaviour
         }
 
         // wall jump input (Cannot wall jump more than the max number of times)
-        if (_wallJumpCounter < parameters.maxWallJumpsNumber && _wallCoyoteTimeCounter > 0.0f &&
+        if (canWallJump && _wallJumpCounter < parameters.maxWallJumpsNumber && _wallCoyoteTimeCounter > 0.0f &&
             _wallJumpBufferCounter > 0.0f)
         {
             _stateManager.SetNextState(IceCubeStatesEnum.IsWallJumping);

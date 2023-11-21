@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
   m_Name: Ale Prot
   m_EditorClassIdentifier: 
-  defaultSpeed: 12.6
-  slowSpeed: 7.99
-  fastSpeed: 15.18
+  defaultSpeed: 17
+  slowSpeed: 17
+  fastSpeed: 17
   acceleration: 20
   deceleration: 20
-  maxJumpHeight: 10
-  maxWallJumpHeight: 4
-  upwardGravityScale: 9.47
-  downwardGravityScale: 19.7
+  maxJumpHeight: 6
+  maxWallJumpHeight: 6
+  upwardGravityScale: 20
+  downwardGravityScale: 30
   jumpReleaseTime: 0.01
   groundPoundSpeed: 50
-  dashIntensity: 40
+  dashIntensity: 50
   dashDuration: 0.1
   maxDashesNumber: 1
-  maxJumpBufferTime: 0.1
-  maxCoyoteTime: 0.1
-  maxWallJumpBufferTime: 0.2
-  maxWallCoyoteTime: 0.2
+  maxJumpBufferTime: 0.05
+  maxCoyoteTime: 0.05
+  maxWallJumpBufferTime: 0.1
+  maxWallCoyoteTime: 0.1
   maxWallJumpsNumber: 1

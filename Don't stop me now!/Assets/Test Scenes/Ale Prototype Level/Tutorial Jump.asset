@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
-  m_Name: Jump Only Ice Cube Parameters
+  m_Name: Tutorial Jump
   m_EditorClassIdentifier: 
   defaultSpeed: 17
-  slowSpeed: 17
-  fastSpeed: 17
-  acceleration: 40
-  deceleration: 40
+  slowSpeed: 7.99
+  fastSpeed: 15.18
+  acceleration: 20
+  deceleration: 20
   maxJumpHeight: 6
   maxWallJumpHeight: 6
   upwardGravityScale: 20

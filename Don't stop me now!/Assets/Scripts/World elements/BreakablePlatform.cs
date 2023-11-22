@@ -97,7 +97,8 @@ public class BreakablePlatform : MonoBehaviour
             queue.Enqueue(currentCellPosition + Vector3Int.up);
             queue.Enqueue(currentCellPosition + Vector3Int.down);
             
-            yield return new WaitForSeconds(msTileBreakTime/1000);
+            if(msTileBreakTime > 0)
+                yield return new WaitForSeconds(msTileBreakTime/1000);
         }
     }
 

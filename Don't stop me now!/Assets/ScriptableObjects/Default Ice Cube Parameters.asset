@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Default Ice Cube Parameters
   m_EditorClassIdentifier: 
   defaultSpeed: 17
-  slowSpeed: 17
-  fastSpeed: 17
+  slowSpeed: 12
+  fastSpeed: 23
   acceleration: 40
   deceleration: 40
   maxJumpHeight: 6

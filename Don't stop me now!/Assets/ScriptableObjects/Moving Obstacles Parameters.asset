@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ddb28621e890f4bbb4e3222b0ceac7, type: 3}
+  m_Name: Moving Obstacles Parameters
+  m_EditorClassIdentifier: 
+  defaultSpeed: 20
+  slowSpeed: 20
+  fastSpeed: 20
+  acceleration: 30
+  deceleration: 30
+  maxJumpHeight: 0
+  maxWallJumpHeight: 0
+  upwardGravityScale: 0
+  downwardGravityScale: 0
+  jumpReleaseTime: 0
+  groundPoundSpeed: 0
+  dashIntensity: 0
+  dashDuration: 0
+  maxDashesNumber: 0
+  maxJumpBufferTime: 0
+  maxCoyoteTime: 0
+  maxWallJumpBufferTime: 0
+  maxWallCoyoteTime: 0
+  maxWallJumpsNumber: 0

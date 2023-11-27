@@ -54,7 +54,7 @@ namespace Ice_Cube.States
             _xinput = ctx.ReadValue<float>();
         }
 
-        public override bool ShouldBeInterrupted()
+        public override bool ChangeStateOnFinish()
         {
             if (_xinput == 0)
             {
@@ -65,7 +65,7 @@ namespace Ice_Cube.States
             return false;
         }
 
-        public override bool ChangeStateOnFinish()
+        public override bool ShouldBeInterrupted()
         {
             return true;
         }

@@ -1,20 +1,38 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(IceCubeStateManager))]
 public class IceCubeAnimatorManager : MonoBehaviour
 {
     private Animator _animator;
+    private IceCubeStateManager _stateManager;
     private int _maxTime;
     public HeatableSettings heatableSettings;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _stateManager = GetComponent<IceCubeStateManager>();
+    }
+
+    private void FixedUpdate()
+    {
+        IceCubeState currentState = _stateManager.GetCurrentState();
+
+        if (currentState.GetEnumState() == IceCubeStatesEnum.IsDashing)
+        {
+            _animator.SetBool("isDashing", true);
+        }
+        else
+        {
+            _animator.SetBool("isDashing", false);
+        }
     }
 
     private void OnEnable()

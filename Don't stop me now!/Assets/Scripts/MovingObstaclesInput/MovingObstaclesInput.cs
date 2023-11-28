@@ -10,7 +10,6 @@ using ScriptableObjects;
 using UnityEngine.InputSystem;
 
 
-[RequireComponent(typeof(IceCubeStateManager))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(TrailRenderer))]
@@ -74,7 +73,6 @@ public class MovingObstaclesInput : MonoBehaviour
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
-        _stateManager.SetPlayerInputAction(_playerInputAction);
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
     }
 

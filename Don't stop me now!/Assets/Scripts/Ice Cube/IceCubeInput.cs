@@ -94,7 +94,7 @@ public class IceCubeInput : MonoBehaviour
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
-        _stateManager.SetPlayerInputAction(_playerInputAction);
+        _stateManager.InitStateManager(_playerInputAction, parameters);
         
         _playerInputAction.Jump.Enable();
         _playerInputAction.Jump.Jump.started += JumpStarted;

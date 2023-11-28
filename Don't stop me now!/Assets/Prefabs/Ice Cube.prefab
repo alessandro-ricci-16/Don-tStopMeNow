@@ -53,6 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialDirection: 0
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
+  canWallJump: 1
+  canDash: 1
+  canGroundPound: 1
 --- !u!50 &430988060846039956
 Rigidbody2D:
   serializedVersion: 4
@@ -114,9 +117,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    border: {x: 0.3125, y: 0, z: 0.078125, w: 0.1953125}
+    pivot: {x: 0.58426964, y: 0.41830066}
+    oldSize: {x: 1.390625, y: 1.1953125}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -166,7 +169,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ab078fee7f7bae34ca03592edfac8968, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 79a68de23731b9d41b75efa9452cc53d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -336,4 +339,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150e8bcf24614d78b53c7dfd93ce317f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}

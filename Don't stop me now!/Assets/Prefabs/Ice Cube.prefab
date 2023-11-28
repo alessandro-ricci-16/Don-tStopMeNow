@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7235359981567558844}
   - component: {fileID: 1593892162703338945}
   - component: {fileID: 5102245008745954775}
+  - component: {fileID: 5047151819313745445}
   m_Layer: 0
   m_Name: Ice Cube
   m_TagString: Player
@@ -289,7 +290,7 @@ TrailRenderer:
       serializedVersion: 2
       key0: {r: 0.2784314, g: 0.6156863, b: 0.73333335, a: 0.54901963}
       key1: {r: 0.28627452, g: 0.6156863, b: 0.7176471, a: 0}
-      key2: {r: 0, g: 0, b: 0, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -305,14 +306,14 @@ TrailRenderer:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 65535
+      atime2: 0
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: 0
+      m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -339,3 +340,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150e8bcf24614d78b53c7dfd93ce317f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5047151819313745445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604428878795886695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75953d6b31f574644be1238b08e89b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowRuntimeFragmentation: 0
+  extraPoints: 4
+  subshatterSteps: 0
+  fragmentLayer: Default
+  sortingLayerName: Default
+  orderInLayer: 0
+  forceMagnitude: 20
+  shatterType: 1
+  fragments:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

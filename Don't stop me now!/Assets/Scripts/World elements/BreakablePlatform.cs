@@ -52,13 +52,10 @@ public class BreakablePlatform : MonoBehaviour
                     StartBreakingPlatform(cellPosition);
                     break;
                 }
-
                 
-                Debug.Log("Relative velocity: " + other.relativeVelocity + " Normal: " + roundedNorm.y);
                 // Break the platform if ground pounding against a floor
-                if ((iceCubeState == IceCubeStatesEnum.IsGroundPounding ||
-                     (other.relativeVelocity.y <= -parameters.groundPoundSpeed - Mathf.Epsilon &&
-                      other.relativeVelocity.y >= -parameters.groundPoundSpeed + Mathf.Epsilon)) && roundedNorm.y != 0)
+                if (roundedNorm.y != 0 && (iceCubeState == IceCubeStatesEnum.IsGroundPounding ||
+                                           Mathf.Approximately(other.relativeVelocity.y, -parameters.groundPoundSpeed)))
                 {
                     cellPosition += Vector3Int.up * MathF.Sign(roundedNorm.y);
                     StartBreakingPlatform(cellPosition);

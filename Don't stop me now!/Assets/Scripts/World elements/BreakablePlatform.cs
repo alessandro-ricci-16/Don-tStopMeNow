@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ice_Cube.States;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class BreakablePlatform : MonoBehaviour
 {
     private Tilemap _tilemap;
     public float msTileBreakTime = 3;
+    [FormerlySerializedAs("Parameters")] public IceCubeParameters parameters;
 
     private void Start()
     {
@@ -35,13 +38,13 @@ public class BreakablePlatform : MonoBehaviour
 
             ContactPoint2D[] contactPoints = new ContactPoint2D[other.contactCount];
             other.GetContacts(contactPoints);
-            
+
             foreach (var contact in contactPoints)
             {
                 Vector2 roundedNorm = new Vector2(Mathf.Round(contact.normal.x), Mathf.Round(contact.normal.y));
                 // Get the position of the contact point in the tilemap
                 Vector3Int cellPosition = _tilemap.WorldToCell(contact.point);
-                
+
                 // Break the platform if dashing against a wall
                 if (iceCubeState == IceCubeStatesEnum.IsDashing && roundedNorm.x != 0)
                 {
@@ -49,8 +52,13 @@ public class BreakablePlatform : MonoBehaviour
                     StartBreakingPlatform(cellPosition);
                     break;
                 }
+
+                
+                Debug.Log("Relative velocity: " + other.relativeVelocity + " Normal: " + roundedNorm.y);
                 // Break the platform if ground pounding against a floor
-                if (iceCubeState == IceCubeStatesEnum.IsGroundPounding && roundedNorm.y != 0)
+                if ((iceCubeState == IceCubeStatesEnum.IsGroundPounding ||
+                     (other.relativeVelocity.y <= -parameters.groundPoundSpeed - Mathf.Epsilon &&
+                      other.relativeVelocity.y >= -parameters.groundPoundSpeed + Mathf.Epsilon)) && roundedNorm.y != 0)
                 {
                     cellPosition += Vector3Int.up * MathF.Sign(roundedNorm.y);
                     StartBreakingPlatform(cellPosition);
@@ -81,7 +89,7 @@ public class BreakablePlatform : MonoBehaviour
         {
             Vector3Int currentCellPosition = queue.Dequeue();
 
-            // Verifica se la cella è già stata visitata per evitare cicli infiniti
+            // Verify if it has already been visited to avoid infinite loops
             if (!visited.Add(currentCellPosition))
                 continue;
 
@@ -96,9 +104,9 @@ public class BreakablePlatform : MonoBehaviour
             queue.Enqueue(currentCellPosition + Vector3Int.left);
             queue.Enqueue(currentCellPosition + Vector3Int.up);
             queue.Enqueue(currentCellPosition + Vector3Int.down);
-            
-            if(msTileBreakTime > 0)
-                yield return new WaitForSeconds(msTileBreakTime/1000);
+
+            if (msTileBreakTime > 0)
+                yield return new WaitForSeconds(msTileBreakTime / 1000);
         }
     }
 
@@ -107,5 +115,4 @@ public class BreakablePlatform : MonoBehaviour
         Debug.Log("Breaking platform");
         StartCoroutine(BreakPlatform(startCellPosition));
     }
-
 }

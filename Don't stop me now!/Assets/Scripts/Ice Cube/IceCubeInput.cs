@@ -134,8 +134,8 @@ public class IceCubeInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _prevFrameVelocity = _rigidbody2D.velocity;
         _stateManager.GetCurrentState().PerformPhysicsAction(_currentDirection);
+        _prevFrameVelocity = _rigidbody2D.velocity;
     }
 
     #region Collisions
@@ -160,7 +160,6 @@ public class IceCubeInput : MonoBehaviour
         // assume I am not on the ground and not on a wall
         bool isPlayerOnGround = false;
         bool isPlayerOnWall = false;
-
         // iterate and check normals
         foreach (ContactPoint2D c in contacts)
         {
@@ -174,6 +173,9 @@ public class IceCubeInput : MonoBehaviour
                     _rigidbody2D.velocity = Vector2.zero;
                     _currentDirection = Vector2.left;
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.left, ForceMode2D.Impulse);
+                    
+                    // preserves the vertical speed
+                    _rigidbody2D.AddForce(_prevFrameVelocity.y * Vector2.up, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.right).magnitude < Epsilon)
@@ -184,6 +186,9 @@ public class IceCubeInput : MonoBehaviour
                     _rigidbody2D.velocity = Vector2.zero;
                     _currentDirection = Vector2.right;
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.right, ForceMode2D.Impulse);
+                    
+                    // preserves the vertical speed
+                    _rigidbody2D.AddForce(_prevFrameVelocity.y * Vector2.up, ForceMode2D.Impulse);
                 }
             }
             else if ((normal - Vector2.up).magnitude < Epsilon)

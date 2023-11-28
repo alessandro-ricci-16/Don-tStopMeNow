@@ -7,11 +7,16 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(TrailRenderer))]
 [RequireComponent(typeof(IceCubeStateManager))]
 public class IceCubeAnimatorManager : MonoBehaviour
 {
+    public Material normalTrailMaterial;
+    public Material glowTrailMaterial;
+    
     private Animator _animator;
     private IceCubeStateManager _stateManager;
+    private TrailRenderer _trailRenderer;
     private int _maxTime;
     public HeatableSettings heatableSettings;
 
@@ -19,6 +24,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _stateManager = GetComponent<IceCubeStateManager>();
+        _trailRenderer = GetComponent<TrailRenderer>();
     }
 
     private void FixedUpdate()
@@ -28,10 +34,12 @@ public class IceCubeAnimatorManager : MonoBehaviour
         if (currentState.GetEnumState() == IceCubeStatesEnum.IsDashing)
         {
             _animator.SetBool("isDashing", true);
+            // _trailRenderer.SetMaterials(new List<Material> {glowTrailMaterial});
         }
         else
         {
             _animator.SetBool("isDashing", false);
+            // _trailRenderer.SetMaterials(new List<Material> {normalTrailMaterial});
         }
     }
 

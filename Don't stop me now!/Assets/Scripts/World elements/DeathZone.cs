@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeathZone : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class DeathZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             EventManager.TriggerEvent(EventNames.Death, other.transform.position);
+            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name);
             if(destroyOnPlayerHit)
                 Destroy(gameObject);
         }

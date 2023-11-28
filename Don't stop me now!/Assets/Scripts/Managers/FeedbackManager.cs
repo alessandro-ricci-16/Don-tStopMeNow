@@ -16,7 +16,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
     {
         Debug.Log("Starting feedback manager");
         EventManager.StartListening(EventNames.LevelPassed, LevelPassedFeedback);
-        EventManager.StartListening(EventNames.CheckpointFeedback, CheckpointFeedback);
+        EventManager.StartListening(EventNames.CheckpointPassed, CheckpointPassedFeedback);
         EventManager.StartListening(EventNames.Death, DeathFeedback);
         EventManager.StartListening(EventNames.LevelStarted, LevelStartedFeedback);
     }
@@ -67,7 +67,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
         SendFeedback(feedback);
     }
     
-    private void CheckpointFeedback(string levelName, int checkpointIndex)
+    private void CheckpointPassedFeedback(string levelName, int checkpointIndex)
     {
         Feedback feedback = new Feedback(levelName, "Checkpoint Passed", checkpointIndex.ToString());
         SendFeedback(feedback);
@@ -75,7 +75,6 @@ public class FeedbackManager : Singleton<FeedbackManager>
     
     private void DeathFeedback(string levelName)
     {
-        Debug.Log("Sending death feedback");
         Feedback feedback = new Feedback(levelName, "Death", "");
         SendFeedback(feedback);
     }

@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
     public bool StartAtCheckPoint { get; private set; }
     public Vector3 LastCheckpoint { get; private set; }
     public Direction CheckpointStartDirection { get; private set; }
+    public float timeScaleDeath;
     
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
@@ -51,7 +52,7 @@ public class GameManager : Singleton<GameManager>
     private void Die(Vector3 playerPosition)
     {
         // freeze time
-        Time.timeScale = 0.0f;
+        Time.timeScale = timeScaleDeath;
         // center the vignette animation on the passed position
         if (Camera.main != null)
         {

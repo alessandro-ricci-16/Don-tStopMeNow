@@ -166,6 +166,8 @@ The aesthetic of the bonus levels will be completely different from the rest of 
 
 Levels should contain regularly placed celing lights or vertical lights representing the lights of the freezer. Different types of lights should not be mixed in same scrolling sections.
 
+Camera size should be one of the following: 10, 12, 14.
+
 ## Deadlines ##
 
 Official deadlines:

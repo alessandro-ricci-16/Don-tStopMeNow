@@ -34,12 +34,12 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 2
-  defaultSprite: {fileID: 1414665154, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  topWallSprite: {fileID: -1794278908, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  bottomWallSprite: {fileID: -962100611, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  rightWallSprite: {fileID: -110585075, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  leftWallSprite: {fileID: 553644690, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  topRightCornerSprite: {fileID: 1250661535, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  topLeftCornerSprite: {fileID: 1010253775, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  bottomRightCornerSprite: {fileID: 1803358148, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
-  bottomLeftCornerSprite: {fileID: 124574183, guid: 8fee46cfa59231f49bcc767ce0c36548, type: 3}
+  defaultSprite: {fileID: 776202418, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  topWallSprite: {fileID: -1671475403, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  bottomWallSprite: {fileID: -1159194747, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  rightWallSprite: {fileID: -703663236, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  leftWallSprite: {fileID: 1479468779, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  topRightCornerSprite: {fileID: 1533547650, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  topLeftCornerSprite: {fileID: 1993506205, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  bottomRightCornerSprite: {fileID: 1701121011, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}
+  bottomLeftCornerSprite: {fileID: 1968859705, guid: 52d2b2eb93d5ac94eb6946fb039df06f, type: 3}

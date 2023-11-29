@@ -124,7 +124,7 @@ The ice cube shatters and dies if:
 
 After death the ice cube restarts at the nearest check-point.
 
-### Game Flow and level structure ###
+## Game Flow and level structure ##
 
 The game is made up of multiple short levels, which are organised in worlds. Currently, two worlds are planned.
 
@@ -144,7 +144,7 @@ Levels must be completed sequentially (it is necessary to complete a level to be
 
 The camera is not static and moves around following the player. Levels are mainly side-scrolling to the right but they can also have vertical sequences (both going upwards and downwards) and side scrolling in the opposite direction to give the player the sense of moving in a coherent map. 
 
-**Checkpoints**
+### Checkpoints
 
 Each level is contained in a single scene and can contain up to 2/3 checkpoints. 
 - When the player dies, the scene will reload and the character will be spawned at the position of the last completed checkpoint. Previously modified aspects of the level (broken platforms, moved objects,...) will reset with the death of the character. 
@@ -152,7 +152,7 @@ Each level is contained in a single scene and can contain up to 2/3 checkpoints.
 - Completing a checkpoint does not change anything about the world and does not theoretically prevent the player from going back to previous sections of the level. However, on the design part checkpoints should be placed such that the player cannot come back to previous sections because of world obstacles (e.g. a wall that is too high to jump). This is to ensure linear progression and to prevent perceived inconsistencies (breakable platforms being whole again, etc.) when reloading the scene.
 - Checkpoints are not saved between different runs of the game, if the player closes the game the checkpoint progress is lost.
 
-**Bonus levels**
+### Bonus levels
 
 Each world will contain a bonus level at the end. It will not be necessary to complete the bonus level to progress in the game, it is just an additional and optional challenge. 
 
@@ -161,6 +161,12 @@ Bonus levels contain a certain number of collectibles on the main path. The goal
 Bonus levels are meant to be very fast and very challenging, with mainly horizontal scrolling to the right. The character may have different parameters than the normal levels, for example higher speed, higher jumps, faster dash and ground pound. This is to make the level more challenging and force the player to react fast.
 
 The aesthetic of the bonus levels will be completely different from the rest of the freezer, with only colored neon outlines and silhouettes. In the logic of the game, this could represent a black-out in the freezer where the light goes completely dark. 
+
+## Aesthetics
+
+Levels should contain regularly placed celing lights or vertical lights representing the lights of the freezer. Different types of lights should not be mixed in same scrolling sections.
+
+Camera size should be one of the following: 10, 12, 14.
 
 ## Deadlines ##
 

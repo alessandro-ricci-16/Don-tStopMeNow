@@ -120,6 +120,11 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(levelSceneName);
     }
     
+    public void LoadLevel(int levelIndex)
+    {
+        ChangeScene(levelIndex);
+    }
+    
     private void ChangeScene(int scene)
     {
         StartCoroutine(LoadAsyncScene(scene));

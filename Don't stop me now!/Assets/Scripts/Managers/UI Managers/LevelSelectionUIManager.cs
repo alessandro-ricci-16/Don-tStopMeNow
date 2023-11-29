@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LevelSelectionUIManager : MonoBehaviour
 {
     public Button BackToMainMenuButton;
-    public ButtonSceneName[] ButtonSceneNames;
+    public Button[] LevelsButtons;
 
     private UnityAction<string> _loadLevelAction;
 
@@ -16,9 +16,10 @@ public class LevelSelectionUIManager : MonoBehaviour
     {
         BackToMainMenuButton.onClick.AddListener(LoadMainMenu);
 
-        foreach (ButtonSceneName bsn in ButtonSceneNames)
+        for (int i = 0; i < LevelsButtons.Length; i++)
         {
-            bsn.Button.onClick.AddListener(() => LoadLevel(bsn.SceneName));
+            int index = i;
+            LevelsButtons[i].onClick.AddListener(() => LoadLevel(index+2));
         }
     }
 
@@ -27,15 +28,9 @@ public class LevelSelectionUIManager : MonoBehaviour
         GameManager.Instance.LoadMainMenuScene();
     }
 
-    private void LoadLevel(string levelName)
+    private void LoadLevel(int levelIndex)
     {
-        GameManager.Instance.LoadLevel(levelName);
+        Debug.Log("Loading scene " + levelIndex);
+        GameManager.Instance.LoadLevel(levelIndex);
     }
-}
-
-[Serializable]
-public class ButtonSceneName
-{
-    public Button Button;
-    public string SceneName;
 }

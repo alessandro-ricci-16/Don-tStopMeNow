@@ -22,9 +22,9 @@ The protagonist of the game is an ice cube, living in a bag of ice inside a supe
 Possible motivations:
 - it saw other ice cubes being taken away from the freezer and wants to find them
 - ice cube life is boring, it wants to explore the world and reach the colorful and fantastic ice cream freezer compartment
-- ice cube religion says there’s something at the end of the freezer
+- ice cube religion says there's something at the end of the freezer
 
-The levels will be laid out on a map representing the different freezer compartments, with every section having a different theme (e.g. frozen vegetables, ice creams, pizza,…) and new mechanics introduced. Each section will have a series of short levels.
+The levels will be laid out on a map representing the different freezer compartments, with every section having a different theme (e.g. frozen vegetables, ice creams, pizza,...) and new mechanics introduced. Each section will have a series of short levels.
 
 ## Game Mechanics ##
 
@@ -79,12 +79,12 @@ There are two input mappings.
     - Z: dash
 2. Second input mapping:
     - space bar or left mouse click: jump
-    - : ground pound
-    - : dash
+    - S: ground pound
+    - shift: dash
 
 Both input mappings are active at any moment since they do not interfere with each other.
 
-The following diagram represents the states finite state machine. (x input is the horizontal input)
+The following diagram represents the states finite state machine.
 
 ![image](Diagrams/IceCubeInputFSA.jpg)
 
@@ -98,22 +98,22 @@ The world elements that are part of the fridge or of the background are placed o
 
 Grid elements (all of these elements are static):
 1. Regular platforms: these are platforms the ice cube can slide on and bounce off with no consequence. They represent patches of ice, parts of the plastic shelves or floor in the freezer, other contents of the freezer such as boxes of food,...
-2. Spikes: these represent ice shards in the freezer or other static obstacles which will be letal to the ice cube. The ice cube will die if it collides directly with them. They can be attached to other regular platforms in all four directions.
+2. Static spikes: these represent ice shards in the freezer or other static obstacles which will be letal to the ice cube. The ice cube will die if it collides directly with them. They can be attached to other regular platforms in all four directions.
 3. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
 
 All of these elements can be placed on the floor of the level but also mid-air with nothing supporting them (there is no regard to gravity in this sense).
 
 Stand-alone elements:
 1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground. Some obstacles may have a specific trigger so they start moving only when the character collides with the trigger.
-2. Fans: fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. Fans should only be placed so that the force is vertical, so they will not affect the horizontal speed of the cube and will not change its direction.
+2. Fans (currently on hold): fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. Fans should only be placed so that the force is vertical, so they will not affect the horizontal speed of the cube and will not change its direction.
 3. Breakable platforms: platforms that break if the ice cube dashes or ground pounds on them
-4. Enemies: some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them. (to be discussed)
+4. Enemies (currently on hold): some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them. (to be discussed)
 5. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
 6. Movable objects: these objects do not perform any action. The player can move them around using the cube, for example to place them on spikes to be able to pass them.
 
 To be discussed:
 1. Fans: should the force be the same in the entire force field or be modulated depending on how close you get to the fan?
-2. Heated platforms: alternative ways of showing the ice cubes is about to die, such as gradually changing the color of the ice cube to red
+
 
 ### Death ###
 
@@ -126,11 +126,19 @@ After death the ice cube restarts at the nearest check-point.
 
 ### Game Flow and level structure ###
 
-The game is made up of multiple short levels, which are organised in sections. Each section represents a freezer compartment and has a different theme: vegetables, ice creams, pizza,...
+The game is made up of multiple short levels, which are organised in worlds. Currently, two worlds are planned.
 
-The first few levels only have the basic jump mechanic and normal blocks; new level and sections will gradually introduce more mechanics and combine them. 
+**World 1** contains:
+- Tutorial levels for the jump action
+- A very easy level with only the jump action allowed
+- Tutorials and easy levels introducing the other actions in the following order: wall jump, ground pound, dash
+- Levels with static spikes
+- Levels introducing the breakable platforms
+- Levels introducing falling spikes
+- Levels using static spikes, breakable platforms and falling spikes at the same time
 
-To be discussed: order of introduction of additional elements
+**World 2** contains:
+- Levels containing heatable platforms, moving obstacles and movable objects (order still to be determined)
 
 Levels must be completed sequentially (it is necessary to complete a level to be able to access the following ones). The player can select which level to play from a level map and can select to replay a previously completed level.
 
@@ -138,10 +146,10 @@ The camera is not static and moves around following the player. Levels are mainl
 
 **Checkpoints**
 
-Each level is contained in a single scene and can contain up to 3/4 checkpoints. 
+Each level is contained in a single scene and can contain up to 2/3 checkpoints. 
 - When the player dies, the scene will reload and the character will be spawned at the position of the last completed checkpoint. Previously modified aspects of the level (broken platforms, moved objects,...) will reset with the death of the character. 
 - Checkpoint completion is automatic when the character collides with the corresponding trigger and does not need any action on the player's part.
-- Completing a checkpoint does not change anything about the world and does not prevent the player from going back to previous sections of the level. 
+- Completing a checkpoint does not change anything about the world and does not theoretically prevent the player from going back to previous sections of the level. However, on the design part checkpoints should be placed such that the player cannot come back to previous sections because of world obstacles (e.g. a wall that is too high to jump). This is to ensure linear progression and to prevent perceived inconsistencies (breakable platforms being whole again, etc.) when reloading the scene.
 - Checkpoints are not saved between different runs of the game, if the player closes the game the checkpoint progress is lost.
 
 **Bonus levels**

@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     // actions for event manager
     private UnityAction<Vector3> _onDeathAction;
     private UnityAction<Vector3, Direction> _onCheckpointPassedAction;
+    private UnityAction<string> _levelPassedAction;
     
     protected override void Awake() 
     { 
@@ -45,6 +46,10 @@ public class GameManager : Singleton<GameManager>
         _onCheckpointPassedAction += CheckpointPassed;
         StartAtCheckPoint = false;
         EventManager.StartListening(EventNames.CheckpointPassed, _onCheckpointPassedAction);
+        
+        // level passed 
+        _levelPassedAction += LevelPassed;
+        EventManager.StartListening(EventNames.LevelPassed, _levelPassedAction);
     }
 
     #region Events functions
@@ -74,6 +79,7 @@ public class GameManager : Singleton<GameManager>
     private void LevelPassed(string levelName)
     {
         StartAtCheckPoint = false;
+        LoadNextScene();
     }
     
     #endregion
@@ -90,7 +96,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     
-    public void NextScene()
+    public void LoadNextScene()
     {
         // call me to load the next scene
         ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);

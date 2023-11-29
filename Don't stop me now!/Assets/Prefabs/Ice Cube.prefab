@@ -214,6 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9b93299d5ed8e4aae8f1b04ade5a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalTrailMaterial: {fileID: 0}
+  glowTrailMaterial: {fileID: 0}
   heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
 --- !u!96 &1593892162703338945
 TrailRenderer:
@@ -254,8 +256,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 155325143
-  m_SortingLayer: -2
+  m_SortingLayerID: -1273143243
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Time: 0.2
   m_PreviewTimeScale: 1
@@ -352,20 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75953d6b31f574644be1238b08e89b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowRuntimeFragmentation: 0
-  extraPoints: 4
-  subshatterSteps: 0
-  fragmentLayer: Default
-  sortingLayerName: Default
-  orderInLayer: 0
   forceMagnitude: 20
+  upwardsModifier: 0.1
   shatterType: 1
-  fragments:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}

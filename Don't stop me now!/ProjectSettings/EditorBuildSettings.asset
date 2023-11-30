@@ -45,12 +45,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Only WallJump Levels/WallJumpAle.unity
     guid: 8cb9d8d1c22401349aff0923c326067a
   - enabled: 1
-    path: Assets/Scenes/Levels/Obstacles/MovingObstacles.unity
-    guid: 2ea7c2c1435a50644aa3937dc4510bcc
-  - enabled: 1
     path: Assets/Scenes/Levels/Obstacles/FallingSpikesTest.unity
     guid: 58b993ca60147454c919b55ca629fecb
   - enabled: 1
     path: Assets/Scenes/Levels/FullLevelAle.unity
     guid: 2812a8d186eab0b419248921eac6d181
+  - enabled: 1
+    path: Assets/Scenes/Levels/Obstacles/MovingObstacles.unity
+    guid: 2ea7c2c1435a50644aa3937dc4510bcc
   m_configObjects: {}

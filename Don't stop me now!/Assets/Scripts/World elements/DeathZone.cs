@@ -20,6 +20,7 @@ public class DeathZone : MonoBehaviour
         // if the player enters the death zone dies :)
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Death: " + other.transform);
             other.GetComponent<Explodable>().Explode();
             EventManager.TriggerEvent(EventNames.Death, other.transform.position);
             EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name);

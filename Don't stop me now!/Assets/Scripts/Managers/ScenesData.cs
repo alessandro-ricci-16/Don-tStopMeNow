@@ -6,9 +6,6 @@ public static class ScenesData
 {
     private static string _mainMenuSceneName = "Main Menu";
     private static string _levelSelectionSceneName = "Level Selection";
-    
-    // progression of levels scene names
-    private static List<string> _levels = new() {"Level1.1", "Level1.2"};
 
     public static string MainMenuSceneName()
     {
@@ -18,23 +15,5 @@ public static class ScenesData
     public static string LevelSelectionSceneName()
     {
         return _levelSelectionSceneName;
-    }
-    
-    public static string NextLevelSceneName(string currentLevelName)
-    {
-        if (!_levels.Contains(currentLevelName))
-        {
-            Debug.LogError("Invalid scene name: " + currentLevelName + " is not contained in LevelData");
-            return null;
-        }
-        else
-        {
-            return _levels[_levels.IndexOf(currentLevelName)+1];
-        }
-    }
-
-    public static string FirstLevelSceneName()
-    {
-        return _levels[0];
     }
 }

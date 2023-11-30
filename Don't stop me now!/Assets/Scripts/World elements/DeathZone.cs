@@ -7,11 +7,13 @@ public class DeathZone : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Death: " + other.transform);
         CheckDeath(other);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Death: " + collision.transform);
         CheckDeath(collision.collider);
     }
 

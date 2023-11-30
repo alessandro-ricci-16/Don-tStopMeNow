@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PauseMenuUIManager : MonoBehaviour
+public class LevelUIManager : MonoBehaviour
 {
     public GameObject pauseMenuCanvas;
     public GameObject backgroundCanvas;

@@ -99,7 +99,14 @@ public class GameManager : Singleton<GameManager>
     public void LoadNextScene()
     {
         // call me to load the next scene
-        ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int index = SceneManager.GetActiveScene().buildIndex + 1;
+        
+        if (index <= SceneManager.sceneCountInBuildSettings)
+            ChangeScene(index);
+        else
+        {
+            LoadLevelSelectionScene();
+        }
     }
 
     #region Scene Loading
@@ -114,15 +121,13 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(ScenesData.LevelSelectionSceneName());
     }
     
-    // TODO: add check that scene exists
-    public void LoadLevel(string levelSceneName)
-    {
-        ChangeScene(levelSceneName);
-    }
     
     public void LoadLevel(int levelIndex)
     {
-        ChangeScene(levelIndex);
+        if (levelIndex <= SceneManager.sceneCountInBuildSettings)
+            ChangeScene(levelIndex);
+        else
+            Debug.Log("Level index out of range");
     }
     
     private void ChangeScene(int scene)

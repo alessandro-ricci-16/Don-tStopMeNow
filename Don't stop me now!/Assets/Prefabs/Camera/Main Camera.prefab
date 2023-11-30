@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particles/FX
       objectReference: {fileID: 0}
+    - target: {fileID: 8859224045207141942, guid: 41b2ab48555785741a57b3d80a9ff26c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

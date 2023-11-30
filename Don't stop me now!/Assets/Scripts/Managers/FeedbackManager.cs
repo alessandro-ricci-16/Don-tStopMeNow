@@ -10,11 +10,12 @@ using UnityEngine.Networking;
 public class FeedbackManager : Singleton<FeedbackManager>
 {
     // TODO: change when deployed
+    // change back to EXACTLY "Development" after exporting
+    // (in deployment feedback is not sent to the google form)
     private string _feedbackType = "Development";
 
     private void Start()
     {
-        Debug.Log("Starting feedback manager");
         EventManager.StartListening(EventNames.LevelPassed, LevelPassedFeedback);
         EventManager.StartListening(EventNames.CheckpointPassed, CheckpointPassedFeedback);
         EventManager.StartListening(EventNames.Death, DeathFeedback);
@@ -23,7 +24,8 @@ public class FeedbackManager : Singleton<FeedbackManager>
 
     public void SendFeedback(Feedback feedback)
     {
-        StartCoroutine(PostFeedback(feedback));
+        if (_feedbackType != "Development")
+            StartCoroutine(PostFeedback(feedback));
     }
     
     IEnumerator PostFeedback(Feedback feedback) 

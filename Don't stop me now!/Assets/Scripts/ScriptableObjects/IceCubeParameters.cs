@@ -30,7 +30,8 @@ namespace ScriptableObjects
         
         [Header("Ground pound")] 
         public float groundPoundSpeed = 25.0f;
-        
+        public float groundPoundTimeScale = 0.2f;
+        public float groundPoundTimeSlowDown = 0.2f;
         [FormerlySerializedAs("dashSpeed")] [Header("Dash")]
         public float dashIntensity = 20.0f;
         public float dashDuration = 0.4f;

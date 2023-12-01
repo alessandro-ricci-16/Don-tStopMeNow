@@ -55,8 +55,8 @@ MonoBehaviour:
   initialDirection: 0
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
   canWallJump: 1
-  canDash: 1
-  canGroundPound: 1
+  canDash: 0
+  canGroundPound: 0
 --- !u!50 &430988060846039956
 Rigidbody2D:
   serializedVersion: 4
@@ -218,6 +218,7 @@ MonoBehaviour:
   glowTrailMaterial: {fileID: 0}
   jumpAnimation: {fileID: 7259548613012665465, guid: 8126b439dbc26c3499950a2a1ca979e3, type: 3}
   heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
+  parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
 --- !u!96 &1593892162703338945
 TrailRenderer:
   serializedVersion: 3

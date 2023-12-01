@@ -23,6 +23,8 @@ MonoBehaviour:
   downwardGravityScale: 30
   jumpReleaseTime: 0.01
   groundPoundSpeed: 50
+  groundPoundTimeScale: 0.2
+  groundPoundTimeSlowDown: 0.5
   dashIntensity: 34
   dashDuration: 0.15
   maxDashesNumber: 1

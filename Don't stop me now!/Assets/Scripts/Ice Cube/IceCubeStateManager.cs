@@ -153,7 +153,8 @@ public class IceCubeStateManager : MonoBehaviour
         {
             _currentState = state;
             _currentState.EnterState();
-            //EventManager.TriggerEvent(EventNames.StateChanged, currentEnum, state.GetEnumState());
+            EventManager.TriggerEvent(EventNames.StateChanged, currentEnum, state.GetEnumState());
+
         }
     }
 }

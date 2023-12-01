@@ -15,11 +15,13 @@ public class IceCubeAnimatorManager : MonoBehaviour
     public Material glowTrailMaterial;
     public GameObject jumpAnimation;
     private GameObject _instance;
+    private GameObject _instance2;
     private Animator _animator;
     private IceCubeStateManager _stateManager;
     private TrailRenderer _trailRenderer;
     private int _maxTime;
     public HeatableSettings heatableSettings;
+    public IceCubeParameters parameters;
 
     private void Awake()
     {
@@ -27,7 +29,29 @@ public class IceCubeAnimatorManager : MonoBehaviour
         _stateManager = GetComponent<IceCubeStateManager>();
         _trailRenderer = GetComponent<TrailRenderer>();
         _instance = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
+        _instance2 = Instantiate(jumpAnimation);
         _instance.SetActive(false); //turn off the instance
+        EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
+    }
+
+    private void OnStateChanged(IceCubeStatesEnum previousState, IceCubeStatesEnum currentState)
+    {
+        if (currentState == IceCubeStatesEnum.IsGroundPounding)
+        {
+            _animator.SetFloat(Animator.StringToHash("groundPoundScale"),
+                1 / (parameters.groundPoundTimeSlowDown * parameters.groundPoundTimeScale));
+            _animator.Play("Ground Pounding");
+        }
+    }
+
+    private void SwitchFromGroundPoundToIdle()
+    {
+        _animator.SetBool(Animator.StringToHash("isGroundPounding"), false);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventNames.StateChanged, OnStateChanged);
     }
 
     private void FixedUpdate()
@@ -47,8 +71,14 @@ public class IceCubeAnimatorManager : MonoBehaviour
 
         if (currentState.GetEnumState() == IceCubeStatesEnum.IsJumping)
         {
-            _instance.transform.position=transform.position;
+            _instance.transform.position = transform.position;
             _instance.SetActive(true);
+        }
+
+        if (currentState.GetEnumState() == IceCubeStatesEnum.IsWallJumping)
+        {
+            _instance2.transform.position = transform.position;
+            _instance2.SetActive(true);
         }
     }
 

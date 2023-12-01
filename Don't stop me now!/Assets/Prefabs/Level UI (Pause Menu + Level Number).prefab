@@ -695,7 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7945209887397979099}
   m_Layer: 0
-  m_Name: Pause Menu
+  m_Name: Level UI (Pause Menu + Level Number)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

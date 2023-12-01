@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5638425235557277464}
   - component: {fileID: 4649396502972820459}
-  - component: {fileID: 3618986415840522250}
+  - component: {fileID: 2246469626526015965}
   m_Layer: 0
   m_Name: DeathZone
   m_TagString: Untagged
@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dab9c1d9ec85a8469e966de85289147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!68 &3618986415840522250
-EdgeCollider2D:
+  destroyOnPlayerHit: 0
+--- !u!61 &2246469626526015965
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -78,11 +79,15 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 30, y: 1}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0

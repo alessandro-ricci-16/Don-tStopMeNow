@@ -5,17 +5,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-// TODO: figure out a way to call levelStarted only on the first run of the level
-
 public class FeedbackManager : Singleton<FeedbackManager>
 {
-    // TODO: change when deployed
+    // TODO: change when exporting
     // change back to EXACTLY "Development" after exporting
-    // (in deployment feedback is not sent to the google form)
+    // (so that in development feedback does not get sent)
     private string _feedbackType = "Development";
+
+    private string _runID;
 
     private void Start()
     {
+        _runID = GenerateRunID(20);
+        
         EventManager.StartListening(EventNames.LevelPassed, LevelPassedFeedback);
         EventManager.StartListening(EventNames.CheckpointPassed, CheckpointPassedFeedback);
         EventManager.StartListening(EventNames.Death, DeathFeedback);
@@ -43,6 +45,8 @@ public class FeedbackManager : Singleton<FeedbackManager>
         form.AddField("entry.1933450375", feedback.Parameter);
         // PlayerID
         form.AddField("entry.916745743", SystemInfo.deviceUniqueIdentifier);
+        // RunID
+        form.AddField("entry.2041744485", _runID);
         // feedback type
         form.AddField("entry.2049634247", _feedbackType);
         
@@ -85,6 +89,17 @@ public class FeedbackManager : Singleton<FeedbackManager>
     {
         Feedback feedback = new Feedback(levelName, "Level Started", "");
         SendFeedback(feedback);
+    }
+    
+    private string GenerateRunID(int length)
+    {
+        string runID = "";
+        for (int i = 0; i < length; i++)
+        {
+            runID += UnityEngine.Random.Range(0, 10);
+        }
+
+        return runID;
     }
 }
 

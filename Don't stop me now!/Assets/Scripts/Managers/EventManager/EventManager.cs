@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using Ice_Cube.States;
 
 public class EventManager : Singleton<EventManager>
 {
@@ -12,7 +13,7 @@ public class EventManager : Singleton<EventManager>
     private Dictionary<EventNames, UnityEvent<bool>>_boolEventDictionary;
     private Dictionary<EventNames, UnityEvent<Vector3, Direction>> _vector3DirectionEventDictionary;
     private Dictionary<EventNames, UnityEvent<string, int>> _stringIntEventDictionary;
-    
+    private Dictionary<EventNames, UnityEvent<IceCubeStatesEnum,IceCubeStatesEnum>> _iceCubeStateEventDictionary;
     private static EventManager _eventManager;
     protected override void Awake()
     {
@@ -62,6 +63,10 @@ public class EventManager : Singleton<EventManager>
         if (_stringIntEventDictionary == null)
         {
             _stringIntEventDictionary = new Dictionary<EventNames, UnityEvent<string, int>>();
+        }
+        if (_iceCubeStateEventDictionary== null)
+        {
+            _iceCubeStateEventDictionary = new Dictionary<EventNames, UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum>>();
         }
     }
 
@@ -189,6 +194,21 @@ public class EventManager : Singleton<EventManager>
             Instance._vector3DirectionEventDictionary.Add(eventName, thisEvent);
         }
     }
+    public static void StartListening(EventNames eventName, UnityAction<IceCubeStatesEnum, IceCubeStatesEnum> listener)
+    {
+        UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum> thisEvent = null;
+        
+        if (Instance._iceCubeStateEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum>();
+            thisEvent.AddListener(listener);
+            Instance._iceCubeStateEventDictionary.Add(eventName, thisEvent);
+        }
+    }
 
     #endregion
 
@@ -272,7 +292,15 @@ public class EventManager : Singleton<EventManager>
             thisEvent.RemoveListener(listener);
         }
     }
-
+    public static void StopListening(EventNames eventName, UnityAction<IceCubeStatesEnum, IceCubeStatesEnum> listener)
+    {
+        if (_eventManager == null) return;
+        UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum> thisEvent = null;
+        if (Instance._iceCubeStateEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
     #endregion
 
     #region TriggerEvent
@@ -344,6 +372,14 @@ public class EventManager : Singleton<EventManager>
         if (Instance._vector3DirectionEventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(vector, direction);
+        }
+    }
+    public static void TriggerEvent(EventNames eventName, IceCubeStatesEnum currentState, IceCubeStatesEnum nextState)
+    {
+        UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum> thisEvent = null;
+        if (Instance._iceCubeStateEventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(currentState, nextState);
         }
     }
 

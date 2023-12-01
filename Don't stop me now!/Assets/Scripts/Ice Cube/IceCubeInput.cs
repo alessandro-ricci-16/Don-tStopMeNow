@@ -69,9 +69,9 @@ public class IceCubeInput : MonoBehaviour
         SetPositionAndDirection();
 
         if (initialDirection == Direction.Left)
-            _currentDirection = Vector2.left;
+            SetCurrentDirection(Vector2.left);
         else
-            _currentDirection = Vector2.right;
+            SetCurrentDirection(Vector2.right);
 
         trailRenderer.enabled = true;
         
@@ -171,7 +171,7 @@ public class IceCubeInput : MonoBehaviour
                 if (_currentDirection != Vector2.left)
                 {
                     _rigidbody2D.velocity = Vector2.zero;
-                    _currentDirection = Vector2.left;
+                    SetCurrentDirection(Vector2.left);
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.left, ForceMode2D.Impulse);
                     
                     // preserves the vertical speed
@@ -184,7 +184,7 @@ public class IceCubeInput : MonoBehaviour
                 if (_currentDirection != Vector2.right)
                 {
                     _rigidbody2D.velocity = Vector2.zero;
-                    _currentDirection = Vector2.right;
+                    SetCurrentDirection(Vector2.right);
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.right, ForceMode2D.Impulse);
                     
                     // preserves the vertical speed
@@ -295,6 +295,15 @@ public class IceCubeInput : MonoBehaviour
             _onGround = grounded;
             EventManager.TriggerEvent(EventNames.OnGround, grounded);
         }
+    }
+    /// <summary>
+    /// Set the current Direction and trigger the event associated
+    /// </summary>
+    /// <param name="newD"></param>
+    private void SetCurrentDirection(Vector2 newD)
+    {
+        _currentDirection = newD;
+        EventManager.TriggerEvent(EventNames.ChangedDirection, newD);
     }
 
     #region CallBacks

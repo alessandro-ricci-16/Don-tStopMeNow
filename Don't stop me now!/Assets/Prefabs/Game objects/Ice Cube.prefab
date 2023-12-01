@@ -216,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalTrailMaterial: {fileID: 0}
   glowTrailMaterial: {fileID: 0}
+  jumpAnimation: {fileID: 7259548613012665465, guid: 8126b439dbc26c3499950a2a1ca979e3, type: 3}
   heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
 --- !u!96 &1593892162703338945
 TrailRenderer:

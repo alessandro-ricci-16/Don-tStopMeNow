@@ -6,5 +6,7 @@ public enum EventNames
     CheckpointPassed,
     LevelPassed,
     OnGround,
-    LevelStarted
+    LevelStarted,
+    StateChanged,
+    ChangedDirection
 }

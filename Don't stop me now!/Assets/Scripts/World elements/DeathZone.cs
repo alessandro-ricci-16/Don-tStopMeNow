@@ -7,13 +7,11 @@ public class DeathZone : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Death: " + other.transform);
         CheckDeath(other);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Death: " + collision.transform);
         CheckDeath(collision.collider);
     }
 
@@ -22,7 +20,6 @@ public class DeathZone : MonoBehaviour
         // if the player enters the death zone dies :)
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Death: " + other.transform);
             other.GetComponent<Explodable>().Explode();
             EventManager.TriggerEvent(EventNames.Death, other.transform.position);
             EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name);

@@ -148,10 +148,12 @@ public class IceCubeStateManager : MonoBehaviour
     /// <param name="state"> The state that is going to be set</param>
     private void SwitchState(IceCubeState state)
     {
-        if (_currentState.GetEnumState() != state.GetEnumState())
+        var currentEnum = _currentState.GetEnumState();
+        if (currentEnum != state.GetEnumState())
         {
             _currentState = state;
             _currentState.EnterState();
+            //EventManager.TriggerEvent(EventNames.StateChanged, currentEnum, state.GetEnumState());
         }
     }
 }

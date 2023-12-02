@@ -214,8 +214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9b93299d5ed8e4aae8f1b04ade5a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalTrailMaterial: {fileID: 0}
-  glowTrailMaterial: {fileID: 0}
+  cubeGlowMaterial: {fileID: 2100000, guid: e8e1cffa0f68c0846a1d83a52c7040e1, type: 2}
+  glowTrailMaterial: {fileID: 2100000, guid: bbca3a0f481163846b1269c44b9c64a3, type: 2}
+  dashingSprite: {fileID: 21300000, guid: 13b6b54b931a5364a85f4a5a86389cd2, type: 3}
   jumpAnimation: {fileID: 7259548613012665465, guid: 8126b439dbc26c3499950a2a1ca979e3, type: 3}
   heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}

@@ -21,11 +21,13 @@ namespace Ice_Cube.States
         public override void EnterState()
         {
             _inExecution = true;
-            
+
             _timeLeft = Parameters.dashDuration;
             _forceApplied = false;
             PlayerInputAction.OnGround.Disable();
-            PlayerInputAction.OnAir.Disable();
+            PlayerInputAction.OnAir.Enable();
+            PlayerInputAction.OnAir.Dash.Disable();
+
             //We also have to set the gravity scale to 0 to avoid the gravity to affect the player
             Rigidbody2D.gravityScale = 0;
             Rigidbody2D.velocity = Vector2.zero;
@@ -48,7 +50,7 @@ namespace Ice_Cube.States
                 Rigidbody2D.AddForce(Parameters.dashIntensity * currentDirection, ForceMode2D.Impulse);
                 _forceApplied = true;
             }
-            
+
             _timeLeft -= Time.deltaTime;
         }
 
@@ -59,12 +61,12 @@ namespace Ice_Cube.States
 
         public override bool ShouldBeInterrupted()
         {
-            return !_inExecution;
+            return _forceApplied;
         }
 
         public override bool ChangeStateOnFinish()
         {
-            return true;
+            return !_inExecution;
         }
     }
 }

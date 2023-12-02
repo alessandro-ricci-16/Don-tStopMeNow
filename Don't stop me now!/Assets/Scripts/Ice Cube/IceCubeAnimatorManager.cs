@@ -11,75 +11,86 @@ using UnityEngine.Events;
 [RequireComponent(typeof(IceCubeStateManager))]
 public class IceCubeAnimatorManager : MonoBehaviour
 {
-    public Material normalTrailMaterial;
+    public Material cubeGlowMaterial;
     public Material glowTrailMaterial;
+    public Sprite dashingSprite;
     public GameObject jumpAnimation;
-    private GameObject _instance;
-    private GameObject _instance2;
+    private GameObject _instanceJump;
+    private GameObject _instanceWallJump;
     private Animator _animator;
     private IceCubeStateManager _stateManager;
     private TrailRenderer _trailRenderer;
     private int _maxTime;
     public HeatableSettings heatableSettings;
     public IceCubeParameters parameters;
+    private SpriteRenderer _spriteRenderer;
+    private Material _normalMaterial;
+    private Material _normalTrailMaterial;
+    private Sprite _normalSprite;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _stateManager = GetComponent<IceCubeStateManager>();
         _trailRenderer = GetComponent<TrailRenderer>();
-        _instance = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
-        _instance2 = Instantiate(jumpAnimation);
-        _instance.SetActive(false); //turn off the instance
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _normalMaterial = _spriteRenderer.material;
+        _normalTrailMaterial = _trailRenderer.material;
+        _instanceJump = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
+        _instanceWallJump = Instantiate(jumpAnimation);
+        //rotate the instance wall jump z of 90 degrees
+        _instanceWallJump.transform.Rotate(0, 0, 90);
+        //flip the sprite render along y of the instance wall jump
+        _instanceWallJump.GetComponent<SpriteRenderer>().flipY = true;
+        _instanceJump.SetActive(false); //turn off the instance
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
     }
 
     private void OnStateChanged(IceCubeStatesEnum previousState, IceCubeStatesEnum currentState)
     {
-        if (currentState == IceCubeStatesEnum.IsGroundPounding)
+        switch (currentState)
         {
-            _animator.SetFloat(Animator.StringToHash("groundPoundScale"),
-                1 / (parameters.groundPoundTimeSlowDown * parameters.groundPoundTimeScale));
-            _animator.Play("Ground Pounding");
+            case IceCubeStatesEnum.IsJumping:
+                _instanceJump.transform.position = transform.position;
+                _instanceJump.SetActive(true);
+                break;
+            case IceCubeStatesEnum.IsGroundPounding:
+                _animator.SetFloat(Animator.StringToHash("groundPoundScale"),
+                    1 / (parameters.groundPoundTimeSlowDown * parameters.groundPoundTimeScale));
+                _animator.SetBool(Animator.StringToHash("isGroundPounding"), true);
+                break;
+            case IceCubeStatesEnum.IsDashing:
+                _animator.SetFloat(Animator.StringToHash("dashScale"), 1 / parameters.dashDuration);
+                _animator.SetBool(Animator.StringToHash("isDashing"), true);
+                _spriteRenderer.material = cubeGlowMaterial;
+                _trailRenderer.material = glowTrailMaterial;
+                _spriteRenderer.sprite = dashingSprite;
+                break;
+            case IceCubeStatesEnum.IsWallJumping:
+                _instanceWallJump.transform.position = transform.position;
+                _instanceWallJump.SetActive(true);
+                break;
+        }
+
+        switch (previousState)
+        {
+            case IceCubeStatesEnum.IsGroundPounding:
+                _animator.SetBool(Animator.StringToHash("isGroundPounding"), false);
+                break;
+            case IceCubeStatesEnum.IsDashing:
+                _animator.SetBool(Animator.StringToHash("isDashing"), false);
+                //change the material of the trail to the normal one
+                _trailRenderer.material = _normalTrailMaterial;
+                //change the sprite material of the cube
+                _spriteRenderer.material = _normalMaterial;
+                break;
         }
     }
 
-    private void SwitchFromGroundPoundToIdle()
-    {
-        _animator.SetBool(Animator.StringToHash("isGroundPounding"), false);
-    }
 
     private void OnDestroy()
     {
         EventManager.StopListening(EventNames.StateChanged, OnStateChanged);
-    }
-
-    private void FixedUpdate()
-    {
-        IceCubeState currentState = _stateManager.GetCurrentState();
-
-        if (currentState.GetEnumState() == IceCubeStatesEnum.IsDashing)
-        {
-            _animator.SetBool(Animator.StringToHash("isDashing"), true);
-            // _trailRenderer.SetMaterials(new List<Material> {glowTrailMaterial});
-        }
-        else
-        {
-            _animator.SetBool(Animator.StringToHash("isDashing"), false);
-            // _trailRenderer.SetMaterials(new List<Material> {normalTrailMaterial});
-        }
-
-        if (currentState.GetEnumState() == IceCubeStatesEnum.IsJumping)
-        {
-            _instance.transform.position = transform.position;
-            _instance.SetActive(true);
-        }
-
-        if (currentState.GetEnumState() == IceCubeStatesEnum.IsWallJumping)
-        {
-            _instance2.transform.position = transform.position;
-            _instance2.SetActive(true);
-        }
     }
 
 

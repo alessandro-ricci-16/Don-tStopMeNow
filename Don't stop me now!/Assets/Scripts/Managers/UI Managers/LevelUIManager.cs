@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class LevelUIManager : MonoBehaviour
     public GameObject pauseMenuCanvas;
     public Image backgroundImage;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI pauseLevelText;
     
     public float fadeTime = 1f;
     
@@ -21,8 +23,9 @@ public class LevelUIManager : MonoBehaviour
     {
         pauseMenuCanvas.SetActive(false);
 
-        int levelIndex = SceneManager.GetActiveScene().buildIndex - 1;
+        int levelIndex = SceneManager.GetActiveScene().buildIndex - 2;
         levelText.text = "Level " + levelIndex;
+        pauseLevelText.text = "Level " + levelIndex;
         
         levelText.gameObject.SetActive(true);
         backgroundColor = backgroundImage.color;

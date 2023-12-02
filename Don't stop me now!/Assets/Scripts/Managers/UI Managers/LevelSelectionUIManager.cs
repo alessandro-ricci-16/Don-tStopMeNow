@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelSelectionUIManager : MonoBehaviour
 {
     public Button BackToMainMenuButton;
+    public Button GiveFeedbackButton;
     public Button[] LevelsButtons;
 
     private UnityAction<string> _loadLevelAction;
@@ -15,11 +18,12 @@ public class LevelSelectionUIManager : MonoBehaviour
     private void Start()
     {
         BackToMainMenuButton.onClick.AddListener(LoadMainMenu);
+        GiveFeedbackButton.onClick.AddListener(LoadFeedbackScreen);
 
         for (int i = 0; i < LevelsButtons.Length; i++)
         {
             int index = i;
-            LevelsButtons[i].onClick.AddListener(() => LoadLevel(index+2));
+            LevelsButtons[i].onClick.AddListener(() => LoadLevel(index+3));
         }
     }
 
@@ -30,7 +34,11 @@ public class LevelSelectionUIManager : MonoBehaviour
 
     private void LoadLevel(int levelIndex)
     {
-        Debug.Log("Loading scene " + levelIndex);
         GameManager.Instance.LoadLevel(levelIndex);
+    }
+    
+    private void LoadFeedbackScreen()
+    {
+        GameManager.Instance.LoadFeedbackScene();
     }
 }

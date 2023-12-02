@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Level Selection.unity
     guid: 6e399e55a3a67e442b9f23f2952a09ad
   - enabled: 1
+    path: Assets/Scenes/Menus/Give Feedback Screen.unity
+    guid: 083ce29d7d0c6944f9369a0bcd99b225
+  - enabled: 1
     path: Assets/Scenes/Levels/Tutorial Levels/TutorialJump.unity
     guid: 0ddfa70f22b16e04cbdb0bac18c93c06
   - enabled: 1

@@ -113,12 +113,17 @@ public class GameManager : Singleton<GameManager>
     
     public void LoadMainMenuScene()
     {
-        ChangeScene(ScenesData.MainMenuSceneName());
+        ChangeScene(0);
     }
 
     public void LoadLevelSelectionScene()
     {
-        ChangeScene(ScenesData.LevelSelectionSceneName());
+        ChangeScene(1);
+    }
+    
+    public void LoadFeedbackScene()
+    {
+        ChangeScene(2);
     }
     
     

@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Only Jump Levels/JumpLevelSara.unity
     guid: aad80e08c2347e6448188f673dc26f32
   - enabled: 1
+    path: Assets/Scenes/Levels/Only Jump Levels/JumpLevelEma.unity
+    guid: d168376ee2ef3f643abae54daa136d5c
+  - enabled: 1
     path: Assets/Scenes/Levels/Tutorial Levels/TutorialWallJump.unity
     guid: f6fbb21fcd54a5443a0de00728feb65d
   - enabled: 1

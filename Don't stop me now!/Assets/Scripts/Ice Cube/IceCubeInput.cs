@@ -101,7 +101,6 @@ public class IceCubeInput : MonoBehaviour
     private void Update()
     {
         HandleJumpInput();
-        _spriteRenderer.flipX = _currentDirection == Vector2.left;
     }
 
     private void FixedUpdate()
@@ -154,7 +153,11 @@ public class IceCubeInput : MonoBehaviour
     /// <param name="newD"></param>
     private void SetCurrentDirection(Vector2 newD)
     {
+        if (_currentDirection == newD) return;
         _currentDirection = newD;
+        Vector3 newScale = transform.localScale;
+        newScale.x = newD.x * MathF.Abs(newScale.x);
+        transform.localScale = newScale;
         EventManager.TriggerEvent(EventNames.ChangedDirection, newD);
     }
     

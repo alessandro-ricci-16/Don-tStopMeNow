@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using TMPro;
-using TMPro.EditorUtilities;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class SendToGoogle : MonoBehaviour {
     
@@ -24,6 +23,18 @@ public class SendToGoogle : MonoBehaviour {
     public void GoBack()
     {
         GameManager.Instance.LoadLevelSelectionScene();
+    }
+
+    public void SendLevelFeedback()
+    {
+        int levelIndex = SceneManager.GetActiveScene().buildIndex - 2;
+        string feedback = "Level " + levelIndex + ": " + FeedbackText.text;
+        FeedbackText.text = "";
+        
+        Feedback feedbackObject = new Feedback(SceneManager.GetActiveScene().name, "Feedback", feedback);
+        FeedbackManager.Instance.SendFeedback(feedbackObject);
+        
+        StartCoroutine(PostFeedback(feedback));
     }
     
     IEnumerator PostFeedback(string feedback) 

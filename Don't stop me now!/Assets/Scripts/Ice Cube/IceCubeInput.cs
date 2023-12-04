@@ -52,7 +52,7 @@ public class IceCubeInput : MonoBehaviour
     private IceCubeState _currentState;
     private IceCubeStateManager _stateManager;
 
-    #region Setup and Initialization
+    #region Setup Methods
     
     private void Start()
     {
@@ -80,6 +80,41 @@ public class IceCubeInput : MonoBehaviour
         InitializeCallbacks();
     }
     
+    private void OnDestroy()
+    {
+        // Unsubscribe from events and clean up resources
+        if (_playerInputAction != null)
+        {
+            _playerInputAction.Jump.Jump.started -= JumpStarted;
+            _playerInputAction.OnGround.Acceleration.started -= AccelerationStarted;
+            _playerInputAction.OnAir.GroundPound.started -= GroundPoundStarted;
+            _playerInputAction.OnAir.Dash.started -= DashStarted;
+            _playerInputAction.Jump.Jump.canceled -= InterruptJump;
+
+            // Clean up the _playerInputAction object
+            _playerInputAction.Dispose();
+        }
+        
+        EventManager.StopListening(EventNames.GamePause, DisableInput);
+        EventManager.StopListening(EventNames.GameResume, EnableInput);
+    }
+    private void Update()
+    {
+        HandleJumpInput();
+        _spriteRenderer.flipX = _currentDirection == Vector2.left;
+    }
+
+    private void FixedUpdate()
+    {
+        _stateManager.GetCurrentState().PerformPhysicsAction(_currentDirection);
+        _prevFrameVelocity = _rigidbody2D.velocity;
+    }
+    
+    #endregion
+
+
+    #region Initialization and Settings
+
     /// <summary>
     /// If the level starts at a checkpoint, set the position and the direction of the player accordingly.
     /// </summary>
@@ -108,37 +143,23 @@ public class IceCubeInput : MonoBehaviour
             _playerInputAction.OnAir.Dash.started += DashStarted;
         
         _playerInputAction.Jump.Jump.canceled += InterruptJump;
-    }
-
-    private void OnDestroy()
-    {
-        // Unsubscribe from events and clean up resources
-        if (_playerInputAction != null)
-        {
-            _playerInputAction.Jump.Jump.started -= JumpStarted;
-            _playerInputAction.OnGround.Acceleration.started -= AccelerationStarted;
-            _playerInputAction.OnAir.GroundPound.started -= GroundPoundStarted;
-            _playerInputAction.OnAir.Dash.started -= DashStarted;
-            _playerInputAction.Jump.Jump.canceled -= InterruptJump;
-
-            // Clean up the _playerInputAction object
-            _playerInputAction.Dispose();
-        }
+        
+        EventManager.StartListening(EventNames.GamePause, DisableInput);
+        EventManager.StartListening(EventNames.GameResume, EnableInput);
     }
     
+    /// <summary>
+    /// Set the current Direction and trigger the event associated
+    /// </summary>
+    /// <param name="newD"></param>
+    private void SetCurrentDirection(Vector2 newD)
+    {
+        _currentDirection = newD;
+        EventManager.TriggerEvent(EventNames.ChangedDirection, newD);
+    }
+    
+
     #endregion
-
-    private void Update()
-    {
-        HandleJumpInput();
-        _spriteRenderer.flipX = _currentDirection == Vector2.left;
-    }
-
-    private void FixedUpdate()
-    {
-        _stateManager.GetCurrentState().PerformPhysicsAction(_currentDirection);
-        _prevFrameVelocity = _rigidbody2D.velocity;
-    }
 
     #region Collisions
 
@@ -225,7 +246,19 @@ public class IceCubeInput : MonoBehaviour
 
     #endregion
 
+    #region Input Handling
 
+    private void DisableInput()
+    {
+        _playerInputAction.Disable();
+    }
+    
+    private void EnableInput()
+    {
+        _playerInputAction.Enable();
+    }
+    
+    
     /// <summary>
     /// Handle jump input with jump buffer and coyone time. When it can jump it invokes jump or wallJump state
     /// </summary>
@@ -298,16 +331,9 @@ public class IceCubeInput : MonoBehaviour
             EventManager.TriggerEvent(EventNames.OnGround, grounded);
         }
     }
-    /// <summary>
-    /// Set the current Direction and trigger the event associated
-    /// </summary>
-    /// <param name="newD"></param>
-    private void SetCurrentDirection(Vector2 newD)
-    {
-        _currentDirection = newD;
-        EventManager.TriggerEvent(EventNames.ChangedDirection, newD);
-    }
-
+    
+    #endregion
+    
     #region CallBacks
 
     private void GroundPoundStarted(InputAction.CallbackContext obj)

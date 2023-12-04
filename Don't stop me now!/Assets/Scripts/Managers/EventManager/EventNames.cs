@@ -8,5 +8,7 @@ public enum EventNames
     OnGround,
     LevelStarted,
     StateChanged,
-    ChangedDirection
+    ChangedDirection,
+    GamePause,
+    GameResume
 }

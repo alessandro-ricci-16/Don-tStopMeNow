@@ -10,14 +10,21 @@ using UnityEngine.UI;
 
 public class LevelUIManager : MonoBehaviour
 {
-    public GameObject pauseMenuCanvas;
+    public float fadeTime = 1f;
     public Image backgroundImage;
+    
+    [Header("Pause")]
+    public GameObject pauseMenuCanvas;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI pauseLevelText;
+
+    [Header("Feedback")] 
+    public GameObject feedbackMenuCanvas;
+    public TextMeshProUGUI feedbackTitleText;
     
-    public float fadeTime = 1f;
     
     private Color backgroundColor;
+    private bool _paused = false;
 
     private void Start()
     {
@@ -26,6 +33,8 @@ public class LevelUIManager : MonoBehaviour
         int levelIndex = SceneManager.GetActiveScene().buildIndex - 2;
         levelText.text = "Level " + levelIndex;
         pauseLevelText.text = "Level " + levelIndex;
+        feedbackTitleText.text = "Feedback about level " + levelIndex;
+        feedbackMenuCanvas.SetActive(false);
         
         levelText.gameObject.SetActive(true);
         backgroundColor = backgroundImage.color;
@@ -36,9 +45,63 @@ public class LevelUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !_paused)
+        {
+            _paused = true;
             CallPause();
+        }
     }
+
+    #region Pause
+
+    public void CallPause()
+    {
+        EventManager.TriggerEvent(EventNames.GamePause);
+        Time.timeScale = 0;
+        pauseMenuCanvas.SetActive(true);
+        backgroundImage.color = backgroundColor;
+        backgroundImage.gameObject.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        _paused = false;
+        EventManager.TriggerEvent(EventNames.GameResume);
+        pauseMenuCanvas.SetActive(false);
+        backgroundImage.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+    
+    #endregion
+
+    #region Feedback
+
+    public void EnableFeedbackScreen()
+    {
+        pauseMenuCanvas.SetActive(false);
+        feedbackMenuCanvas.SetActive(true);
+    }
+
+    public void BackToPauseMenu()
+    {
+        feedbackMenuCanvas.SetActive(false);
+        pauseMenuCanvas.SetActive(true);
+    }
+
+    #endregion
+
+    #region Load Scenes
+
+    public void BackToLevelSelection()
+    {
+        Time.timeScale = 1;
+        GameManager.Instance.LoadLevelSelectionScene();
+    }
+
+
+    #endregion
+
+    #region Graphics
 
     private IEnumerator FadeLevelText()
     {
@@ -61,25 +124,5 @@ public class LevelUIManager : MonoBehaviour
         backgroundImage.color = backgroundColor;
     }
 
-    public void CallPause()
-    {
-        Time.timeScale = 0;
-        pauseMenuCanvas.SetActive(true);
-        backgroundImage.color = backgroundColor;
-        backgroundImage.gameObject.SetActive(true);
-    }
-
-    public void Resume()
-    {
-        pauseMenuCanvas.SetActive(false);
-        backgroundImage.gameObject.SetActive(false);
-        Time.timeScale = 1;
-    }
-
-    public void BackToLevelSelection()
-    {
-        Time.timeScale = 1;
-        GameManager.Instance.LoadLevelSelectionScene();
-    }
-
+    #endregion
 }

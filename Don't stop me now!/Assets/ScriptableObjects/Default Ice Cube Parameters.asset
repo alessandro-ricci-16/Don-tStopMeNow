@@ -21,7 +21,8 @@ MonoBehaviour:
   maxWallJumpHeight: 6
   upwardGravityScale: 20
   downwardGravityScale: 30
-  jumpReleaseTime: 0.01
+  jumpReleaseTime: 0.1
+  jumpDivisionFactor: 30
   groundPoundSpeed: 50
   groundPoundTimeScale: 0.2
   groundPoundTimeSlowDown: 0.5

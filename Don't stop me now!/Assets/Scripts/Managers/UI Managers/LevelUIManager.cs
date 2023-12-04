@@ -23,7 +23,8 @@ public class LevelUIManager : MonoBehaviour
     public TextMeshProUGUI feedbackTitleText;
     
     
-    private Color backgroundColor;
+    private Color _backgroundColor;
+    private float _backgroundAlpha = 0.8f;
     private bool _paused = false;
 
     private void Start()
@@ -37,7 +38,7 @@ public class LevelUIManager : MonoBehaviour
         feedbackMenuCanvas.SetActive(false);
         
         levelText.gameObject.SetActive(true);
-        backgroundColor = backgroundImage.color;
+        _backgroundColor = backgroundImage.color;
         backgroundImage.gameObject.SetActive(true);
         
         StartCoroutine(FadeLevelText());
@@ -59,7 +60,7 @@ public class LevelUIManager : MonoBehaviour
         EventManager.TriggerEvent(EventNames.GamePause);
         Time.timeScale = 0;
         pauseMenuCanvas.SetActive(true);
-        backgroundImage.color = backgroundColor;
+        backgroundImage.color = _backgroundColor;
         backgroundImage.gameObject.SetActive(true);
     }
 
@@ -121,7 +122,7 @@ public class LevelUIManager : MonoBehaviour
         
         levelText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
-        backgroundImage.color = backgroundColor;
+        backgroundImage.color = _backgroundColor;
     }
 
     #endregion

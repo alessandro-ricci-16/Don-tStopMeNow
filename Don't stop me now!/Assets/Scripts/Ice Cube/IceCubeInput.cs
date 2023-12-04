@@ -341,9 +341,9 @@ public class IceCubeInput : MonoBehaviour
     private void InterruptJump(InputAction.CallbackContext value)
     {
         //create a coroutine that waits for some time and then halves the y velocity if it is positive
-        StartCoroutine(InterruptJumpCoroutine());
-        
+        StartCoroutine(InterruptJumpCoroutine());    
     }
+    
     private IEnumerator InterruptJumpCoroutine()
     {
         float jumpReleaseTimer = parameters.jumpReleaseTime;

@@ -55,8 +55,8 @@ MonoBehaviour:
   initialDirection: 0
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
   canWallJump: 1
-  canDash: 0
-  canGroundPound: 0
+  canDash: 1
+  canGroundPound: 1
 --- !u!50 &430988060846039956
 Rigidbody2D:
   serializedVersion: 4

@@ -65,14 +65,16 @@ public class IceCubeInput : MonoBehaviour
         trailRenderer.enabled = false;
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
-
+        
         SetPositionAndDirection();
-
+        
         if (initialDirection == Direction.Left)
             SetCurrentDirection(Vector2.left);
         else
             SetCurrentDirection(Vector2.right);
 
+        _rigidbody2D.velocity = parameters.defaultSpeed * _currentDirection;
+        
         trailRenderer.enabled = true;
         
         InitializeCallbacks();

@@ -13,6 +13,8 @@ public class IceCubeAnimatorManager : MonoBehaviour
 {
     public Material cubeGlowMaterial;
     public Material glowTrailMaterial;
+    public float dashTrailWidth;
+    public float dashTrailTime;
     public Sprite dashingSprite;
     public GameObject jumpAnimation;
     private GameObject _instanceJump;
@@ -26,6 +28,8 @@ public class IceCubeAnimatorManager : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Material _normalMaterial;
     private Material _normalTrailMaterial;
+    private float _normalTrailWidth;
+    private float _normalTrailTime;
     private Sprite _normalSprite;
 
     private void Awake()
@@ -36,6 +40,8 @@ public class IceCubeAnimatorManager : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _normalMaterial = _spriteRenderer.material;
         _normalTrailMaterial = _trailRenderer.material;
+        _normalTrailWidth = _trailRenderer.widthMultiplier;
+        _normalTrailTime = _trailRenderer.time;
         _instanceJump = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
         _instanceWallJump = Instantiate(jumpAnimation);
         //rotate the instance wall jump z of 90 degrees
@@ -64,6 +70,8 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _animator.SetBool(Animator.StringToHash("isDashing"), true);
                 _spriteRenderer.material = cubeGlowMaterial;
                 _trailRenderer.material = glowTrailMaterial;
+                _trailRenderer.widthMultiplier = dashTrailWidth;
+                _trailRenderer.time = dashTrailTime;
                 _spriteRenderer.sprite = dashingSprite;
                 break;
             case IceCubeStatesEnum.IsWallJumping:
@@ -83,6 +91,8 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _trailRenderer.material = _normalTrailMaterial;
                 //change the sprite material of the cube
                 _spriteRenderer.material = _normalMaterial;
+                _trailRenderer.widthMultiplier = _normalTrailWidth;
+                _trailRenderer.time = _normalTrailTime;
                 break;
         }
     }

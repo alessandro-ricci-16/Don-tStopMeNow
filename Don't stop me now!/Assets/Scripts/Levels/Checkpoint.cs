@@ -24,11 +24,17 @@ public class Checkpoint : MonoBehaviour
                 EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
                 
                 int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
-                string sceneName = SceneUtility.GetScenePathByBuildIndex(buildIndex);
-                // Extract the scene name from the full path
-                sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);
                 
-                EventManager.TriggerEvent(EventNames.LevelStarted, sceneName);
+                // send feedback that the level has been completed, only if the next scene is a level
+                // (the very last scene is the end of game scene)
+                if (buildIndex <= SceneManager.sceneCountInBuildSettings - 1)
+                {
+                    string sceneName = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+                    // Extract the scene name from the full path
+                    sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);
+                    
+                    EventManager.TriggerEvent(EventNames.LevelStarted, sceneName);
+                }
                 
                 feedbackSent = true;
             }

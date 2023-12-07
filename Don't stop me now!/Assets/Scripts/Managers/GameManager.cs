@@ -127,6 +127,11 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(2);
     }
     
+    public void LoadEndOfGameScene()
+    {
+        ChangeScene(SceneManager.sceneCountInBuildSettings - 1);
+    }
+    
     
     public void LoadLevel(int levelIndex)
     {

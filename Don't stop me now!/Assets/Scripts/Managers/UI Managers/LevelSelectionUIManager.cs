@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectionUIManager : MonoBehaviour
 {
@@ -34,6 +35,12 @@ public class LevelSelectionUIManager : MonoBehaviour
 
     private void LoadLevel(int levelIndex)
     {
+        string sceneName = SceneUtility.GetScenePathByBuildIndex(levelIndex);
+        // Extract the scene name from the full path
+        sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);
+        
+        EventManager.TriggerEvent(EventNames.LevelStarted, sceneName);
+        
         GameManager.Instance.LoadLevel(levelIndex);
     }
     

@@ -13,15 +13,26 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private int checkpointIndex = -1;
     [SerializeField] private Direction startDirection = Direction.Right;
     
+    private bool feedbackSent = false;
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            if (isFinal)
+            if (isFinal && !feedbackSent)
             {
                 EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
+                
+                int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+                string sceneName = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+                // Extract the scene name from the full path
+                sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);
+                
+                EventManager.TriggerEvent(EventNames.LevelStarted, sceneName);
+                
+                feedbackSent = true;
             }
-            else
+            else if (!isFinal)
             {
                 EventManager.TriggerEvent(EventNames.CheckpointPassed, this.transform.position, startDirection);
                 EventManager.TriggerEvent(EventNames.CheckpointPassed, SceneManager.GetActiveScene().name, checkpointIndex);

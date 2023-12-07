@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
             Vector2 vignetteCenter = Camera.main.WorldToViewportPoint(playerPosition);
             _vignetteEffect.center.value = vignetteCenter;
         }
-        // play the reload scene state of the animator that will trigger the ReloadScene() method at the end
+        // play the reload index state of the animator that will trigger the ReloadScene() method at the end
         _functionToPlay = ReloadScene;
         _canvasAnimator.Play("ChangeScene");
     }
@@ -90,6 +90,9 @@ public class GameManager : Singleton<GameManager>
         _functionToPlay();
     }
     
+
+    #region Scene Loading
+    
     public void ReloadScene()
     {
         ChangeScene(SceneManager.GetActiveScene().buildIndex);
@@ -98,7 +101,7 @@ public class GameManager : Singleton<GameManager>
     
     public void LoadNextScene()
     {
-        // call me to load the next scene
+        // call me to load the next index
         int index = SceneManager.GetActiveScene().buildIndex + 1;
         
         if (index <= SceneManager.sceneCountInBuildSettings)
@@ -108,8 +111,6 @@ public class GameManager : Singleton<GameManager>
             LoadLevelSelectionScene();
         }
     }
-
-    #region Scene Loading
     
     public void LoadMainMenuScene()
     {
@@ -145,9 +146,9 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(LoadAsyncScene(scene));
     }
     
-    private IEnumerator LoadAsyncScene(int scene)
+    private IEnumerator LoadAsyncScene(int index)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
@@ -158,23 +159,25 @@ public class GameManager : Singleton<GameManager>
         _canvasAnimator.Play("FadeOut");
         // reset the time scale to normal
         Time.timeScale = 1.0f;
-        // Debug.Log("Loaded scene " + scene);
+        
+        if (index >= 2)
+            EventManager.TriggerEvent(EventNames.LevelStarted, SceneManager.GetActiveScene().name);
     }
     
     private IEnumerator LoadAsyncScene(string scene)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
-        // Wait until the asynchronous scene fully loads
+        // Wait until the asynchronous index fully loads
         while (!asyncLoad.isDone)
         {
             // float progress = asyncLoad.progress;
             yield return null;
         }
-        // play the fadeout animation once the scene is loaded
+        // play the fadeout animation once the index is loaded
         _canvasAnimator.Play("FadeOut");
         // reset the time scale to normal
         Time.timeScale = 1.0f;
-        // Debug.Log("Loaded scene " + scene);
+        // Debug.Log("Loaded index " + index);
     }
     
     #endregion

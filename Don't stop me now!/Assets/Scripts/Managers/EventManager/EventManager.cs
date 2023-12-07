@@ -14,6 +14,7 @@ public class EventManager : Singleton<EventManager>
     private Dictionary<EventNames, UnityEvent<Vector3, Direction>> _vector3DirectionEventDictionary;
     private Dictionary<EventNames, UnityEvent<string, int>> _stringIntEventDictionary;
     private Dictionary<EventNames, UnityEvent<IceCubeStatesEnum,IceCubeStatesEnum>> _iceCubeStateEventDictionary;
+    private Dictionary<EventNames, UnityEvent<string, Vector3>> _stringVector3EventDictionary;
     private static EventManager _eventManager;
     protected override void Awake()
     {
@@ -67,6 +68,11 @@ public class EventManager : Singleton<EventManager>
         if (_iceCubeStateEventDictionary== null)
         {
             _iceCubeStateEventDictionary = new Dictionary<EventNames, UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum>>();
+        }
+        
+        if (_stringVector3EventDictionary == null)
+        {
+            _stringVector3EventDictionary = new Dictionary<EventNames, UnityEvent<string, Vector3>>();
         }
     }
 
@@ -209,6 +215,22 @@ public class EventManager : Singleton<EventManager>
             Instance._iceCubeStateEventDictionary.Add(eventName, thisEvent);
         }
     }
+    
+    public static void StartListening(EventNames eventName, UnityAction<string, Vector3> listener)
+    {
+        UnityEvent<string, Vector3> thisEvent = null;
+        
+        if (Instance._stringVector3EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<string, Vector3>();
+            thisEvent.AddListener(listener);
+            Instance._stringVector3EventDictionary.Add(eventName, thisEvent);
+        }
+    }
 
     #endregion
 
@@ -301,6 +323,18 @@ public class EventManager : Singleton<EventManager>
             thisEvent.RemoveListener(listener);
         }
     }
+    
+    public static void StopListening(EventNames eventName, UnityAction<string, Vector3> listener)
+    {
+        if (_eventManager == null) return;
+        UnityEvent<string, Vector3> thisEvent = null;
+        if (Instance._stringVector3EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
+    
+    
     #endregion
 
     #region TriggerEvent
@@ -380,6 +414,15 @@ public class EventManager : Singleton<EventManager>
         if (Instance._iceCubeStateEventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(currentState, nextState);
+        }
+    }
+    
+    public static void TriggerEvent(EventNames eventName, string value, Vector3 vector)
+    {
+        UnityEvent<string, Vector3> thisEvent = null;
+        if (Instance._stringVector3EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(value, vector);
         }
     }
 

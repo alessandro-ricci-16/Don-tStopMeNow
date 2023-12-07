@@ -21,8 +21,9 @@ public class DeathZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Explodable>().Explode();
-            EventManager.TriggerEvent(EventNames.Death, other.transform.position);
-            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name);
+            var position = other.transform.position;
+            EventManager.TriggerEvent(EventNames.Death, position);
+            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, position);
             if(destroyOnPlayerHit)
                 Destroy(gameObject);
         }

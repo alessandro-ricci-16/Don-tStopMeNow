@@ -79,9 +79,9 @@ public class FeedbackManager : Singleton<FeedbackManager>
         SendFeedback(feedback);
     }
     
-    private void DeathFeedback(string levelName)
+    private void DeathFeedback(string levelName, Vector3 position)
     {
-        Feedback feedback = new Feedback(levelName, "Death", "");
+        Feedback feedback = new Feedback(levelName, "Death", position.ToString());
         SendFeedback(feedback);
     }
     

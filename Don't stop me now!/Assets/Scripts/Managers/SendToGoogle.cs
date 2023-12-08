@@ -14,6 +14,11 @@ public class SendToGoogle : MonoBehaviour {
         string feedback = FeedbackText.text;
         FeedbackText.text = "";
         
+        if (feedback == "")
+        {
+            return;
+        }
+        
         Feedback feedbackObject = new Feedback("Feedback", "Feedback", feedback);
         FeedbackManager.Instance.SendFeedback(feedbackObject);
         

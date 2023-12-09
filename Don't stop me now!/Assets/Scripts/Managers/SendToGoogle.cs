@@ -14,7 +14,7 @@ public class SendToGoogle : MonoBehaviour {
         string feedback = FeedbackText.text;
         FeedbackText.text = "";
         
-        if (feedback == "")
+        if (string.IsNullOrEmpty(feedback) || string.IsNullOrWhiteSpace(feedback))
         {
             return;
         }

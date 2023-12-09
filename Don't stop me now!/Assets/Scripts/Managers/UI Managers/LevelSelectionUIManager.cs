@@ -10,27 +10,22 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectionUIManager : MonoBehaviour
 {
-    public Button BackToMainMenuButton;
-    public Button GiveFeedbackButton;
-    public Button[] LevelsButtons;
+    public Button quitGameButton;
+    public Button giveFeedbackButton;
+    public Button[] levelsButtons;
 
     private UnityAction<string> _loadLevelAction;
 
     private void Start()
     {
-        BackToMainMenuButton.onClick.AddListener(LoadMainMenu);
-        GiveFeedbackButton.onClick.AddListener(LoadFeedbackScreen);
+        quitGameButton.onClick.AddListener(QuitGame);
+        giveFeedbackButton.onClick.AddListener(LoadFeedbackScreen);
 
-        for (int i = 0; i < LevelsButtons.Length; i++)
+        for (int i = 0; i < levelsButtons.Length; i++)
         {
             int index = i;
-            LevelsButtons[i].onClick.AddListener(() => LoadLevel(index+3));
+            levelsButtons[i].onClick.AddListener(() => LoadLevel(index+3));
         }
-    }
-
-    private void LoadMainMenu()
-    {
-        GameManager.Instance.LoadMainMenuScene();
     }
 
     private void LoadLevel(int levelIndex)
@@ -47,5 +42,10 @@ public class LevelSelectionUIManager : MonoBehaviour
     private void LoadFeedbackScreen()
     {
         GameManager.Instance.LoadFeedbackScene();
+    }
+    
+    private void QuitGame()
+    {
+        GameManager.Instance.QuitGame();
     }
 }

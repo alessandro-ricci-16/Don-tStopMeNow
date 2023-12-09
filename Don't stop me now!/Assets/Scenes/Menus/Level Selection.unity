@@ -3345,7 +3345,7 @@ GameObject:
   - component: {fileID: 1635855578}
   - component: {fileID: 1635855577}
   m_Layer: 5
-  m_Name: Main Menu Button
+  m_Name: Quit Game Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3615,9 +3615,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb96dec259fba1745b7d8cde808d89ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BackToMainMenuButton: {fileID: 1635855577}
-  GiveFeedbackButton: {fileID: 1463484793}
-  LevelsButtons:
+  quitGameButton: {fileID: 1635855577}
+  giveFeedbackButton: {fileID: 1463484793}
+  levelsButtons:
   - {fileID: 313401329}
   - {fileID: 347751189}
   - {fileID: 1172608136}
@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 1805891415}
   - component: {fileID: 1805891414}
   m_Layer: 5
-  m_Name: Main Menu Button Text
+  m_Name: Quit Game Button Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back to main menu
+  m_text: Quit the game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 44e2a2e29f7b1a54e94c835b4c973b4f, type: 2}
   m_sharedMaterial: {fileID: -3025133122433282232, guid: 44e2a2e29f7b1a54e94c835b4c973b4f, type: 2}

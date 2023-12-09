@@ -183,4 +183,9 @@ public class GameManager : Singleton<GameManager>
     }
     
     #endregion
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

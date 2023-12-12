@@ -25,8 +25,7 @@ namespace Ice_Cube.States
             _timeLeft = Parameters.dashDuration;
             _forceApplied = false;
             PlayerInputAction.OnGround.Disable();
-            PlayerInputAction.OnAir.Enable();
-            PlayerInputAction.OnAir.Dash.Disable();
+            PlayerInputAction.OnAir.Disable();
 
             //We also have to set the gravity scale to 0 to avoid the gravity to affect the player
             Rigidbody2D.gravityScale = 0;

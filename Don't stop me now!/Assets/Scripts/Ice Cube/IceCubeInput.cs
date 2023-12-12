@@ -378,24 +378,23 @@ public class IceCubeInput : MonoBehaviour
     private IEnumerator InterruptJumpCoroutine()
     {
         float jumpReleaseTimer = parameters.jumpReleaseTime;
-        
-        while (jumpReleaseTimer >= 0)
+
+        while (true)
         {
-            yield return new WaitForEndOfFrame();
-            var velocity = _rigidbody2D.velocity;
-            
+            Vector2 velocity = _rigidbody2D.velocity;
+            if (jumpReleaseTimer <= 0 && velocity.y > 0)
+            {
+                _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 2);
+                break;
+            }
             // if velocity.y <= this jump has ended, stop updating timer
             if (velocity.y <= 0)
             {
                 break;
             }
             
+            yield return new WaitForEndOfFrame();
             jumpReleaseTimer -= Time.deltaTime;
-            if (jumpReleaseTimer <= 0 && velocity.y > 0)
-            {
-                _rigidbody2D.velocity = new Vector2(velocity.x, 0);
-                break;
-            }
         }
     }
     #endregion

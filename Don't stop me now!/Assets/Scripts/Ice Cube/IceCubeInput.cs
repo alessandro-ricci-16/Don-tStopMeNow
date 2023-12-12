@@ -36,7 +36,6 @@ public class IceCubeInput : MonoBehaviour
     private int _wallJumpCounter;
     private int _dashCounter;
 
-
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement by design
     private Vector2 _currentDirection;
@@ -371,6 +370,7 @@ public class IceCubeInput : MonoBehaviour
 
     private void InterruptJump(InputAction.CallbackContext value)
     {
+        //_rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
         //create a coroutine that waits for some time and then halves the y velocity if it is positive
         StartCoroutine(InterruptJumpCoroutine());    
     }
@@ -379,7 +379,7 @@ public class IceCubeInput : MonoBehaviour
     {
         float jumpReleaseTimer = parameters.jumpReleaseTime;
         
-        while (jumpReleaseTimer > 0)
+        while (jumpReleaseTimer >= 0)
         {
             yield return new WaitForEndOfFrame();
             var velocity = _rigidbody2D.velocity;
@@ -393,7 +393,7 @@ public class IceCubeInput : MonoBehaviour
             jumpReleaseTimer -= Time.deltaTime;
             if (jumpReleaseTimer <= 0 && velocity.y > 0)
             {
-                _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 2);
+                _rigidbody2D.velocity = new Vector2(velocity.x, 0);
                 break;
             }
         }

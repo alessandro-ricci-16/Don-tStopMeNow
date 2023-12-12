@@ -17,8 +17,10 @@ public class IceCubeAnimatorManager : MonoBehaviour
     public float dashTrailTime;
     public Sprite dashingSprite;
     public GameObject jumpAnimation;
+    public GameObject dashAnimation;
     private GameObject _instanceJump;
     private GameObject _instanceWallJump;
+    private GameObject _instanceDash;
     private Animator _animator;
     private IceCubeStateManager _stateManager;
     private TrailRenderer _trailRenderer;
@@ -42,8 +44,10 @@ public class IceCubeAnimatorManager : MonoBehaviour
         _normalTrailMaterial = _trailRenderer.material;
         _normalTrailWidth = _trailRenderer.widthMultiplier;
         _normalTrailTime = _trailRenderer.time;
-        _instanceJump = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
+        _instanceJump = Instantiate(jumpAnimation);
         _instanceWallJump = Instantiate(jumpAnimation);
+        _instanceDash = Instantiate(dashAnimation,transform);
+        _instanceDash.SetActive(false);
         //rotate the instance wall jump z of 90 degrees
         _instanceWallJump.transform.Rotate(0, 0, 90);
         //flip the sprite render along y of the instance wall jump
@@ -66,6 +70,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _animator.SetBool(Animator.StringToHash("isGroundPounding"), true);
                 break;
             case IceCubeStatesEnum.IsDashing:
+                _instanceDash.SetActive(true);
                 _animator.SetFloat(Animator.StringToHash("dashScale"), 1 / parameters.dashDuration);
                 _animator.SetBool(Animator.StringToHash("isDashing"), true);
                 _spriteRenderer.material = cubeGlowMaterial;
@@ -73,6 +78,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _trailRenderer.widthMultiplier = dashTrailWidth;
                 _trailRenderer.time = dashTrailTime;
                 _spriteRenderer.sprite = dashingSprite;
+
                 break;
             case IceCubeStatesEnum.IsWallJumping:
                 _instanceWallJump.transform.position = transform.position;
@@ -86,6 +92,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _animator.SetBool(Animator.StringToHash("isGroundPounding"), false);
                 break;
             case IceCubeStatesEnum.IsDashing:
+                _instanceDash.SetActive(false);
                 _animator.SetBool(Animator.StringToHash("isDashing"), false);
                 //change the material of the trail to the normal one
                 _trailRenderer.material = _normalTrailMaterial;
@@ -93,6 +100,15 @@ public class IceCubeAnimatorManager : MonoBehaviour
                 _spriteRenderer.material = _normalMaterial;
                 _trailRenderer.widthMultiplier = _normalTrailWidth;
                 _trailRenderer.time = _normalTrailTime;
+                // Get the current state information
+                AnimatorStateInfo currentState1 = _animator.GetCurrentAnimatorStateInfo(0);
+
+                // Get the length of the current animation clip
+                float clipLength = currentState1.length;
+                Debug.Log("clipLength: " + clipLength);
+                Debug.Log("currentState1.fullPathHash: " + currentState1.fullPathHash);
+                // Set the normalized time of the animation to the end
+                _animator.Play(currentState1.fullPathHash, 0, clipLength);
                 break;
         }
     }

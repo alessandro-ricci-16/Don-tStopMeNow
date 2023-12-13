@@ -44,9 +44,6 @@ public class IceCubeInput : MonoBehaviour
     private Vector2 _prevFrameVelocity;
 
     private Rigidbody2D _rigidbody2D;
-
-    // TODO delete this variable (only here for debugging)
-    private SpriteRenderer _spriteRenderer;
     private PlayerInputAction _playerInputAction;
     private IceCubeState _currentState;
     private IceCubeStateManager _stateManager;
@@ -57,7 +54,6 @@ public class IceCubeInput : MonoBehaviour
     {
         //class initialization
         _onGround = false;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _stateManager = GetComponent<IceCubeStateManager>();
         TrailRenderer trailRenderer = GetComponent<TrailRenderer>();
@@ -370,9 +366,9 @@ public class IceCubeInput : MonoBehaviour
 
     private void InterruptJump(InputAction.CallbackContext value)
     {
-        //_rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
-        //create a coroutine that waits for some time and then halves the y velocity if it is positive
-        StartCoroutine(InterruptJumpCoroutine());    
+        // only interrupt jump if the jump is not a wall jump
+        if (_wallJumpCounter == 0)
+            StartCoroutine(InterruptJumpCoroutine());    
     }
     
     private IEnumerator InterruptJumpCoroutine()

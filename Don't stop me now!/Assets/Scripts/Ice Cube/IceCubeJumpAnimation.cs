@@ -18,6 +18,7 @@ public class IceCubeJumpAnimation : MonoBehaviour
     private void OnEnable()
     {
         _spriteRenderer.flipX = _currentDirection == Vector2.left;
+        // _spriteRenderer.flipY = _currentDirection == Vector2.left;
     }
 
     void Disable()

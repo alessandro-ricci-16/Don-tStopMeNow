@@ -380,7 +380,7 @@ public class IceCubeInput : MonoBehaviour
             Vector2 velocity = _rigidbody2D.velocity;
             if (jumpReleaseTimer <= 0 && velocity.y > 0)
             {
-                _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 2);
+                _rigidbody2D.velocity = new Vector2(velocity.x, 0);
                 break;
             }
             // if velocity.y <= this jump has ended, stop updating timer

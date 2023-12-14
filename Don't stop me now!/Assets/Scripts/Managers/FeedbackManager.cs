@@ -10,7 +10,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
     // TODO: change when exporting
     // change back to EXACTLY "Development" after exporting
     // (so that in development feedback does not get sent)
-    private string _feedbackType = "Development";
+    private string _feedbackType = "Web";
 
     private string _runID;
 

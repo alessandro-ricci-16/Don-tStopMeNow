@@ -36,6 +36,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/WallJump/WallJumpAndrea.unity
     guid: a76a224d73e5fd04386af1d8d66aae36
   - enabled: 1
+    path: Assets/Scenes/Levels/WallJump/WallJump_1.unity
+    guid: 139c9ae47d9801f41b041b6b49a9b43a
+  - enabled: 1
     path: Assets/Scenes/Levels/Tutorials/TutorialGroundPound.unity
     guid: 8b65847f956bec441a72bf7ab80d82b2
   - enabled: 1

@@ -12,11 +12,17 @@ public class SongData
 [RequireComponent(typeof(AudioSource))]
 public class AudioManager : Singleton<AudioManager>
 {
+    [Header("Music")]
     private AudioSource _audioSource;
     public SongData[] songs;
     private int _currentSongIndex = 0;
     private bool _isLooping = false;
+    
+    [Header("Sound Effects")]
+    public AudioClip deathSound;
 
+    #region Inizialization
+    
     private void OnEnable()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -25,8 +31,18 @@ public class AudioManager : Singleton<AudioManager>
     private void Start()
     {
         PlaySong(_currentSongIndex);
+        EventManager.StartListening(EventNames.Death, OnDeath);
     }
+    
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventNames.Death, OnDeath);
+    }
+    
+    #endregion
 
+    #region Songs
+    
     public void PlaySong(int index)
     {
         _audioSource.Stop();
@@ -71,4 +87,15 @@ public class AudioManager : Singleton<AudioManager>
         _currentSongIndex = (_currentSongIndex - 1 + songs.Length) % songs.Length;
         PlaySong(_currentSongIndex);
     }
+    
+    #endregion
+    
+    #region Callbacks and Sounds
+    
+    public void OnDeath()
+    {
+        _audioSource.PlayOneShot(deathSound);
+    }
+    
+    #endregion
 }

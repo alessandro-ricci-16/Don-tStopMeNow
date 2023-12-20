@@ -349,6 +349,7 @@ public class EventManager : Singleton<EventManager>
     }
     public static void TriggerEvent(EventNames eventName, bool value)
     {
+        TriggerEvent(eventName);
         UnityEvent<bool> thisEvent = null;
         if (Instance._boolEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -357,6 +358,7 @@ public class EventManager : Singleton<EventManager>
     }
     public static void TriggerEvent(EventNames eventName, int value)
     {
+        TriggerEvent(eventName);
         UnityEvent<int> thisEvent = null;
         if (Instance._intEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -366,6 +368,7 @@ public class EventManager : Singleton<EventManager>
 
     public static void TriggerEvent(EventNames eventName, float value)
     {
+        TriggerEvent(eventName);
         UnityEvent<float> thisEvent = null;
         if (Instance._floatEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -375,6 +378,7 @@ public class EventManager : Singleton<EventManager>
 
     public static void TriggerEvent(EventNames eventName, string value)
     {
+        TriggerEvent(eventName);
         UnityEvent<string> thisEvent = null;
         if (Instance._stringEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -384,6 +388,7 @@ public class EventManager : Singleton<EventManager>
     
     public static void TriggerEvent(EventNames eventName, string value, int number)
     {
+        TriggerEvent(eventName);
         UnityEvent<string, int> thisEvent = null;
         if (Instance._stringIntEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -393,6 +398,7 @@ public class EventManager : Singleton<EventManager>
     
     public static void TriggerEvent(EventNames eventName, Vector3 value)
     {
+        TriggerEvent(eventName);
         UnityEvent<Vector3> thisEvent = null;
         if (Instance._vector3EventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -402,6 +408,7 @@ public class EventManager : Singleton<EventManager>
     
     public static void TriggerEvent(EventNames eventName, Vector3 vector, Direction direction)
     {
+        TriggerEvent(eventName);
         UnityEvent<Vector3, Direction> thisEvent = null;
         if (Instance._vector3DirectionEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -410,6 +417,7 @@ public class EventManager : Singleton<EventManager>
     }
     public static void TriggerEvent(EventNames eventName, IceCubeStatesEnum currentState, IceCubeStatesEnum nextState)
     {
+        TriggerEvent(eventName);
         UnityEvent<IceCubeStatesEnum, IceCubeStatesEnum> thisEvent = null;
         if (Instance._iceCubeStateEventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -419,6 +427,7 @@ public class EventManager : Singleton<EventManager>
     
     public static void TriggerEvent(EventNames eventName, string value, Vector3 vector)
     {
+        TriggerEvent(eventName);
         UnityEvent<string, Vector3> thisEvent = null;
         if (Instance._stringVector3EventDictionary.TryGetValue(eventName, out thisEvent))
         {

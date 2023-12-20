@@ -18,10 +18,6 @@ public enum Direction { Right, Left }
 [RequireComponent(typeof(TrailRenderer))]
 public class IceCubeInput : MonoBehaviour
 {
-    [Header("Camera Target")]
-    public Transform cameraTarget;
-    public float cameraOffsetX = 5.0f;
-    
     [Header("Movement and input parameters")]
     public Direction initialDirection;
     [SerializeField] protected IceCubeParameters parameters;
@@ -102,9 +98,6 @@ public class IceCubeInput : MonoBehaviour
     private void Update()
     {
         HandleJumpInput();
-        
-        float sign = _currentDirection == Vector2.right ? 1 : -1;
-        cameraTarget.position = transform.position + new Vector3(cameraOffsetX * sign, 0, 0);
     }
 
     private void FixedUpdate()

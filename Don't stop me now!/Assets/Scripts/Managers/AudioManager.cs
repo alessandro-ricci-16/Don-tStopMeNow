@@ -28,7 +28,7 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Sound Effects")]
     private AudioSource _sfxAudioSource;
     public SoundData deathSound;
-    // public SoundData jumpSound;
+    public SoundData jumpSound;
     public SoundData collisionSound;
 
     #region Inizialization
@@ -45,6 +45,7 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
+        EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
     }
     
     private void OnDestroy()
@@ -108,7 +109,8 @@ public class AudioManager : Singleton<AudioManager>
     
     private void PlaySound(SoundData soundData)
     {
-        _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
+        if (soundData.sound != null)
+            _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
     }
     
     public void OnDeath()
@@ -123,9 +125,11 @@ public class AudioManager : Singleton<AudioManager>
     
     private void OnStateChanged(IceCubeStatesEnum start, IceCubeStatesEnum end)
     {
-        
+        if (end == IceCubeStatesEnum.IsJumping)
+        {
+            PlaySound(jumpSound);
+        }
     }
-    
     
     #endregion
 }

@@ -148,4 +148,4 @@ MonoBehaviour:
     loopOnPlay: 1
   - song: {fileID: 8300000, guid: 44fd821557a70f34aa89ca7b4fb4f960, type: 3}
     loopOnPlay: 1
-  deathSound: {fileID: 8300000, guid: 1c7c2d1b8e4f8f84890b9c7934902eeb, type: 3}
+  deathSound: {fileID: 8300000, guid: 9d34b97e2e310744f9018d13cef7c5ba, type: 3}

@@ -10,5 +10,6 @@ public enum EventNames
     StateChanged,
     ChangedDirection,
     GamePause,
-    GameResume
+    GameResume,
+    CollisionWithGround
 }

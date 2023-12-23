@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Ice_Cube.States;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -27,6 +28,8 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Sound Effects")]
     private AudioSource _sfxAudioSource;
     public SoundData deathSound;
+    // public SoundData jumpSound;
+    public SoundData collisionSound;
 
     #region Inizialization
     
@@ -40,6 +43,8 @@ public class AudioManager : Singleton<AudioManager>
     {
         PlaySong(_currentSongIndex);
         EventManager.StartListening(EventNames.Death, OnDeath);
+        EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
+        EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
     }
     
     private void OnDestroy()
@@ -110,6 +115,17 @@ public class AudioManager : Singleton<AudioManager>
     {
         PlaySound(deathSound);
     }
+    
+    public void OnCollisionWithGround()
+    {
+        PlaySound(collisionSound);
+    }
+    
+    private void OnStateChanged(IceCubeStatesEnum start, IceCubeStatesEnum end)
+    {
+        
+    }
+    
     
     #endregion
 }

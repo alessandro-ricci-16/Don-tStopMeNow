@@ -60,4 +60,8 @@ MonoBehaviour:
   deathSound:
     sound: {fileID: 8300000, guid: 9d34b97e2e310744f9018d13cef7c5ba, type: 3}
     loopOnPlay: 0
+    volume: 0.25
+  collisionSound:
+    sound: {fileID: 8300000, guid: 6980d8631fbb8fd49bc81fd0cbb3d9bd, type: 3}
+    loopOnPlay: 0
     volume: 0.15

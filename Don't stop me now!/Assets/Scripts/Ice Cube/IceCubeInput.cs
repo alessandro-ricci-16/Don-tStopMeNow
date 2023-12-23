@@ -36,6 +36,10 @@ public class IceCubeInput : MonoBehaviour
     private float _wallCoyoteTimeCounter;
     private int _wallJumpCounter;
     private int _dashCounter;
+    
+    // minimum time between two collisions to send the event
+    private float _collisionCoolDown = 0.1f;
+    private float _collisionCoolDownTimer = 0.0f;
 
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement by design
@@ -98,6 +102,7 @@ public class IceCubeInput : MonoBehaviour
     private void Update()
     {
         HandleJumpInput();
+        HandleCollisionTimer();
     }
 
     private void FixedUpdate()
@@ -195,7 +200,7 @@ public class IceCubeInput : MonoBehaviour
                     _rigidbody2D.velocity = Vector2.zero;
                     SetCurrentDirection(Vector2.left);
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.left, ForceMode2D.Impulse);
-                    
+
                     // preserves the vertical speed
                     _rigidbody2D.AddForce(_prevFrameVelocity.y * Vector2.up, ForceMode2D.Impulse);
                 }
@@ -208,7 +213,7 @@ public class IceCubeInput : MonoBehaviour
                     _rigidbody2D.velocity = Vector2.zero;
                     SetCurrentDirection(Vector2.right);
                     _rigidbody2D.AddForce(Mathf.Abs(_prevFrameVelocity.x) * Vector2.right, ForceMode2D.Impulse);
-                    
+
                     // preserves the vertical speed
                     _rigidbody2D.AddForce(_prevFrameVelocity.y * Vector2.up, ForceMode2D.Impulse);
                 }
@@ -222,14 +227,29 @@ public class IceCubeInput : MonoBehaviour
                     isPlayerOnGround = true;
             }
         }
-
+        
         SetGrounded(isPlayerOnGround);
         _onWall = isPlayerOnWall;
+    }
+    
+    private void SendCollisionEvent()
+    {
+        if (_collisionCoolDownTimer <= 0.0f)
+        {
+            EventManager.TriggerEvent(EventNames.CollisionWithGround);
+            _collisionCoolDownTimer = _collisionCoolDown;
+        }
+    }
+
+    private void HandleCollisionTimer()
+    {
+        _collisionCoolDownTimer -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         HandleCollisions(other);
+        SendCollisionEvent();
     }
 
     private void OnCollisionStay2D(Collision2D other)

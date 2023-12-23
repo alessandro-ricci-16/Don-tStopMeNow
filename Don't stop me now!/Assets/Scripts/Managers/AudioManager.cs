@@ -1,31 +1,39 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
-public class SongData
+public class SoundData
 {
-    public AudioClip song;
+    public AudioClip sound;
     public bool loopOnPlay;
+    public float volume = 1f;
 }
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioManager : Singleton<AudioManager>
 {
+    [Header("Volume")]
+    [Range(0, 1)] public float masterVolume = 0.8f;
+    [Range(0, 1)] public float musicVolume = 1f;
+    [Range(0, 1)] public float sfxVolume = 1f;
+    
     [Header("Music")]
-    private AudioSource _audioSource;
-    public SongData[] songs;
+    private AudioSource _musicAudioSource;
+    public SoundData[] songs;
     private int _currentSongIndex = 0;
     private bool _isLooping = false;
     
     [Header("Sound Effects")]
-    public AudioClip deathSound;
+    private AudioSource _sfxAudioSource;
+    public SoundData deathSound;
 
     #region Inizialization
     
     private void OnEnable()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _musicAudioSource = gameObject.AddComponent<AudioSource>();
+        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void Start()
@@ -45,31 +53,32 @@ public class AudioManager : Singleton<AudioManager>
     
     public void PlaySong(int index)
     {
-        _audioSource.Stop();
-        _audioSource.clip = songs[index].song;
-        _audioSource.Play();
+        _musicAudioSource.Stop();
+        _musicAudioSource.clip = songs[index].sound;
+        _musicAudioSource.volume = songs[index].volume * masterVolume * musicVolume;
+        _musicAudioSource.Play();
         _currentSongIndex = index;
 
-        // Check if the song should loop automatically when played
+        // Check if the sound should loop automatically when played
         _isLooping = songs[index].loopOnPlay;
-        _audioSource.loop = _isLooping;
+        _musicAudioSource.loop = _isLooping;
 
-        // Start coroutine to automatically play next song if it's not set to loop
+        // Start coroutine to automatically play next sound if it's not set to loop
         StartCoroutine(WaitForSongToEnd());
     }
 
     public void ToggleLoop(bool shouldLoop)
     {
-        _audioSource.loop = shouldLoop;
+        _musicAudioSource.loop = shouldLoop;
         _isLooping = shouldLoop;
     }
 
     private IEnumerator WaitForSongToEnd()
     {
-        float songLength = _audioSource.clip.length;
+        float songLength = _musicAudioSource.clip.length;
         yield return new WaitForSeconds(songLength);
 
-        // If the song is not set to loop, play the next song
+        // If the sound is not set to loop, play the next sound
         if (!_isLooping)
         {
             PlayNextSong();
@@ -90,11 +99,16 @@ public class AudioManager : Singleton<AudioManager>
     
     #endregion
     
-    #region Callbacks and Sounds
+    #region Sound effects and callbacks
+    
+    private void PlaySound(SoundData soundData)
+    {
+        _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
+    }
     
     public void OnDeath()
     {
-        _audioSource.PlayOneShot(deathSound);
+        PlaySound(deathSound);
     }
     
     #endregion

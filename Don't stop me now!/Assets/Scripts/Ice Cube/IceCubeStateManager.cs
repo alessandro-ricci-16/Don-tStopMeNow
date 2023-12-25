@@ -153,6 +153,7 @@ public class IceCubeStateManager : MonoBehaviour
         {
             _currentState = state;
             _currentState.EnterState();
+            //send the event to the event manager with first parameter the previous state and second parameter the current state
             EventManager.TriggerEvent(EventNames.StateChanged, currentEnum, state.GetEnumState());
 
         }

@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     private UnityAction<Vector3> _onDeathAction;
     private UnityAction<Vector3, Direction> _onCheckpointPassedAction;
     private UnityAction<string> _levelPassedAction;
+    public GameObject imagesGroundPound;
     
     protected override void Awake() 
     { 
@@ -187,5 +188,12 @@ public class GameManager : Singleton<GameManager>
     public void QuitGame()
     {
         Application.Quit();
+    }
+    
+    public void ShowShatteredScreen()
+    {
+        //disable and enable images ground pound
+        imagesGroundPound.SetActive(false);
+        imagesGroundPound.SetActive(true);
     }
 }

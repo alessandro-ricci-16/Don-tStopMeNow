@@ -61,7 +61,15 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: 9d34b97e2e310744f9018d13cef7c5ba, type: 3}
     loopOnPlay: 0
     volume: 0.25
+  jumpSound:
+    sound: {fileID: 8300000, guid: 6980d8631fbb8fd49bc81fd0cbb3d9bd, type: 3}
+    loopOnPlay: 0
+    volume: 1
   collisionSound:
     sound: {fileID: 8300000, guid: 6980d8631fbb8fd49bc81fd0cbb3d9bd, type: 3}
     loopOnPlay: 0
     volume: 0.15
+  groundPoundSound:
+    sound: {fileID: 8300000, guid: a73e4e71fc8c57c4a8e756db438686f2, type: 3}
+    loopOnPlay: 0
+    volume: 2

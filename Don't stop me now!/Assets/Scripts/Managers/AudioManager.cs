@@ -143,7 +143,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void OnCollisionWithGround()
     {
-        //PlaySound(collisionSound);
+        PlaySound(collisionSound);
     }
 
     private void OnStateChanged(IceCubeStatesEnum previous, IceCubeStatesEnum current)

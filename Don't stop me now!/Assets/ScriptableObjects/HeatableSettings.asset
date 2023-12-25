@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HeatableSettings
   m_EditorClassIdentifier: 
   recoveryScale: 1
-  maxTime: 2
+  maxTime: 1

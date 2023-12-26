@@ -43,8 +43,8 @@ public class AudioManager : Singleton<AudioManager>
         PlaySong(_currentSongIndex);
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
-        EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
-        EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
+        //EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
+        //EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
     }
 
     private void OnDestroy()
@@ -134,7 +134,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (soundData.sound != null)
         {
-            // Debug.Log("Playing sound " + soundData.sound.name);
+            Debug.Log("Playing sound " + soundData.sound.name);
             _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
         }
     }

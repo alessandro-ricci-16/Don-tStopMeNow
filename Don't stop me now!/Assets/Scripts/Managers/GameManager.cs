@@ -17,10 +17,6 @@ public class GameManager : Singleton<GameManager>
     private Vignette _vignetteEffect;
     private Action _functionToPlay;
     
-    // actions for event manager
-    private UnityAction<Vector3> _onDeathAction;
-    private UnityAction<Vector3, Direction> _onCheckpointPassedAction;
-    private UnityAction<string> _levelPassedAction;
     public GameObject imagesGroundPound;
     
     protected override void Awake() 
@@ -40,22 +36,19 @@ public class GameManager : Singleton<GameManager>
         
         // DEATH
         // add Die function to the Death event
-        _onDeathAction += Die;
-        EventManager.StartListening(EventNames.Death, _onDeathAction);
+        EventManager.StartListening(EventNames.Death, Die);
         
         // checkpoint passed
-        _onCheckpointPassedAction += CheckpointPassed;
         StartAtCheckPoint = false;
-        EventManager.StartListening(EventNames.CheckpointPassed, _onCheckpointPassedAction);
+        EventManager.StartListening(EventNames.CheckpointPassed, CheckpointPassed);
         
         // level passed 
-        _levelPassedAction += LevelPassed;
-        EventManager.StartListening(EventNames.LevelPassed, _levelPassedAction);
+        EventManager.StartListening(EventNames.LevelPassed, LevelPassed);
     }
 
     #region Events functions
     
-    private void Die(Vector3 playerPosition)
+    private void Die(String levelName, Vector3 playerPosition)
     {
         // freeze time
         Time.timeScale = timeScaleDeath;

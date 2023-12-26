@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HeatedPlatform : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class HeatedPlatform : MonoBehaviour
     {
         if (_timer >= heatableSettings.maxTime)
         {
-            EventManager.TriggerEvent(EventNames.Death, other.transform.position);
+            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, other.transform.position);
         }
     }
 

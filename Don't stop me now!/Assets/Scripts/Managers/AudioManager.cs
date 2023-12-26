@@ -133,7 +133,10 @@ public class AudioManager : Singleton<AudioManager>
     private void PlaySound(SoundData soundData)
     {
         if (soundData.sound != null)
+        {
+            // Debug.Log("Playing sound " + soundData.sound.name);
             _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
+        }
     }
 
     public void OnDeath()

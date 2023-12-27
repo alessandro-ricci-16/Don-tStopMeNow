@@ -121,6 +121,16 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(2);
     }
     
+    public void LoadCreditsScene()
+    {
+        Debug.Log("Credits scene not implemented yet");
+    }
+    public void LoadSettingsScene()
+    {
+        Debug.Log("Settings scene not implemented yet");
+    }
+    
+    
     public void LoadEndOfGameScene()
     {
         ChangeScene(SceneManager.sceneCountInBuildSettings - 1);

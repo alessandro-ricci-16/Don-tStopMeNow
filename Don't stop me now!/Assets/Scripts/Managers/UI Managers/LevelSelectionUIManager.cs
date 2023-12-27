@@ -10,21 +10,24 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectionUIManager : MonoBehaviour
 {
-    public Button quitGameButton;
-    public Button giveFeedbackButton;
-    public Button[] levelsButtons;
-
-    private UnityAction<string> _loadLevelAction;
+    public Button[] world1LevelsButtons;
+    public Button[] world2LevelsButtons;
 
     private void Start()
     {
-        quitGameButton.onClick.AddListener(QuitGame);
-        giveFeedbackButton.onClick.AddListener(LoadFeedbackScreen);
-
-        for (int i = 0; i < levelsButtons.Length; i++)
+        int world1Offset = 3;
+        int world2Offset = world1Offset + world1LevelsButtons.Length;
+        
+        for (int i = 0; i < world1LevelsButtons.Length; i++)
         {
             int index = i;
-            levelsButtons[i].onClick.AddListener(() => LoadLevel(index+3));
+            world1LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world1Offset));
+        }
+        
+        for (int i = 0; i < world2LevelsButtons.Length; i++)
+        {
+            int index = i;
+            world2LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world2Offset));
         }
     }
 
@@ -39,12 +42,17 @@ public class LevelSelectionUIManager : MonoBehaviour
         GameManager.Instance.LoadLevel(levelIndex);
     }
     
-    private void LoadFeedbackScreen()
+    public void LoadMainMenuScreen()
+    {
+        GameManager.Instance.LoadMainMenuScene();
+    }
+    
+    public void LoadFeedbackScreen()
     {
         GameManager.Instance.LoadFeedbackScene();
     }
     
-    private void QuitGame()
+    public void QuitGame()
     {
         GameManager.Instance.QuitGame();
     }

@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 using UnityEditor;
 #endif
 
+[CreateAssetMenu(fileName = "Ground Tile", menuName = "Custom Tiles/Ground Tile")]
 public class GroundTile : Tile
 {
     public Sprite defaultSprite;
@@ -135,15 +136,4 @@ public class GroundTile : Tile
     {
         return tilemap.GetTile(position) == this;
     }
-    
-    #if UNITY_EDITOR
-        [MenuItem("Assets/Create/Custom Tiles/GroundTile")]
-        public static void CreateGroundTile()
-        {
-            string path = EditorUtility.SaveFilePanelInProject("Save Ground Tile", "New Ground Tile", "Asset", "Save Ground Tile", "Assets");
-            if (path == "")
-                return;
-            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GroundTile>(), path);
-        }
-    #endif
 }

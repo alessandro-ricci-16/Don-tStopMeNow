@@ -7,6 +7,7 @@ using UnityEditor;
 #endif
 
 
+[CreateAssetMenu(fileName = "Random Tile", menuName = "Custom Tiles/Random Tile")]
 public class RandomTile : Tile
 {
     public Sprite[] sprites;
@@ -17,16 +18,4 @@ public class RandomTile : Tile
         int index = Random.Range(0, sprites.Length);
         tileData.sprite = sprites[index];
     }
-
-
-#if UNITY_EDITOR
-        [MenuItem("Assets/Create/Custom Tiles/Random Tile")]
-        public static void CreateRandomTile()
-        {
-            string path = EditorUtility.SaveFilePanelInProject("Save Random Tile", "New Random Tile", "Asset", "Save Random Tile", "Assets");
-            if (path == "")
-                return;
-            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<RandomTile>(), path);
-        }
-    #endif
 }

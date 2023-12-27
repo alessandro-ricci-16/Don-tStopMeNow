@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class FeedbackManager : Singleton<FeedbackManager>
 {
     // TODO: change when exporting
     // change back to EXACTLY "Development" after exporting
     // (so that in development feedback does not get sent)
-    private string _feedbackType = "Development";
+    public readonly string FeedbackType = "Development";
 
     private string _runID;
 
@@ -26,7 +27,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
 
     public void SendFeedback(Feedback feedback)
     {
-        if (_feedbackType != "Development")
+        if (FeedbackType != "Development")
             StartCoroutine(PostFeedback(feedback));
     }
     
@@ -54,7 +55,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
         // RunID
         form.AddField("entry.2041744485", _runID);
         // feedback type
-        form.AddField("entry.2049634247", _feedbackType);
+        form.AddField("entry.2049634247", FeedbackType);
         
 
         UnityWebRequest www = UnityWebRequest.Post(URL, form);

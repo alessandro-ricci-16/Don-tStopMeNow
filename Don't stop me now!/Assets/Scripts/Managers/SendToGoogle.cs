@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SendToGoogle : MonoBehaviour {
     
-    [FormerlySerializedAs("Feedback")] [SerializeField] private TextMeshProUGUI FeedbackText;
+    [SerializeField] private TextMeshProUGUI FeedbackText;
     
     public void SendFeedback()
     {
@@ -22,7 +22,8 @@ public class SendToGoogle : MonoBehaviour {
         Feedback feedbackObject = new Feedback("Feedback", "Feedback", feedback);
         FeedbackManager.Instance.SendFeedback(feedbackObject);
         
-        StartCoroutine(PostFeedback(feedback));
+        if (FeedbackManager.Instance.FeedbackType != "Development")
+            StartCoroutine(PostFeedback(feedback));
     }
 
     public void GoBack()
@@ -39,7 +40,8 @@ public class SendToGoogle : MonoBehaviour {
         Feedback feedbackObject = new Feedback(SceneManager.GetActiveScene().name, "Feedback", feedback);
         FeedbackManager.Instance.SendFeedback(feedbackObject);
         
-        StartCoroutine(PostFeedback(feedback));
+        if (FeedbackManager.Instance.FeedbackType != "Development")
+            StartCoroutine(PostFeedback(feedback));
     }
     
     IEnumerator PostFeedback(string feedback) 
@@ -68,8 +70,5 @@ public class SendToGoogle : MonoBehaviour {
         {
             Debug.Log("Form upload complete!");
         }
-        
-        // at the end go back to the level selection scene
-        GameManager.Instance.LoadLevelSelectionScene();
     }
 }

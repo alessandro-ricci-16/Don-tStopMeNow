@@ -21478,20 +21478,10 @@ MonoBehaviour:
   giveFeedbackButton: {fileID: 1463484793}
   levelsButtons:
   - {fileID: 313401329}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1926579176}
+  - {fileID: 987515478}
+  - {fileID: 2142511619}
+  - {fileID: 558710130}
 --- !u!4 &1722324236
 Transform:
   m_ObjectHideFlags: 0

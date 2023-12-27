@@ -46,10 +46,18 @@ public class LevelUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !_paused)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            _paused = true;
-            CallPause();
+            if (!_paused)
+            {
+                _paused = true;
+                CallPause();
+            }
+            else
+            {
+                _paused = false;
+                Resume();
+            }
         }
     }
 
@@ -97,6 +105,13 @@ public class LevelUIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         GameManager.Instance.LoadLevelSelectionScene();
+    }
+    
+    public void SkipLevel()
+    {
+        Time.timeScale = 1;
+        FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
+        GameManager.Instance.LoadNextScene();
     }
 
 

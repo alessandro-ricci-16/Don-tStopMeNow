@@ -30,6 +30,12 @@ public class FeedbackManager : Singleton<FeedbackManager>
             StartCoroutine(PostFeedback(feedback));
     }
     
+    public void SendFeedback(string levelName, string eventName, string parameter)
+    {
+        Feedback feedback = new Feedback(levelName, eventName, parameter);
+        SendFeedback(feedback);
+    }
+    
     IEnumerator PostFeedback(Feedback feedback) 
     {
         string URL =

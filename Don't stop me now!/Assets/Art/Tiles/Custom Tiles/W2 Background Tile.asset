@@ -34,4 +34,4 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  defaultSprite: {fileID: -1264528743, guid: d83e14b063d2ef84abdb4bec607caf21, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 26fcea3023937504c80c5347888102f6, type: 3}

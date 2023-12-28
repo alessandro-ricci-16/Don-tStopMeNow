@@ -11,14 +11,15 @@ using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public class MovingObstacles : MonoBehaviour
 {
     public Direction initialDirection;
     public float defaultSpeed; 
     public float acceleration;
-    public float deceleration;
-    private readonly float _epsilon = 0.1f;
+    public float gravityScale = 30.0f;
+    
+    private float _epsilon = 0.1f;
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement by design
     private Vector2 _currentDirection;
@@ -30,6 +31,8 @@ public class MovingObstacles : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D.gravityScale = gravityScale;
+        
         _spriteRenderer = GetComponent<SpriteRenderer>();
         
         if (initialDirection == Direction.Left)
@@ -46,14 +49,21 @@ public class MovingObstacles : MonoBehaviour
     private void FixedUpdate()
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
+        _epsilon = Time.fixedDeltaTime * acceleration;
         
         if (Mathf.Abs(_prevFrameVelocity.x) < defaultSpeed - _epsilon)
         {
             _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
+            // _spriteRenderer.color = Color.blue;
         }
         else if (Mathf.Abs(_prevFrameVelocity.x) > defaultSpeed + _epsilon)
         {
-            _rigidbody2D.AddForce(-deceleration * _currentDirection, ForceMode2D.Force);
+            _rigidbody2D.AddForce(-acceleration * _currentDirection, ForceMode2D.Force);
+            // _spriteRenderer.color = Color.green;
+        }
+        else
+        {
+            // _spriteRenderer.color = Color.red;
         }
     }
 

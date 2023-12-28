@@ -15,21 +15,33 @@ public class SoundData
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [Header("Volume")] [Range(0, 1)] public float masterVolume = 0.8f;
+    [Header("Volume")] [Range(0, 1)] 
+    public float masterVolume = 0.8f;
     [Range(0, 1)] public float musicVolume = 1f;
     [Range(0, 1)] public float sfxVolume = 1f;
 
-    [Header("Music")] private AudioSource _musicAudioSource;
+    [Header("Music")] 
     public SoundData[] songs;
-    private int _currentSongIndex = 0;
-    private bool _isLooping = false;
-    private Coroutine _preloadCoroutine;
-    [Header("Sound Effects")] private AudioSource _sfxAudioSource;
+    
+    [Header("Game Sound Effects")] 
     public SoundData deathSound;
     public SoundData jumpSound;
     public SoundData collisionSound;
     public SoundData groundPoundSound;
-
+    
+    [Header("UI Sound Effects")] 
+    public SoundData buttonClickSound;
+    
+    // Music variables
+    private int _currentSongIndex = 0;
+    private bool _isLooping = false;
+    private Coroutine _preloadCoroutine;
+    private AudioSource _musicAudioSource;
+    
+    // Sound effects variables
+    private AudioSource _sfxAudioSource;
+    
+    
     #region Inizialization
     
     private void OnEnable()
@@ -157,11 +169,17 @@ public class AudioManager : Singleton<AudioManager>
             return;
         }
 
-        if (current == IceCubeStatesEnum.IsJumping || current == IceCubeStatesEnum.IsWallJumping)
+        if (current is IceCubeStatesEnum.IsJumping or IceCubeStatesEnum.IsWallJumping)
         {
             PlaySound(jumpSound);
             return;
         }
+    }
+    
+    // does not have a callback because it is called by the button script
+    public void PlayButtonClickSound()
+    {
+        PlaySound(buttonClickSound);
     }
 
     #endregion

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6889688705748305337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.295261, y: 3.1496956, z: 0.0015175103}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolume: 0.8
-  musicVolume: 1
-  sfxVolume: 1
+  musicVolume: 0.8
+  sfxVolume: 0.8
   songs:
   - sound: {fileID: 8300000, guid: 489e90c551bf559438d86d6ca02481eb, type: 3}
     loopOnPlay: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   deathSound:
     sound: {fileID: 8300000, guid: c677454b1d84e1845a683f865621531f, type: 3}
     loopOnPlay: 0
-    volume: 0.25
+    volume: 0.5
   jumpSound:
     sound: {fileID: 8300000, guid: 6980d8631fbb8fd49bc81fd0cbb3d9bd, type: 3}
     loopOnPlay: 0
@@ -73,3 +73,7 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: a73e4e71fc8c57c4a8e756db438686f2, type: 3}
     loopOnPlay: 0
     volume: 2
+  buttonClickSound:
+    sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
+    loopOnPlay: 0
+    volume: 0.6

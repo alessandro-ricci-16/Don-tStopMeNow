@@ -76,4 +76,4 @@ MonoBehaviour:
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     loopOnPlay: 0
-    volume: 0.6
+    volume: 0.2

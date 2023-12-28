@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729824f5b6d3712448af536d0398b0e1, type: 3}
   m_Name: HeatableSettings
   m_EditorClassIdentifier: 
-  recoveryScale: 1
-  maxTime: 1
+  recoveryScale: 0.5
+  maxTime: 0.6

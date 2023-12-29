@@ -14,6 +14,8 @@ public class HeatedPlatform : MonoBehaviour
     public HeatableSettings heatableSettings;
     private float _timer;
     private bool _isPlayerOn;
+    
+    private bool _sentDeathEvent;
 
     private void Update()
     {
@@ -40,9 +42,10 @@ public class HeatedPlatform : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (_timer >= heatableSettings.maxTime)
+        if (_timer >= heatableSettings.maxTime && !_sentDeathEvent)
         {
             EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, other.transform.position);
+            _sentDeathEvent = true;
         }
     }
 

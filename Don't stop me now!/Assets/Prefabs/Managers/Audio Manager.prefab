@@ -58,7 +58,7 @@ MonoBehaviour:
     loopOnPlay: 1
     volume: 1
   deathSound:
-    sound: {fileID: 8300000, guid: c677454b1d84e1845a683f865621531f, type: 3}
+    sound: {fileID: 8300000, guid: c51fa8732c3bb934a91cf9d27d0a7c5e, type: 3}
     loopOnPlay: 0
     volume: 0.5
   jumpSound:

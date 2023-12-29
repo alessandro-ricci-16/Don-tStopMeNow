@@ -146,7 +146,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (soundData.sound != null)
         {
-            Debug.Log("Playing sound " + soundData.sound.name);
+            // Debug.Log("Playing sound " + soundData.sound.name);
             _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
         }
     }

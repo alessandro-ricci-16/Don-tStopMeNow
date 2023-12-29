@@ -196,7 +196,7 @@ public class GameManager : Singleton<GameManager>
     public void ShowShatteredScreen()
     {
         //disable and enable images ground pound
-        imagesGroundPound.SetActive(false);
-        imagesGroundPound.SetActive(true);
+        //imagesGroundPound.SetActive(false);
+        //imagesGroundPound.SetActive(true);
     }
 }

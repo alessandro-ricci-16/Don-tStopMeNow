@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8615365341948283559}
   - component: {fileID: 239960485607389631}
   - component: {fileID: 6353506379994650355}
+  - component: {fileID: 6594344750751895621}
   m_Layer: 0
   m_Name: Cinemachine
   m_TagString: Untagged
@@ -88,6 +89,21 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_Damping: 0.5
   m_MaxWindowSize: -1
+--- !u!114 &6594344750751895621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502342766402103025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78407a363e0a4a269010a8e40a2eb84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
+  magnitude: 1
+  frequency: 5
 --- !u!1 &5667740357768055929
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +115,7 @@ GameObject:
   - component: {fileID: 3927027615246923581}
   - component: {fileID: 4429294715220090113}
   - component: {fileID: 3519028105993422994}
+  - component: {fileID: 4365539084218453648}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -176,6 +193,23 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
+--- !u!114 &4365539084218453648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667740357768055929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: b4a830fad3b360a4cbeb1814d1c0407a, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &5985020755165260666
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +280,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 90
+  field of view: 100
   orthographic: 0
   orthographic size: 10
   m_Depth: -1

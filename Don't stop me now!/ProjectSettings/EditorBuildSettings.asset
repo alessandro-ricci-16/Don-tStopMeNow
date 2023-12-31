@@ -76,7 +76,13 @@ EditorBuildSettings:
     guid: b8a84d21b28a6ac4f9f09fd799c037e7
   - enabled: 1
     path: Assets/Scenes/Levels/World2/Tutorial/MovingObstaclesTutorial.unity
+    guid: aff7d7964bc82ba46a1fe41bfcf52246
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Moving Obstacles/MovingObstaclesSara_1.unity
     guid: 3509f27b3f700e54fa2e24d206107e40
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Moving Obstacles/MovingObstaclesSara_2.unity
+    guid: 0f237c01613a8d5458e4f39682b5b598
   - enabled: 1
     path: Assets/Scenes/Menus/End Of Game.unity
     guid: 97fa5bb283f9eee4cb692d3c721f918e

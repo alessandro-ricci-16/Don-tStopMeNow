@@ -64,6 +64,9 @@ EditorBuildSettings:
     guid: 9c34932e6ce42284f9150db342e197ca
   - enabled: 1
     path: Assets/Scenes/Levels/World2/Tutorial/HeatableTutorial.unity
+    guid: c854851640ed1a34da4e893948f715a3
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Heatable/HeatableSara_0.unity
     guid: 11f6bcc5a58d2b44c9565c0c5c262d25
   - enabled: 1
     path: Assets/Scenes/Levels/World2/Heatable/HeatableSara_1.unity

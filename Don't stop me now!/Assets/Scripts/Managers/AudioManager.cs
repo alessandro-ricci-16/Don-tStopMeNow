@@ -26,8 +26,8 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Game Sound Effects")] 
     public SoundData deathSound;
     public SoundData jumpSound;
-    public SoundData collisionSound;
     public SoundData groundPoundSound;
+    public SoundData dashSound;
     
     [Header("UI Sound Effects")] 
     public SoundData buttonClickSound;
@@ -151,14 +151,9 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void OnDeath()
+    private void OnDeath()
     {
         PlaySound(deathSound);
-    }
-
-    public void OnCollisionWithGround()
-    {
-        PlaySound(collisionSound);
     }
 
     private void OnStateChanged(IceCubeStatesEnum previous, IceCubeStatesEnum current)
@@ -173,6 +168,11 @@ public class AudioManager : Singleton<AudioManager>
         {
             PlaySound(jumpSound);
             return;
+        }
+        
+        if (current == IceCubeStatesEnum.IsDashing)
+        {
+            PlaySound(dashSound);
         }
     }
     

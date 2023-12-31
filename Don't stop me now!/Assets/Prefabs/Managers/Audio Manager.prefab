@@ -64,7 +64,7 @@ MonoBehaviour:
   jumpSound:
     sound: {fileID: 8300000, guid: 6980d8631fbb8fd49bc81fd0cbb3d9bd, type: 3}
     loopOnPlay: 0
-    volume: 0.3
+    volume: 0.2
   collisionSound:
     sound: {fileID: 8300000, guid: 028feebd802ef994b80821d0506d1aa4, type: 3}
     loopOnPlay: 0
@@ -73,6 +73,10 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: a73e4e71fc8c57c4a8e756db438686f2, type: 3}
     loopOnPlay: 0
     volume: 2
+  dashSound:
+    sound: {fileID: 8300000, guid: 509eaa04925578743a664cde5c9e0dd5, type: 3}
+    loopOnPlay: 0
+    volume: 1.5
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     loopOnPlay: 0

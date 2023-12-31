@@ -50,7 +50,7 @@ public class GameManager : Singleton<GameManager>
     
     private void Die(String levelName, Vector3 playerPosition)
     {
-        // freeze time
+        // update the time scale
         Time.timeScale = timeScaleDeath;
         // center the vignette animation on the passed position
         if (Camera.main != null)

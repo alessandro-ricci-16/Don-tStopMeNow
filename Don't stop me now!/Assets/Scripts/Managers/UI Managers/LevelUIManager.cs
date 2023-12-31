@@ -24,7 +24,6 @@ public class LevelUIManager : MonoBehaviour
     
     
     private Color _backgroundColor;
-    private float _backgroundAlpha = 0.8f;
     private bool _paused = false;
 
     private void Start()

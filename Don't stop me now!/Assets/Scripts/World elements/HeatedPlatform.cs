@@ -42,9 +42,11 @@ public class HeatedPlatform : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (_timer >= heatableSettings.maxTime && !_sentDeathEvent)
+        if (other.gameObject.CompareTag("Player") && _timer >= heatableSettings.maxTime && !_sentDeathEvent)
         {
-            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, other.transform.position);
+            var position = other.gameObject.transform.position;
+            other.gameObject.GetComponent<Explodable>().Explode();
+            EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, position);
             _sentDeathEvent = true;
         }
     }

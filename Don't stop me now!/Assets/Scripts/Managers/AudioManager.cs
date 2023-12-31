@@ -129,12 +129,27 @@ public class AudioManager : Singleton<AudioManager>
     public void PlayNextSong()
     {
         _currentSongIndex = (_currentSongIndex + 1) % songs.Length;
-        PlaySong(_currentSongIndex);
+        StartCoroutine(FadeOutAndPlay());
     }
 
     public void PlayPreviousSong()
     {
+        StartCoroutine(FadeOutAndPlay());
         _currentSongIndex = (_currentSongIndex - 1 + songs.Length) % songs.Length;
+    }
+    
+    private IEnumerator FadeOutAndPlay(float fadeDuration = 1.0f, float delay = 1.0f)
+    {
+        float startVolume = _musicAudioSource.volume;
+        while (_musicAudioSource.volume > 0)
+        {
+            _musicAudioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+        _musicAudioSource.Stop();
+
+        yield return new WaitForSeconds(delay);
+        
         PlaySong(_currentSongIndex);
     }
 

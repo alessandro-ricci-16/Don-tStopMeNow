@@ -118,8 +118,10 @@ public class IceCubeAnimatorManager : MonoBehaviour
         float playbackSpeed = 1 / heatableSettings.maxTime;
         //we use Animator.StringToHash because otherwise intellij starts crying
         _animator.SetFloat(Animator.StringToHash("heatScale"), playbackSpeed);
+        // Get the index of the "heated" layer by name
+        int heatedLayerIndex = _animator.GetLayerIndex("Heated");
         // Calculate the normalized time to start the animation from a specific percentage which is given by the normalization of our currentTimer
-        _animator.Play("OnHeatedPlatform", 0, currentTimer / heatableSettings.maxTime);
+        _animator.Play("OnHeatedPlatform", heatedLayerIndex, currentTimer / heatableSettings.maxTime);
     }
 
     private void OffHeatedPlatform(float currentTimer)

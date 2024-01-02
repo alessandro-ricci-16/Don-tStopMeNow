@@ -63,6 +63,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Cutscenes/World2Screen.unity
     guid: 9c34932e6ce42284f9150db342e197ca
   - enabled: 1
+    path: Assets/Scenes/Levels/World2/Tutorial/FallingSpikesTutorialAle.unity
+    guid: edf68ce367b3dc64fa8710b0d95a28d1
+  - enabled: 1
     path: Assets/Scenes/Levels/World2/Falling Spike/FallingSpikesEma.unity
     guid: 822964dc079a7464898c8bb5f71c8fce
   - enabled: 1

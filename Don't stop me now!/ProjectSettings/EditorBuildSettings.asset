@@ -57,6 +57,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/WallJumpAle.unity
     guid: 8cb9d8d1c22401349aff0923c326067a
   - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/TryToStop.unity
+    guid: 534bc67862544d642a6a0dce452c2cba
+  - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/JumpDash_1.unity
     guid: 4cc73301e6a1d234b9cbe0a557ff2de4
   - enabled: 1

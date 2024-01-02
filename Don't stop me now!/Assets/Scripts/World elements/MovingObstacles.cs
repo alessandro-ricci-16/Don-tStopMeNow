@@ -15,9 +15,11 @@ using UnityEngine.InputSystem;
 public class MovingObstacles : MonoBehaviour
 {
     public Direction initialDirection;
-    public float defaultSpeed; 
-    public float acceleration;
-    public float gravityScale = 30.0f;
+    public float defaultSpeed;
+
+    private float maxFallingSpeed = 69.0f;
+    private float acceleration = 40.0f;
+    private float gravityScale = 30.0f;
     
     private float _epsilon = 0.1f;
     // should be Vector2.left or Vector2.right;
@@ -46,6 +48,14 @@ public class MovingObstacles : MonoBehaviour
         _spriteRenderer.flipX = _currentDirection == Vector2.left;
     }
 
+    private void OnEnable()
+    {
+        if (initialDirection == Direction.Left)
+            _currentDirection = Vector2.left;
+        else
+            _currentDirection = Vector2.right;
+    }
+
     private void FixedUpdate()
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
@@ -54,16 +64,15 @@ public class MovingObstacles : MonoBehaviour
         if (Mathf.Abs(_prevFrameVelocity.x) < defaultSpeed - _epsilon)
         {
             _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
-            // _spriteRenderer.color = Color.blue;
         }
         else if (Mathf.Abs(_prevFrameVelocity.x) > defaultSpeed + _epsilon)
         {
             _rigidbody2D.AddForce(-acceleration * _currentDirection, ForceMode2D.Force);
-            // _spriteRenderer.color = Color.green;
         }
-        else
+        
+        if (Mathf.Abs(_prevFrameVelocity.y) > maxFallingSpeed)
         {
-            // _spriteRenderer.color = Color.red;
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, Mathf.Sign(_prevFrameVelocity.y) * maxFallingSpeed);
         }
     }
 

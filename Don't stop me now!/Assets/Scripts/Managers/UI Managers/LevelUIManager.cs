@@ -17,12 +17,16 @@ public class LevelUIManager : MonoBehaviour
     public GameObject pauseMenuCanvas;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI pauseLevelText;
+    public GameObject pauseButtons;
 
     [Header("Feedback")] 
     public GameObject feedbackMenuCanvas;
     public TextMeshProUGUI feedbackTitleText;
     
-    
+    [Header("Settings")]
+    public GameObject settingsMenuCanvas;
+    [Header("Commands")]
+    public GameObject commandsMenuCanvas;
     private Color _backgroundColor;
     private bool _paused = false;
 
@@ -67,6 +71,7 @@ public class LevelUIManager : MonoBehaviour
         EventManager.TriggerEvent(EventNames.GamePause);
         Time.timeScale = 0;
         pauseMenuCanvas.SetActive(true);
+        pauseButtons.SetActive(true);
         backgroundImage.color = _backgroundColor;
         backgroundImage.gameObject.SetActive(true);
     }
@@ -90,7 +95,7 @@ public class LevelUIManager : MonoBehaviour
         feedbackMenuCanvas.SetActive(true);
     }
 
-    public void BackToPauseMenu()
+    public void BackToPauseMenuFromFeedback()
     {
         feedbackMenuCanvas.SetActive(false);
         pauseMenuCanvas.SetActive(true);
@@ -139,5 +144,31 @@ public class LevelUIManager : MonoBehaviour
         backgroundImage.color = _backgroundColor;
     }
 
+    #endregion
+    
+    #region Settings
+    public void CallSettings()
+    {
+        pauseButtons.SetActive(false);
+        settingsMenuCanvas.SetActive(true);
+    }
+    public void BackToPauseMenuFromSettings()
+    {
+        pauseButtons.SetActive(true);
+        settingsMenuCanvas.SetActive(false);
+    }
+    #endregion
+    
+    #region Commands
+    public void CallCommands()
+    {
+        pauseButtons.SetActive(false);
+        commandsMenuCanvas.SetActive(true);
+    }
+    public void BackToPauseMenuFromCommands()
+    {
+        pauseButtons.SetActive(true);
+        commandsMenuCanvas.SetActive(false);
+    }
     #endregion
 }

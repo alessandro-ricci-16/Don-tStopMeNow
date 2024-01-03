@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ice_Cube.States;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 [Serializable]
@@ -15,37 +16,34 @@ public class SoundData
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [Header("Volume")] [Range(0, 1)] 
-    public float masterVolume = 0.8f;
+    [Header("Volume")] [Range(0, 1)] public float masterVolume = 0.8f;
     [Range(0, 1)] public float musicVolume = 1f;
     [Range(0, 1)] public float sfxVolume = 1f;
 
-    [Header("Music")] 
-    public SoundData[] songs;
-    
-    [Header("Game Sound Effects")] 
-    public SoundData deathSound;
+    [Header("Music")] public SoundData[] songs;
+
+    [Header("Game Sound Effects")] public SoundData deathSound;
     public SoundData jumpSound;
     public SoundData groundPoundSound;
     public SoundData dashSound;
-    
-    [Header("UI Sound Effects")] 
-    public SoundData buttonClickSound;
-    
+
+    [Header("UI Sound Effects")] public SoundData buttonClickSound;
+
     // Music variables
     private int _currentSongIndex = 0;
     private bool _isLooping = false;
     private Coroutine _preloadCoroutine;
     private AudioSource _musicAudioSource;
-    
+
     // Sound effects variables
     private AudioSource _sfxAudioSource;
-    
-    
+
+
     #region Inizialization
-    
-    private void OnEnable()
+
+    private new void Awake()
     {
+        base.Awake();
         _musicAudioSource = gameObject.AddComponent<AudioSource>();
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
     }
@@ -55,6 +53,8 @@ public class AudioManager : Singleton<AudioManager>
         PlaySong(_currentSongIndex);
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
+        EventManager.StartListening(EventNames.VolumeMusicChanged, (UnityAction<float>)OnVolumeMusicChanged);
+        EventManager.StartListening(EventNames.VolumeSfxChanged, (UnityAction<float>)OnVolumeSfxChanged);
         //EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
         //EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
     }
@@ -68,7 +68,7 @@ public class AudioManager : Singleton<AudioManager>
 
     #region Songs
 
-    public void PlaySong(int index)
+    private void PlaySong(int index)
     {
         _musicAudioSource.Stop();
         _musicAudioSource.clip = songs[index].sound;
@@ -88,25 +88,6 @@ public class AudioManager : Singleton<AudioManager>
         // Start preloading the next song
         //PreloadSound(songs[nextIndex]);
     }
-
-    private void PreloadSound(SoundData soundData)
-    {
-        if (soundData != null && soundData.sound is not null)
-        {
-            // Load the audio clip asynchronously
-            ResourceRequest request = Resources.LoadAsync<AudioClip>(soundData.sound.name);
-
-            // Wait until the audio clip is fully loaded
-            StartCoroutine(WaitForSoundLoaded(request, soundData));
-        }
-    }
-
-    private IEnumerator WaitForSoundLoaded(ResourceRequest request, SoundData soundData)
-    {
-        yield return request;
-        soundData.sound = request.asset as AudioClip;
-    }
-
 
     public void ToggleLoop(bool shouldLoop)
     {
@@ -137,7 +118,7 @@ public class AudioManager : Singleton<AudioManager>
         StartCoroutine(FadeOutAndPlay());
         _currentSongIndex = (_currentSongIndex - 1 + songs.Length) % songs.Length;
     }
-    
+
     private IEnumerator FadeOutAndPlay(float fadeDuration = 1.0f, float delay = 1.0f)
     {
         float startVolume = _musicAudioSource.volume;
@@ -146,10 +127,11 @@ public class AudioManager : Singleton<AudioManager>
             _musicAudioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
             yield return null;
         }
+
         _musicAudioSource.Stop();
 
         yield return new WaitForSeconds(delay);
-        
+
         PlaySong(_currentSongIndex);
     }
 
@@ -184,13 +166,24 @@ public class AudioManager : Singleton<AudioManager>
             PlaySound(jumpSound);
             return;
         }
-        
+
         if (current == IceCubeStatesEnum.IsDashing)
         {
             PlaySound(dashSound);
         }
     }
-    
+
+    public void OnVolumeMusicChanged(float value)
+    {
+        musicVolume = value;
+        _musicAudioSource.volume = songs[_currentSongIndex].volume * masterVolume * musicVolume;
+    }
+
+    public void OnVolumeSfxChanged(float value)
+    {
+        sfxVolume = value;
+    }
+
     // does not have a callback because it is called by the button script
     public void PlayButtonClickSound()
     {

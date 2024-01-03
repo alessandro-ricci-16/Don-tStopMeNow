@@ -15,6 +15,7 @@ namespace Ice_Cube.States
         {
             PlayerInputAction.OnGround.Disable();
             PlayerInputAction.OnAir.Enable();
+            PlayerInputAction.Jump.Enable();
         }
 
         public override IceCubeStatesEnum GetEnumState()

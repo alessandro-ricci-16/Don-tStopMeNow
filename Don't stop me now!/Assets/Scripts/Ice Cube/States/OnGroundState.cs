@@ -16,6 +16,7 @@ namespace Ice_Cube.States
         {
             PlayerInputAction.OnGround.Enable();
             PlayerInputAction.OnAir.Disable();
+            PlayerInputAction.Jump.Enable();
             Rigidbody2D.gravityScale = Parameters.downwardGravityScale;
         }
 

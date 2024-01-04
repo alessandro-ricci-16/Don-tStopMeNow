@@ -72,7 +72,7 @@ MonoBehaviour:
   dashSound:
     sound: {fileID: 8300000, guid: 509eaa04925578743a664cde5c9e0dd5, type: 3}
     loopOnPlay: 0
-    volume: 1.5
+    volume: 2
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     loopOnPlay: 0

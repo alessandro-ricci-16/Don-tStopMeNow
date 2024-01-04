@@ -168,6 +168,9 @@ public class GameManager : Singleton<GameManager>
         _canvasAnimator.Play("FadeOut");
         // reset the time scale to normal
         Time.timeScale = 1.0f;
+        
+        // update level UI
+        LevelUIManager.Instance.UpdateUI();
     }
     
     private IEnumerator LoadAsyncScene(string scene)

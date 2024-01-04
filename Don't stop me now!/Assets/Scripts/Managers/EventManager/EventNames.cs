@@ -11,7 +11,5 @@ public enum EventNames
     ChangedDirection,
     GamePause,
     GameResume,
-    CollisionWithGround,
-    VolumeMusicChanged,
-    VolumeSfxChanged
+    CollisionWithGround
 }

@@ -16,9 +16,10 @@ public class SoundData
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [Header("Volume")] [Range(0, 1)] public float masterVolume = 0.8f;
-    [Range(0, 1)] public float musicVolume = 1f;
-    [Range(0, 1)] public float sfxVolume = 1f;
+    //[Header("Volume")] 
+    [Range(0, 1)] private float _masterVolume = 0.8f;
+    [Range(0, 1)] private float _musicVolume = 0.8f;
+    [Range(0, 1)] private float _sfxVolume = 0.8f;
 
     [Header("Music")] public SoundData[] songs;
 
@@ -53,8 +54,6 @@ public class AudioManager : Singleton<AudioManager>
         PlaySong(_currentSongIndex);
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
-        EventManager.StartListening(EventNames.VolumeMusicChanged, (UnityAction<float>)OnVolumeMusicChanged);
-        EventManager.StartListening(EventNames.VolumeSfxChanged, (UnityAction<float>)OnVolumeSfxChanged);
         //EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
         //EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
     }
@@ -65,14 +64,15 @@ public class AudioManager : Singleton<AudioManager>
     }
 
     #endregion
-
+    
+    
     #region Songs
 
     private void PlaySong(int index)
     {
         _musicAudioSource.Stop();
         _musicAudioSource.clip = songs[index].sound;
-        _musicAudioSource.volume = songs[index].volume * masterVolume * musicVolume;
+        _musicAudioSource.volume = songs[index].volume * _masterVolume * _musicVolume;
         _musicAudioSource.Play();
         _currentSongIndex = index;
 
@@ -144,7 +144,7 @@ public class AudioManager : Singleton<AudioManager>
         if (soundData.sound != null)
         {
             // Debug.Log("Playing sound " + soundData.sound.name);
-            _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * masterVolume * sfxVolume);
+            _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * _masterVolume * _sfxVolume);
         }
     }
 
@@ -173,22 +173,47 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void OnVolumeMusicChanged(float value)
-    {
-        musicVolume = value;
-        _musicAudioSource.volume = songs[_currentSongIndex].volume * masterVolume * musicVolume;
-    }
-
-    public void OnVolumeSfxChanged(float value)
-    {
-        sfxVolume = value;
-    }
-
     // does not have a callback because it is called by the button script
     public void PlayButtonClickSound()
     {
         PlaySound(buttonClickSound);
     }
 
+    #endregion
+    
+    #region Getters and setters
+    
+    public float GetMasterVolume()
+    {
+        return _masterVolume;
+    }
+    
+    public float GetMusicVolume()
+    {
+        return _musicVolume;
+    }
+    
+    public float GetSfxVolume()
+    {
+        return _sfxVolume;
+    }
+    
+    public void SetMasterVolume(float value)
+    {
+        _masterVolume = value;
+        _musicAudioSource.volume = songs[_currentSongIndex].volume * _masterVolume * _musicVolume;
+    }
+    
+    public void SetMusicVolume(float value)
+    {
+        _musicVolume = value;
+        _musicAudioSource.volume = songs[_currentSongIndex].volume * _masterVolume * _musicVolume;
+    }
+    
+    public void SetSfxVolume(float value)
+    {
+        _sfxVolume = value;
+    }
+    
     #endregion
 }

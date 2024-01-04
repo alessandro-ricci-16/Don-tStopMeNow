@@ -8,6 +8,7 @@ public class SoundSlider : MonoBehaviour
 {
     public enum TypeOfSounds
     {
+        Master,
         Music,
         Sfx
     }
@@ -23,13 +24,36 @@ public class SoundSlider : MonoBehaviour
     private void Awake()
     {
         _slider = GetComponent<Slider>();
+        UpdateSliderValues();
     }
+    
 
     // Start is called before the first frame update
     void OnEnable()
     {
+        UpdateSliderValues();
+        
         _slider.onValueChanged.AddListener((v) =>
         {
+            if (type == TypeOfSounds.Master)
+            {
+                AudioManager.Instance.SetMasterVolume(v);
+            }
+            else if (type == TypeOfSounds.Music)
+            {
+                AudioManager.Instance.SetMusicVolume(v);
+            }
+            else
+            {
+                AudioManager.Instance.SetSfxVolume(v);
+                AudioManager.Instance.PlayButtonClickSound();
+            }
+        });
+        
+        /*
+        _slider.onValueChanged.AddListener((v) =>
+        {
+            
             if (type == TypeOfSounds.Music)
             {
                 AudioManager.Instance.OnVolumeMusicChanged(v);
@@ -52,10 +76,27 @@ public class SoundSlider : MonoBehaviour
                 }
 
                 // Start a new coroutine to play the sound after the delay
-                _soundCoroutine = StartCoroutine(PlayDelayedSound());*/
+                _soundCoroutine = StartCoroutine(PlayDelayedSound());
                 AudioManager.Instance.PlayButtonClickSound();
             }
         });
+        */
+    }
+    
+    public void UpdateSliderValues()
+    {
+        if (type == TypeOfSounds.Master)
+        {
+            _slider.value = AudioManager.Instance.GetMasterVolume();
+        }
+        else if (type == TypeOfSounds.Music)
+        {
+            _slider.value = AudioManager.Instance.GetMusicVolume();
+        }
+        else
+        {
+            _slider.value = AudioManager.Instance.GetSfxVolume();
+        }
     }
 
     //coroutine for playing sfx sound

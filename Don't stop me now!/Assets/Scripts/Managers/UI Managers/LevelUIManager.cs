@@ -4,18 +4,23 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class LevelUIManager : MonoBehaviour
+public class LevelUIManager : Singleton<LevelUIManager>
 {
     public float fadeTime = 1f;
     public Image backgroundImage;
     
+    [Header("Start Level Graphics")]
+    public TextMeshProUGUI levelText;
+    public int world1LevelsNumber = 19;
+    public int world2LevelsNumber = 12;
+    
     [Header("Pause")]
     public GameObject pauseMenuCanvas;
-    public TextMeshProUGUI levelText;
     public TextMeshProUGUI pauseLevelText;
     public GameObject pauseButtons;
 
@@ -25,12 +30,28 @@ public class LevelUIManager : MonoBehaviour
     
     [Header("Settings")]
     public GameObject settingsMenuCanvas;
+    
     [Header("Commands")]
     public GameObject commandsMenuCanvas;
+    
+    
     private Color _backgroundColor;
     private bool _paused = false;
 
     private void Start()
+    {
+        UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PressedEsc();
+        }
+    }
+
+    public void UpdateUI()
     {
         pauseMenuCanvas.SetActive(false);
 
@@ -39,30 +60,42 @@ public class LevelUIManager : MonoBehaviour
         pauseLevelText.text = "Level " + levelIndex;
         feedbackTitleText.text = "Feedback about level " + levelIndex;
         feedbackMenuCanvas.SetActive(false);
-        
-        levelText.gameObject.SetActive(true);
-        _backgroundColor = backgroundImage.color;
-        backgroundImage.gameObject.SetActive(true);
-        
-        StartCoroutine(FadeLevelText());
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (SceneIsLevel())
         {
-            if (!_paused)
-            {
-                _paused = true;
-                CallPause();
-            }
-            else
-            {
-                _paused = false;
-                Resume();
-            }
+            levelText.gameObject.SetActive(true);
+            _backgroundColor = backgroundImage.color;
+            backgroundImage.gameObject.SetActive(true);
+            
+            StartCoroutine(FadeLevelText());
         }
     }
+
+    private void PressedEsc()
+    {
+        if (!SceneIsLevel()) return;
+        
+        if (!_paused)
+        {
+            _paused = true;
+            CallPause();
+        }
+        else
+        {
+            _paused = false;
+            Resume();
+        }
+    }
+
+    #region Level
+
+    private bool SceneIsLevel()
+    {
+        int i = SceneManager.GetActiveScene().buildIndex;
+        return i > 2 && i != 2 + world1LevelsNumber + 1 && i <= 2 + world1LevelsNumber + 1 + world2LevelsNumber;
+    }
+    
+    #endregion
 
     #region Pause
 
@@ -82,6 +115,8 @@ public class LevelUIManager : MonoBehaviour
         EventManager.TriggerEvent(EventNames.GameResume);
         pauseMenuCanvas.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
+        settingsMenuCanvas.SetActive(false);
+        commandsMenuCanvas.SetActive(false);
         Time.timeScale = 1;
     }
     

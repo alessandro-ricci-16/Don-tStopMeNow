@@ -1354,7 +1354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6089685413823845149
 Transform:
   m_ObjectHideFlags: 0
@@ -1384,8 +1384,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeTime: 1
   backgroundImage: {fileID: 2173382300716526321}
-  pauseMenuCanvas: {fileID: 4981402571307836044}
   levelText: {fileID: 4225123464405722793}
+  pauseMenuCanvas: {fileID: 4981402571307836044}
   pauseLevelText: {fileID: 9073687215514674088}
   pauseButtons: {fileID: 4064524800190530411}
   feedbackMenuCanvas: {fileID: 7681096621609448264}
@@ -1763,6 +1763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7945209887397979099}
+  - component: {fileID: 2894033708082571841}
   m_Layer: 0
   m_Name: Level UI (Pause Menu + Level Number)
   m_TagString: Untagged
@@ -1779,7 +1780,7 @@ Transform:
   m_GameObject: {fileID: 3854951675121847960}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.123072, y: 0.9068679, z: 19.080677}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1794,6 +1795,28 @@ Transform:
   - {fileID: 6089685413823845149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2894033708082571841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3854951675121847960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5c5b59fc0da004bb47e4019547033c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeTime: 1
+  backgroundImage: {fileID: 2173382300716526321}
+  levelText: {fileID: 4225123464405722793}
+  pauseMenuCanvas: {fileID: 4981402571307836044}
+  pauseLevelText: {fileID: 9073687215514674088}
+  pauseButtons: {fileID: 4064524800190530411}
+  feedbackMenuCanvas: {fileID: 7681096621609448264}
+  feedbackTitleText: {fileID: 803580173159021492}
+  settingsMenuCanvas: {fileID: 503185848557085118}
+  commandsMenuCanvas: {fileID: 7477460633007280987}
 --- !u!1 &3910181803454134957
 GameObject:
   m_ObjectHideFlags: 0

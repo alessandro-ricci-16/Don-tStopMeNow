@@ -24,7 +24,7 @@ public class TileSplitter : MonoBehaviour
         List<GameObject> newObjects = new List<GameObject>(spriteMasks.Count);
         GameObject parent = Instantiate(parentPrefab, transform.position, Quaternion.identity);
         
-        for (int i = 0; i < spriteMasks.Count; i++)
+        for (var i = 0; i < spriteMasks.Count; i++)
         {
             GameObject newGo = Instantiate(prefab, transform.position + new Vector3(0.5f, 0.5f, 0),
                 Quaternion.identity);
@@ -36,8 +36,7 @@ public class TileSplitter : MonoBehaviour
         foreach (var obj in newObjects)
         {
             var rb = obj.GetComponent<Rigidbody2D>();
-            Vector3 forceDirection = transform.position - (Vector3)forcePosition;
-            
+            var forceDirection = (transform.position - (Vector3)forcePosition).normalized;
             rb.velocity = forceDirection * forceSpeed;
             rb.angularVelocity = Random.Range(-360, 360);
         }

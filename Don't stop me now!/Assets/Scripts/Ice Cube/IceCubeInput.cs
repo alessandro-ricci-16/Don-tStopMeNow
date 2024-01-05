@@ -391,7 +391,7 @@ public class IceCubeInput : MonoBehaviour
     private void InterruptJump(InputAction.CallbackContext value)
     {
         // only interrupt jump if the jump is not a wall jump
-        if (_wallJumpCounter == 0)
+        if (gameObject.activeSelf && _wallJumpCounter == 0)
             StartCoroutine(InterruptJumpCoroutine());    
     }
     

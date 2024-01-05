@@ -1,5 +1,4 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class FadeOutHandler : MonoBehaviour
 {
@@ -11,12 +10,13 @@ public class FadeOutHandler : MonoBehaviour
     private bool _startFade = false;
     private float _forceFadeTimer;
     private Camera _camera;
+    private SpriteRenderer _spriteRenderer;
 
     private void Start()
     {
+        _spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _camera = Camera.main;
         _rb = GetComponent<Rigidbody2D>();
-        transform.Rotate(0,0,90 * Random.Range(0, 4));
     }
 
     private void LateUpdate()
@@ -25,10 +25,10 @@ public class FadeOutHandler : MonoBehaviour
         if (distanceToCamera > destroyDistance) Destroy(gameObject);
         else if (_startFade)
         {
-            Color color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+            Color color = _spriteRenderer.color;
             color.a -=  fadeSpeed * Time.deltaTime;
             if(color.a <= 0) Destroy(gameObject);
-            transform.GetChild(0).GetComponent<SpriteRenderer>().color = color;
+            _spriteRenderer.color = color;
         }
         else
         {

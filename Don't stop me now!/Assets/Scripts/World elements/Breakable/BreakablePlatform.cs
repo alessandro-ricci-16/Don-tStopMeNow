@@ -92,7 +92,7 @@ public class BreakablePlatform : MonoBehaviour
             
             BreakTile(currentCellPosition, iceCubePosition);
 
-            // Aggiungi le celle adiacenti allo stack
+            // Adds adjacent tiles into the queue
             queue.Enqueue(currentCellPosition + Vector3Int.right);
             queue.Enqueue(currentCellPosition + Vector3Int.left);
             queue.Enqueue(currentCellPosition + Vector3Int.up);

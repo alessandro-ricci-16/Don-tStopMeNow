@@ -21,7 +21,7 @@ public class TileSplitter : MonoBehaviour
 
     private void BreakSpriteToMasks()
     {
-        List<GameObject> newObjects = new List<GameObject>();
+        List<GameObject> newObjects = new List<GameObject>(spriteMasks.Count);
         GameObject parent = Instantiate(parentPrefab, transform.position, Quaternion.identity);
         
         for (int i = 0; i < spriteMasks.Count; i++)
@@ -44,22 +44,25 @@ public class TileSplitter : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void UpdateSpriteObject(GameObject parent, List<GameObject> newGo, List<Sprite> sprites, Sprite tileSprite, PhysicsMaterial2D physicsMaterial)
+    private void UpdateSpriteObject(GameObject parent, IReadOnlyList<GameObject> newGo, IReadOnlyList<Sprite> spriteMasks, Sprite tileSprite, PhysicsMaterial2D physicsMaterial)
     {
-        for (int i = 0; i < newGo.Count; i++)
+        for (var i = 0; i < newGo.Count; i++)
         {
-            newGo[i].GetComponent<Rigidbody2D>().sharedMaterial = physicsMaterial;
-            newGo[i].GetComponent<SpriteRenderer>().sprite = sprites[i];
-            newGo[i].AddComponent<PolygonCollider2D>();
-            newGo[i].GetComponent<PolygonCollider2D>().sharedMaterial = physicsMaterial;
+            var currentGo = newGo[i];
             
-            UpdateShapeToSprite(newGo[i].GetComponent<PolygonCollider2D>());
+            currentGo.GetComponent<Rigidbody2D>().sharedMaterial = physicsMaterial;
+            currentGo.GetComponent<SpriteRenderer>().sprite = spriteMasks[i];
+            PolygonCollider2D polygonCollider = currentGo.AddComponent<PolygonCollider2D>();
+            polygonCollider.sharedMaterial = physicsMaterial;
             
-            newGo[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = tileSprite;
-            newGo[i].transform.GetChild(0).GetComponent<SpriteMask>().sprite = sprites[i];
-            newGo[i].transform.parent = parent.transform;
+            UpdateShapeToSprite(polygonCollider);
 
-            newGo[i].transform.localScale *= 0.95f;
+            var child = currentGo.transform.GetChild(0);
+            child.GetComponent<SpriteRenderer>().sprite = tileSprite;
+            child.GetComponent<SpriteMask>().sprite = spriteMasks[i];
+            currentGo.transform.parent = parent.transform;
+
+            currentGo.transform.localScale *= 0.95f;
         }        
     }
 
@@ -72,7 +75,7 @@ public class TileSplitter : MonoBehaviour
             coll.pathCount = sprite.GetPhysicsShapeCount();
             List<Vector2> path = new List<Vector2>();
 
-            for (int i = 0; i < coll.pathCount; i++)
+            for (var i = 0; i < coll.pathCount; i++)
             {
                 path.Clear();
                 sprite.GetPhysicsShape(i, path);

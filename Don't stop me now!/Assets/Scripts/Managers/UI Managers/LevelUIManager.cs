@@ -47,26 +47,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
             PressedEsc();
         }
     }
-
-    public void UpdateUI()
-    {
-        pauseMenuCanvas.SetActive(false);
-
-        int levelIndex = SceneManager.GetActiveScene().buildIndex - 2;
-        levelText.text = "Level " + levelIndex;
-        pauseLevelText.text = "Level " + levelIndex;
-        feedbackTitleText.text = "Feedback about level " + levelIndex;
-        feedbackMenuCanvas.SetActive(false);
-
-        if (GameManager.Instance.SceneIsLevel())
-        {
-            levelText.gameObject.SetActive(true);
-            _backgroundColor = backgroundImage.color;
-            backgroundImage.gameObject.SetActive(true);
-            
-            StartCoroutine(FadeLevelText());
-        }
-    }
+    
 
     private void PressedEsc()
     {
@@ -84,6 +65,45 @@ public class LevelUIManager : Singleton<LevelUIManager>
         }
     }
 
+    #region UpdateUI
+    
+    public void UpdateUI()
+    {
+        pauseMenuCanvas.SetActive(false);
+
+        int levelIndex = CalculateLevelIndex();
+        levelText.text = "Level " + levelIndex;
+        pauseLevelText.text = "Level " + levelIndex;
+        feedbackTitleText.text = "Feedback about level " + levelIndex;
+        feedbackMenuCanvas.SetActive(false);
+
+        if (GameManager.Instance.SceneIsLevel())
+        {
+            levelText.gameObject.SetActive(true);
+            _backgroundColor = backgroundImage.color;
+            backgroundImage.gameObject.SetActive(true);
+            
+            StartCoroutine(FadeLevelText());
+        }
+    }
+
+    private int CalculateLevelIndex()
+    {
+        int i = SceneManager.GetActiveScene().buildIndex;
+        
+        if (GameManager.Instance.SceneIsWorld1(i))
+        {
+            return i - GameManager.Instance.initialScenesOffset;
+        }
+        else
+        {
+            return i - (GameManager.Instance.initialScenesOffset + GameManager.Instance.world1LevelsNumber 
+                                                                 + GameManager.Instance.world2ScreenOffset);
+        }
+    }
+
+    #endregion
+    
     #region Pause
 
     public void CallPause()

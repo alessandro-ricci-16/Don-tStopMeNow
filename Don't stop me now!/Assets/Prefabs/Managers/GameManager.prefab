@@ -947,7 +947,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeScaleDeath: 1
-  imagesGroundPound: {fileID: 2122311974797315791}
+  initialScenesOffset: 2
+  world1LevelsNumber: 19
+  world2ScreenOffset: 1
+  world2LevelsNumber: 10
 --- !u!95 &6939347951070593622
 Animator:
   serializedVersion: 5

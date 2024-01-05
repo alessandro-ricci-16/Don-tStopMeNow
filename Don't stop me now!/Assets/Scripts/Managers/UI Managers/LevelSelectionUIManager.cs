@@ -15,19 +15,19 @@ public class LevelSelectionUIManager : MonoBehaviour
 
     private void Start()
     {
-        int world1Offset = 3;
-        int world2Offset = world1Offset + world1LevelsButtons.Length;
+        int world1Offset = GameManager.Instance.initialScenesOffset;
+        int world2Offset = world1Offset + GameManager.Instance.world1LevelsNumber + GameManager.Instance.world2ScreenOffset;
         
-        for (int i = 0; i < world1LevelsButtons.Length; i++)
+        for (int i = 0; i < world1LevelsButtons.Length && i < GameManager.Instance.world1LevelsNumber; i++)
         {
             int index = i;
-            world1LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world1Offset));
+            world1LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world1Offset + 1));
         }
         
-        for (int i = 0; i < world2LevelsButtons.Length; i++)
+        for (int i = 0; i < world2LevelsButtons.Length && i < GameManager.Instance.world2LevelsNumber; i++)
         {
             int index = i;
-            world2LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world2Offset));
+            world2LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world2Offset + 1));
         }
     }
 

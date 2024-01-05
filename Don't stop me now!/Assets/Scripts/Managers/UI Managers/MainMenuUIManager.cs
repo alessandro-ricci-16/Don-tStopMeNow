@@ -1,11 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuUIManager : MonoBehaviour
 {
+    public CinemachineVirtualCamera mainMenuCamera;
+    public CinemachineVirtualCamera creditsCamera;
+    public CinemachineVirtualCamera settingsCamera;
+
+    private void Start()
+    {
+        mainMenuCamera.enabled = true;
+        creditsCamera.enabled = false;
+        settingsCamera.enabled = false;
+    }
+
     public void LoadLevelSelectionScene()
     {
         GameManager.Instance.LoadLevelSelectionScene();
@@ -23,11 +35,22 @@ public class MainMenuUIManager : MonoBehaviour
     
     public void LoadCreditsScene()
     {
-        GameManager.Instance.LoadCreditsScene();
+        mainMenuCamera.enabled = false;
+        creditsCamera.enabled = true;
+        settingsCamera.enabled = false;
     }
     
     public void LoadSettingsScene()
     {
-        GameManager.Instance.LoadSettingsScene();
+        mainMenuCamera.enabled = false;
+        creditsCamera.enabled = false;
+        settingsCamera.enabled = true;
+    }
+    
+    public void LoadMainMenuScene()
+    {
+        mainMenuCamera.enabled = true;
+        creditsCamera.enabled = false;
+        settingsCamera.enabled = false;
     }
 }

@@ -9,7 +9,6 @@ public class WorldScreenUIManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(LoadAfterDelay());
-        AudioManager.Instance.PlayNextSong();
     }
     
     private IEnumerator LoadAfterDelay()

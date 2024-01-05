@@ -32,7 +32,6 @@ namespace Ice_Cube.States
             Time.timeScale = 1.0f;
             Rigidbody2D.AddForce(Parameters.groundPoundSpeed * Vector2.down, ForceMode2D.Impulse);
             _forceAlreadyApplied = true;
-            GameManager.Instance.ShowShatteredScreen();
         }
 
         public override void PerformPhysicsAction(Vector2 currentDirection)

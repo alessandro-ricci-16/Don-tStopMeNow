@@ -8,16 +8,21 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    public float timeScaleDeath;
+
+    [Header("Level Number Parameters")] 
+    public int initialScenesOffset = 2;
+    public int world1LevelsNumber = 25;
+    public int world2ScreenOffset = 1;
+    public int world2LevelsNumber = 25;
+    
     public bool StartAtCheckPoint { get; private set; }
     public Vector3 LastCheckpoint { get; private set; }
     public Direction CheckpointStartDirection { get; private set; }
-    public float timeScaleDeath;
     
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
     private Action _functionToPlay;
-    
-    public GameObject imagesGroundPound;
     
     protected override void Awake() 
     { 
@@ -169,8 +174,9 @@ public class GameManager : Singleton<GameManager>
         // reset the time scale to normal
         Time.timeScale = 1.0f;
         
-        // update level UI
+        // update level UI and music
         LevelUIManager.Instance.UpdateUI();
+        AudioManager.Instance.UpdateMusic();
     }
     
     private IEnumerator LoadAsyncScene(string scene)
@@ -195,11 +201,51 @@ public class GameManager : Singleton<GameManager>
     {
         Application.Quit();
     }
-    
-    public void ShowShatteredScreen()
+
+
+    #region Level Parameters
+
+    public bool SceneIsLevel(int index)
     {
-        //disable and enable images ground pound
-        //imagesGroundPound.SetActive(false);
-        //imagesGroundPound.SetActive(true);
+        return index > initialScenesOffset && index != initialScenesOffset + world1LevelsNumber + world2ScreenOffset &&
+               index <= initialScenesOffset + world1LevelsNumber + world2ScreenOffset + world2LevelsNumber;
     }
+
+    public bool SceneIsLevel()
+    {
+        return SceneIsLevel(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    public bool SceneIsWorld1(int index)
+    {
+        return index > initialScenesOffset && index <= initialScenesOffset + world1LevelsNumber;
+    }
+    
+    public bool SceneIsWorld1()
+    {
+        return SceneIsWorld1(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    public bool SceneIsWorld2(int index)
+    {
+        return index > initialScenesOffset + world1LevelsNumber + world2ScreenOffset &&
+               index <= initialScenesOffset + world1LevelsNumber + world2ScreenOffset + world2LevelsNumber;
+    }
+    
+    public bool SceneIsWorld2()
+    {
+        return SceneIsWorld2(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    public bool SceneIsWorld2Screen(int index)
+    {
+        return index == initialScenesOffset + world1LevelsNumber + world2ScreenOffset;
+    }
+    
+    public bool SceneIsWorld2Screen()
+    {
+        return SceneIsWorld2Screen(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    #endregion
 }

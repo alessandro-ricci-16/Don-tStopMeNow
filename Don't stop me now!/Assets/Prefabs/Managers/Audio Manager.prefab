@@ -44,17 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e081f2a68f5b23a4fa5ee206e9a195e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 0.8
-  musicVolume: 0.8
-  sfxVolume: 0.8
-  songs:
-  - sound: {fileID: 8300000, guid: 489e90c551bf559438d86d6ca02481eb, type: 3}
+  intro:
+    sound: {fileID: 8300000, guid: 489e90c551bf559438d86d6ca02481eb, type: 3}
     loopOnPlay: 0
     volume: 1
-  - sound: {fileID: 8300000, guid: 24b4edb4233609c4ba8a9179229458a9, type: 3}
+  loopWorld1:
+    sound: {fileID: 8300000, guid: 24b4edb4233609c4ba8a9179229458a9, type: 3}
     loopOnPlay: 1
     volume: 1
-  - sound: {fileID: 8300000, guid: 44fd821557a70f34aa89ca7b4fb4f960, type: 3}
+  loopWorld2:
+    sound: {fileID: 8300000, guid: 44fd821557a70f34aa89ca7b4fb4f960, type: 3}
     loopOnPlay: 1
     volume: 1
   deathSound:

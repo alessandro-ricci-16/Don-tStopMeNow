@@ -16,23 +16,28 @@ public class SoundData
 
 public class AudioManager : Singleton<AudioManager>
 {
-    //[Header("Volume")] 
-    [Range(0, 1)] private float _masterVolume = 0.8f;
-    [Range(0, 1)] private float _musicVolume = 0.8f;
-    [Range(0, 1)] private float _sfxVolume = 0.8f;
-
-    [Header("Music")] public SoundData[] songs;
+    [Header("Music")] 
+    public SoundData intro;
+    public SoundData loopWorld1;
+    public SoundData loopWorld2;
 
     [Header("Game Sound Effects")] public SoundData deathSound;
     public SoundData jumpSound;
     public SoundData groundPoundSound;
     public SoundData dashSound;
 
-    [Header("UI Sound Effects")] public SoundData buttonClickSound;
+    [Header("UI Sound Effects")] 
+    public SoundData buttonClickSound;
+
+    // volumes
+    [Range(0, 1)] private float _masterVolume = 0.8f;
+    [Range(0, 1)] private float _musicVolume = 0.8f;
+    [Range(0, 1)] private float _sfxVolume = 0.8f;
 
     // Music variables
-    private int _currentSongIndex = 0;
-    private bool _isLooping = false;
+    // private int _currentSongIndex = 0;
+    // private bool _isLooping = false;
+    private SoundData _currentSong;
     private Coroutine _preloadCoroutine;
     private AudioSource _musicAudioSource;
 
@@ -51,7 +56,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Start()
     {
-        PlaySong(_currentSongIndex);
+        StartCoroutine(PlayIntro());
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         //EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
@@ -66,73 +71,80 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
     
     
-    #region Songs
+    #region Music
 
-    private void PlaySong(int index)
+    private IEnumerator PlayIntro()
     {
+        // update current song
+        _currentSong = intro;
+        
         _musicAudioSource.Stop();
-        _musicAudioSource.clip = songs[index].sound;
-        _musicAudioSource.volume = songs[index].volume * _masterVolume * _musicVolume;
+        _musicAudioSource.clip = intro.sound;
+        _musicAudioSource.volume = intro.volume * _masterVolume * _musicVolume;
         _musicAudioSource.Play();
-        _currentSongIndex = index;
+        
+        _musicAudioSource.loop = false;
 
-        // Check if the sound should loop automatically when played
-        _isLooping = songs[index].loopOnPlay;
-        _musicAudioSource.loop = _isLooping;
-
-        // Start coroutine to automatically play next sound if it's not set to loop
-        StartCoroutine(WaitForSongToEnd());
-        // Check if there's a next song available
-        int nextIndex = (index + 1) % songs.Length;
-
-        // Start preloading the next song
-        //PreloadSound(songs[nextIndex]);
-    }
-
-    public void ToggleLoop(bool shouldLoop)
-    {
-        _musicAudioSource.loop = shouldLoop;
-        _isLooping = shouldLoop;
-    }
-
-    private IEnumerator WaitForSongToEnd()
-    {
-        float songLength = _musicAudioSource.clip.length;
-        yield return new WaitForSeconds(songLength);
-
-        // If the sound is not set to loop, play the next sound
-        if (!_isLooping)
+        yield return new WaitForSeconds(intro.sound.length);
+        
+        // if the intro is still the current song (haven't gone into world 2), then play world 1 loop
+        if (_currentSong == intro)
         {
-            PlayNextSong();
+            _musicAudioSource.Stop();
+            _musicAudioSource.clip = loopWorld1.sound;
+            _musicAudioSource.volume = loopWorld1.volume * _masterVolume * _musicVolume;
+            _musicAudioSource.Play();
+            _musicAudioSource.loop = true;
         }
     }
-
-    public void PlayNextSong()
+    
+    private IEnumerator FadeOutAndPlayLoop(SoundData song, float fadeOutDuration = 1.0f, float delay = 1.0f,
+        float fadeInDuration = 1.0f)
     {
-        _currentSongIndex = (_currentSongIndex + 1) % songs.Length;
-        StartCoroutine(FadeOutAndPlay());
-    }
-
-    public void PlayPreviousSong()
-    {
-        StartCoroutine(FadeOutAndPlay());
-        _currentSongIndex = (_currentSongIndex - 1 + songs.Length) % songs.Length;
-    }
-
-    private IEnumerator FadeOutAndPlay(float fadeDuration = 1.0f, float delay = 1.0f)
-    {
+        // FADE OUT
         float startVolume = _musicAudioSource.volume;
         while (_musicAudioSource.volume > 0)
         {
-            _musicAudioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
-            yield return null;
+            _musicAudioSource.volume -= startVolume * Time.deltaTime / fadeOutDuration;
+            yield return new WaitForEndOfFrame();
         }
-
         _musicAudioSource.Stop();
-
+        
+        // DELAY
         yield return new WaitForSeconds(delay);
+        
+        // FADE IN
+        _currentSong = song;
+        _musicAudioSource.clip = song.sound;
+        _musicAudioSource.Play();
+        _musicAudioSource.loop = true;
+        while (_musicAudioSource.volume < song.volume * _masterVolume * _musicVolume)
+        {
+            _musicAudioSource.volume += startVolume * Time.deltaTime / fadeInDuration;
+            yield return new WaitForEndOfFrame();
+        }
+    }
 
-        PlaySong(_currentSongIndex);
+    public void UpdateMusic()
+    {
+        if (_currentSong == intro || _currentSong == loopWorld1)
+        {
+            if (GameManager.Instance.SceneIsWorld2Screen() || GameManager.Instance.SceneIsWorld2())
+            {
+                // stop other coroutines which might be executing
+                StopAllCoroutines();
+                StartCoroutine(FadeOutAndPlayLoop(loopWorld2));
+            }
+        }
+        else if (_currentSong == loopWorld2)
+        {
+            if (GameManager.Instance.SceneIsWorld1())
+            {
+                // stop other coroutines which might be executing
+                StopAllCoroutines();
+                StartCoroutine(FadeOutAndPlayLoop(loopWorld1));
+            }
+        }
     }
 
     #endregion
@@ -201,13 +213,13 @@ public class AudioManager : Singleton<AudioManager>
     public void SetMasterVolume(float value)
     {
         _masterVolume = value;
-        _musicAudioSource.volume = songs[_currentSongIndex].volume * _masterVolume * _musicVolume;
+        _musicAudioSource.volume = _currentSong.volume * _masterVolume * _musicVolume;
     }
     
     public void SetMusicVolume(float value)
     {
         _musicVolume = value;
-        _musicAudioSource.volume = songs[_currentSongIndex].volume * _masterVolume * _musicVolume;
+        _musicAudioSource.volume = _currentSong.volume * _masterVolume * _musicVolume;
     }
     
     public void SetSfxVolume(float value)
@@ -216,4 +228,6 @@ public class AudioManager : Singleton<AudioManager>
     }
     
     #endregion
+    
+    
 }

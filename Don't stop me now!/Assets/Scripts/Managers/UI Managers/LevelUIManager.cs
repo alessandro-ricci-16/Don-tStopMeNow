@@ -61,7 +61,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
         feedbackTitleText.text = "Feedback about level " + levelIndex;
         feedbackMenuCanvas.SetActive(false);
 
-        if (SceneIsLevel())
+        if (GameManager.Instance.SceneIsLevel())
         {
             levelText.gameObject.SetActive(true);
             _backgroundColor = backgroundImage.color;
@@ -73,7 +73,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private void PressedEsc()
     {
-        if (!SceneIsLevel()) return;
+        if (!GameManager.Instance.SceneIsLevel()) return;
         
         if (!_paused)
         {
@@ -86,16 +86,6 @@ public class LevelUIManager : Singleton<LevelUIManager>
             Resume();
         }
     }
-
-    #region Level
-
-    private bool SceneIsLevel()
-    {
-        int i = SceneManager.GetActiveScene().buildIndex;
-        return i > 2 && i != 2 + world1LevelsNumber + 1 && i <= 2 + world1LevelsNumber + 1 + world2LevelsNumber;
-    }
-    
-    #endregion
 
     #region Pause
 

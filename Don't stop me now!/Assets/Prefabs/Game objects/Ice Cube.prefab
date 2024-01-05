@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1593892162703338945}
   - component: {fileID: 5102245008745954775}
   - component: {fileID: 5047151819313745445}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ice Cube
   m_TagString: Player
   m_Icon: {fileID: 0}

@@ -179,6 +179,9 @@ public class IceCubeInput : MonoBehaviour
     /// OnCollisionStay2D
     private void HandleCollisions(Collision2D other)
     {
+         // Ignore if collided with a breakable while dashing
+         if (other.gameObject.CompareTag("Breakable")&& _stateManager.GetCurrentState().GetEnumState() == IceCubeStatesEnum.IsDashing)
+            return;
         // get the contacts from the collision
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];

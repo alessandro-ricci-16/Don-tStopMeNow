@@ -13,18 +13,15 @@ public class LevelUIManager : Singleton<LevelUIManager>
 {
     public float fadeTime = 1f;
     public Image backgroundImage;
-    
-    [Header("Start Level Graphics")]
-    public TextMeshProUGUI levelText;
-    public int world1LevelsNumber = 19;
-    public int world2LevelsNumber = 12;
+
+    [Header("Start Level Graphics")] public TextMeshProUGUI levelText;
     
     [Header("Pause")]
     public GameObject pauseMenuCanvas;
     public TextMeshProUGUI pauseLevelText;
     public GameObject pauseButtons;
 
-    [Header("Feedback")] 
+    [Header("Feedback")]
     public GameObject feedbackMenuCanvas;
     public TextMeshProUGUI feedbackTitleText;
     
@@ -103,11 +100,17 @@ public class LevelUIManager : Singleton<LevelUIManager>
     {
         _paused = false;
         EventManager.TriggerEvent(EventNames.GameResume);
+        DeactivateEverything();
+        Time.timeScale = 1;
+    }
+
+    private void DeactivateEverything()
+    {
         pauseMenuCanvas.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
         settingsMenuCanvas.SetActive(false);
         commandsMenuCanvas.SetActive(false);
-        Time.timeScale = 1;
+        feedbackMenuCanvas.SetActive(false);
     }
     
     #endregion
@@ -133,12 +136,14 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public void BackToLevelSelection()
     {
         Time.timeScale = 1;
+        DeactivateEverything();
         GameManager.Instance.LoadLevelSelectionScene();
     }
     
     public void SkipLevel()
     {
         Time.timeScale = 1;
+        DeactivateEverything();
         FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
         GameManager.Instance.LoadNextScene();
     }

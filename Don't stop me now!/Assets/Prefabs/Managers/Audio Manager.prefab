@@ -53,7 +53,7 @@ MonoBehaviour:
     loopOnPlay: 1
     volume: 1
   loopWorld2:
-    sound: {fileID: 8300000, guid: 44fd821557a70f34aa89ca7b4fb4f960, type: 3}
+    sound: {fileID: 8300000, guid: f1f5bcc1f1013744fbbcab8bfeddcc74, type: 3}
     loopOnPlay: 1
     volume: 1
   deathSound:
@@ -72,6 +72,10 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: 509eaa04925578743a664cde5c9e0dd5, type: 3}
     loopOnPlay: 0
     volume: 2
+  breakingPlatformSound:
+    sound: {fileID: 8300000, guid: 843693b2491630b4fb9693bdb7094c17, type: 3}
+    loopOnPlay: 0
+    volume: 1
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     loopOnPlay: 0

@@ -11,5 +11,6 @@ public enum EventNames
     ChangedDirection,
     GamePause,
     GameResume,
-    CollisionWithGround
+    CollisionWithGround,
+    BreakingPlatform
 }

@@ -73,6 +73,7 @@ public class BreakablePlatform : MonoBehaviour
     /// </remarks>
     private void BreakPlatform(Vector3Int startCellPosition, Vector3 iceCubePosition)
     {
+        EventManager.TriggerEvent(EventNames.BreakingPlatform);
         Queue<Vector3Int> queue = new Queue<Vector3Int>();
         HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
 

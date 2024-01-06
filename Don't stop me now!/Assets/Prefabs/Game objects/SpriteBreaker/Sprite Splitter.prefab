@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4733793798137275444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6388402989270789961}
+  - component: {fileID: 2772687715913341686}
+  m_Layer: 0
+  m_Name: Sprite Splitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6388402989270789961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4733793798137275444}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2772687715913341686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4733793798137275444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8923becfea717d54f8bd049768acfed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSprite: {fileID: 0}
+  forcePosition: {x: 0, y: 0}
+  forceSpeed: 5
+  physicsMaterial: {fileID: 6200000, guid: 350e02dbe754a044d8f302e14453e921, type: 2}
+  prefab: {fileID: 1955590576446509435, guid: 6c3a90fd04e3eee4a893b6d1c83f4140, type: 3}
+  parentPrefab: {fileID: 3882068342647427569, guid: e48dbcbbad5b3834ba92d9e13d5c41c9, type: 3}
+  spriteMasks:
+  - {fileID: 21300000, guid: 7b482029c2beef64f8fee9605f855175, type: 3}
+  - {fileID: 21300000, guid: 45aea1be52f6ebd488f34591fd2302c5, type: 3}
+  - {fileID: 21300000, guid: 8f338bcd338e46c449d014f406199e4a, type: 3}

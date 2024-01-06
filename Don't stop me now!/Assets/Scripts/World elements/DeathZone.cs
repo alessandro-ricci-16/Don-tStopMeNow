@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class DeathZone : MonoBehaviour
 {
-    public bool destroyOnPlayerHit = false;
-    
     private bool _sentEvent = false;
+    public bool destroyOnHit = false;
+    [SerializeField] private GameObject spriteSplitterPrefab;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,6 +16,23 @@ public class DeathZone : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         CheckDeath(collision.collider);
+        
+        if (destroyOnHit)
+        {
+            if (spriteSplitterPrefab is not null)
+            {
+                GameObject newTile = Instantiate(spriteSplitterPrefab, transform.position, Quaternion.identity);
+                var tileSplitter = newTile.GetComponent<SpriteSplitter>();
+
+                var spriteRenderer = GetComponent<SpriteRenderer>();
+                tileSplitter.tileSprite = spriteRenderer.sprite;
+                tileSplitter.spriteColor = spriteRenderer.color;
+                tileSplitter.scale = transform.lossyScale;
+                tileSplitter.initialVelocity = GetComponent<Rigidbody2D>().velocity;
+            }
+
+            Destroy(gameObject);
+        }
     }
 
     private void CheckDeath(Collider2D other)
@@ -26,8 +44,6 @@ public class DeathZone : MonoBehaviour
             other.GetComponent<Explodable>().Explode();
             var position = other.transform.position;
             EventManager.TriggerEvent(EventNames.Death, SceneManager.GetActiveScene().name, position);
-            if(destroyOnPlayerHit)
-                Destroy(gameObject);
         }
     }
 }

@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileSplitter : MonoBehaviour
+public class SpriteSplitter : MonoBehaviour
 {
     public Sprite tileSprite;
+    public Color spriteColor = Color.white;
 
-    public Vector2 forcePosition;
+    public Vector2 forcePosition = Vector2.zero;
+    public Vector3 scale = Vector3.one;
+    public Vector3 initialVelocity = Vector3.zero;
 
     public float forceSpeed;
     public PhysicsMaterial2D physicsMaterial;
@@ -31,19 +34,23 @@ public class TileSplitter : MonoBehaviour
             newObjects.Add(newGo);
         }
         
-        UpdateSpriteObject(parent, newObjects, spriteMasks, tileSprite, physicsMaterial);
+        UpdateSpriteObject(parent, newObjects);
         
         foreach (var obj in newObjects)
         {
             var rb = obj.GetComponent<Rigidbody2D>();
-            var forceDirection = (transform.position - (Vector3)forcePosition).normalized;
-            rb.velocity = forceDirection * forceSpeed;
+            
+            rb.velocity = initialVelocity;
+            if(forcePosition != Vector2.zero){
+                var forceDirection = ((Vector2)transform.position - forcePosition).normalized;
+                rb.velocity += forceDirection * forceSpeed;
+            }
             rb.angularVelocity = Random.Range(-360, 360);
         }
         Destroy(gameObject);
     }
 
-    private void UpdateSpriteObject(GameObject parent, IReadOnlyList<GameObject> newGo, IReadOnlyList<Sprite> spriteMasks, Sprite tileSprite, PhysicsMaterial2D physicsMaterial)
+    private void UpdateSpriteObject(GameObject parent, IReadOnlyList<GameObject> newGo)
     {
         for (var i = 0; i < newGo.Count; i++)
         {
@@ -57,11 +64,13 @@ public class TileSplitter : MonoBehaviour
             UpdateShapeToSprite(polygonCollider);
 
             var child = currentGo.transform.GetChild(0);
-            child.GetComponent<SpriteRenderer>().sprite = tileSprite;
+            var childSpriteRenderer = child.GetComponent<SpriteRenderer>();
+            childSpriteRenderer.sprite = tileSprite;
+            childSpriteRenderer.color = spriteColor;
             child.GetComponent<SpriteMask>().sprite = spriteMasks[i];
             currentGo.transform.parent = parent.transform;
 
-            currentGo.transform.localScale *= 0.95f;
+            currentGo.transform.localScale = scale;
         }        
     }
 

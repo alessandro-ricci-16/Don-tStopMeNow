@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 
@@ -11,7 +12,7 @@ public class BreakablePlatform : MonoBehaviour
 {
     private Tilemap _tilemap;
     public IceCubeParameters parameters;
-    [SerializeField] private GameObject tileSplitterPrefab;
+    [SerializeField] private GameObject spriteSplitterPrefab;
 
     private void Start()
     {
@@ -103,8 +104,8 @@ public class BreakablePlatform : MonoBehaviour
 
     private void BreakTile(Vector3Int tilePosition, Vector3 iceCubePosition)
     {
-        GameObject newTile = Instantiate(tileSplitterPrefab, tilePosition, Quaternion.identity);
-        TileSplitter tileSplitter = newTile.GetComponent<TileSplitter>();
+        GameObject newTile = Instantiate(spriteSplitterPrefab, tilePosition, Quaternion.identity);
+        var tileSplitter = newTile.GetComponent<SpriteSplitter>();
         
         tileSplitter.tileSprite = _tilemap.GetSprite(tilePosition);
         tileSplitter.forcePosition = iceCubePosition;

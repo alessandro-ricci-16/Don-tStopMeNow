@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FadeOutHandler : MonoBehaviour
 {
-    [SerializeField] private float fadeSpeed;
-    [SerializeField] private int destroyDistance;
-    [SerializeField] private float forceFadeTimerTarget;
+    public float fadeSpeed = 1;
+    public int destroyDistance = 50;
+    public float startFadeTimerTarget = 1;
 
     private Rigidbody2D _rb;
     private bool _startFade = false;
@@ -14,7 +15,7 @@ public class FadeOutHandler : MonoBehaviour
 
     private void Start()
     {
-        _spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        _spriteRenderer = transform.childCount > 0 ? transform.GetChild(0).GetComponent<SpriteRenderer>() : transform.GetComponent<SpriteRenderer>();
         _camera = Camera.main;
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -33,7 +34,7 @@ public class FadeOutHandler : MonoBehaviour
         else
         {
             if (_rb is not null && _rb.velocity.x == 0) _startFade = true;
-            if (_forceFadeTimer < forceFadeTimerTarget) _forceFadeTimer += Time.deltaTime;
+            if (_forceFadeTimer < startFadeTimerTarget) _forceFadeTimer += Time.deltaTime;
             else _startFade = true;
         }
     }

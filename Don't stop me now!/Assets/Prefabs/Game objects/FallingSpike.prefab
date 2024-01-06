@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5069278094288621554}
   - component: {fileID: 3736835641786521735}
   - component: {fileID: 4605672485505399593}
+  - component: {fileID: 5293633152883872040}
   m_Layer: 0
   m_Name: FallingSpike
   m_TagString: Untagged
@@ -100,6 +101,18 @@ MonoBehaviour:
   triggerHeight: 5
   gravityScale: 20
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
+--- !u!114 &5293633152883872040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510207669545788933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117e560f48d7abc439c2a819434b94f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3359748012313553975
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +124,7 @@ GameObject:
   - component: {fileID: 5932295126522628140}
   - component: {fileID: 607684496707342202}
   - component: {fileID: 6545970847946595058}
+  - component: {fileID: 2583006514379003122}
   - component: {fileID: 5366285840040825360}
   - component: {fileID: 8739761563807974715}
   m_Layer: 0
@@ -199,7 +213,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dab9c1d9ec85a8469e966de85289147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnPlayerHit: 0
+  destroyOnHit: 0
+  spriteSplitterPrefab: {fileID: 4733793798137275444, guid: c4e23cd1ef1c21e45acb144cdc8cb367, type: 3}
+--- !u!114 &2583006514379003122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3359748012313553975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 496acaf0bae57764e89c408ad70a7b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &5366285840040825360
 Rigidbody2D:
   serializedVersion: 4
@@ -223,7 +250,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
@@ -256,7 +283,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

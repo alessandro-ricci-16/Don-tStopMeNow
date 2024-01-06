@@ -1,5 +1,6 @@
 using System;
 using ScriptableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PolygonCollider2D))]
@@ -14,7 +15,6 @@ public class FallingSpike : MonoBehaviour
     public float triggerHeight = 5;
     public float gravityScale;
     public IceCubeParameters parameters;
-
     private Rigidbody2D _spikeRb;
 
     private PolygonCollider2D _pc;
@@ -26,6 +26,8 @@ public class FallingSpike : MonoBehaviour
         // don't let the spike fall for the moment
         _spikeRb.gravityScale = 0;
         _pc = GetComponent<PolygonCollider2D>();
+        //_doh.enabled = false;
+        
         _defaultCubeSpeed = parameters.defaultSpeed;
 
         Vector2[] triangleColliderPoints = new Vector2[3];
@@ -48,18 +50,23 @@ public class FallingSpike : MonoBehaviour
         {
             // let the spike fall
             _spikeRb.gravityScale = gravityScale;
+            transform.GetChild(0).GetComponent<DeathZone>().destroyOnHit = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         // destroy the spike when exiting its own trigger
-        if(other.attachedRigidbody == _spikeRb)
-            Destroy(gameObject);
+        if (other.attachedRigidbody == _spikeRb)
+        {
+            var fadeOut = other.AddComponent<FadeOutHandler>();
+            fadeOut.startFadeTimerTarget = 0;
+            fadeOut.fadeSpeed = 5;
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionExit2D(Collision2D other)
     {
-        Debug.Log("Hit something");
+        Debug.Log("On collision exit");
     }
 }

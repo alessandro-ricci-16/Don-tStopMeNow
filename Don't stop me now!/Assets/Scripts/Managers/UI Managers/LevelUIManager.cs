@@ -11,7 +11,6 @@ using UnityEngine.UI;
 
 public class LevelUIManager : Singleton<LevelUIManager>
 {
-    public float fadeTime = 1f;
     public Image backgroundImage;
 
     [Header("Start Level Graphics")] public TextMeshProUGUI levelText;
@@ -30,13 +29,19 @@ public class LevelUIManager : Singleton<LevelUIManager>
     
     [Header("Commands")]
     public GameObject commandsMenuCanvas;
-    
-    
+
+    private readonly float _fadeDelay = 0f;
+    private readonly float _fadeTime = 1f;
     private Color _backgroundColor;
     private bool _paused = false;
 
+    private int _currentSceneIndex;
+    private int _currentLevelIndex;
+
     private void Start()
     {
+        _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        _currentLevelIndex = CalculateLevelIndex();
         UpdateUI();
     }
 
@@ -71,18 +76,24 @@ public class LevelUIManager : Singleton<LevelUIManager>
     {
         pauseMenuCanvas.SetActive(false);
 
-        int levelIndex = CalculateLevelIndex();
-        levelText.text = "Level " + levelIndex;
-        pauseLevelText.text = "Level " + levelIndex;
-        feedbackTitleText.text = "Feedback about level " + levelIndex;
-        feedbackMenuCanvas.SetActive(false);
+        int i = SceneManager.GetActiveScene().buildIndex;
+        
+        // expensive method invocation -> only update if the scene changed
+        if (i != _currentSceneIndex)
+        {
+            _currentSceneIndex = i;
+            _currentLevelIndex = CalculateLevelIndex();
+            levelText.text = "Level " + _currentLevelIndex;
+            pauseLevelText.text = "Level " + _currentLevelIndex;
+            feedbackTitleText.text = "Feedback about level " + _currentLevelIndex;
+            feedbackMenuCanvas.SetActive(false);
+        }
 
         if (GameManager.Instance.SceneIsLevel())
         {
             levelText.gameObject.SetActive(true);
             _backgroundColor = backgroundImage.color;
             backgroundImage.gameObject.SetActive(true);
-            
             StartCoroutine(FadeLevelText());
         }
     }
@@ -175,23 +186,33 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private IEnumerator FadeLevelText()
     {
+        levelText.gameObject.SetActive(true);
+        backgroundImage.gameObject.SetActive(true);
+        
+        yield return new WaitForSeconds(_fadeDelay);
+        
         float elapsedTime = 0;
-        Color textStartColor = levelText.color;
-        Color textEndColor = new Color(textStartColor.r, textStartColor.g, textStartColor.b, 0);
+        Color textColor = levelText.color;
+        Color textStartColor = new Color(textColor.r, textColor.g, textColor.b, 1);
+        Color textEndColor = new Color(textColor.r, textColor.g, textColor.b, 0);
         Color backgroundStartColor = backgroundImage.color;
         Color backgroundEndColor = new Color(backgroundStartColor.r, backgroundStartColor.g, backgroundStartColor.b, 0);
         
-        while (elapsedTime < fadeTime)
+        levelText.color = textStartColor;
+        backgroundImage.color = backgroundStartColor;
+        
+        while (elapsedTime < _fadeTime)
         {
-            levelText.color = Color.Lerp(textStartColor, textEndColor, elapsedTime / fadeTime);
-            backgroundImage.color = Color.Lerp(backgroundStartColor, backgroundEndColor, elapsedTime / fadeTime);
+            levelText.color = Color.Lerp(textStartColor, textEndColor, elapsedTime / _fadeTime);
+            backgroundImage.color = Color.Lerp(backgroundStartColor, backgroundEndColor, elapsedTime / _fadeTime);
             elapsedTime += Time.deltaTime;
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
         
         levelText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
         backgroundImage.color = _backgroundColor;
+        levelText.color = textStartColor;
     }
 
     #endregion

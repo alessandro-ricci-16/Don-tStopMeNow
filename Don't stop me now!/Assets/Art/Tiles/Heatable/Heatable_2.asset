@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Heatable_2
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -1941148781, guid: 272788ac165f03e41a84ec7f9c308c30, type: 3}
+  m_Sprite: {fileID: -1896029004, guid: 14e6e8b870ebf0640892195bf905febb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

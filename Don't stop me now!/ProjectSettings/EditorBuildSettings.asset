@@ -108,11 +108,26 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World2/Moving Obstacles/MovingObstaclesSara_2.unity
     guid: 0f237c01613a8d5458e4f39682b5b598
   - enabled: 1
+    path: Assets/Scenes/Levels/World2/Moving Obstacles/MovingObstaclesSara_3.unity
+    guid: 27d6baf9c02ddd64e9a30478d9a4c0c3
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/All objects/Heatable+MO_Sara_1.unity
+    guid: 9839cd194acc6794781aeca3f1d0fdb2
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/All objects/Heatable+MO_Sara_2.unity
+    guid: 491a841b2f2163c4fbbfc78164e8097c
+  - enabled: 1
     path: Assets/Scenes/Levels/World2/Tutorial/FallingSpikesTutorialAle.unity
     guid: edf68ce367b3dc64fa8710b0d95a28d1
   - enabled: 1
     path: Assets/Scenes/Levels/World2/Falling Spike/FallingSpikesEma.unity
     guid: 822964dc079a7464898c8bb5f71c8fce
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Falling Spike/FallingSpikeAle.unity
+    guid: 28151bba196770043a50b72ca1413bd5
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/All objects/FakeBreakableAle2.unity
+    guid: d56e67594257f874a97e213dae063f0b
   - enabled: 1
     path: Assets/Scenes/Menus/End Of Game.unity
     guid: 97fa5bb283f9eee4cb692d3c721f918e

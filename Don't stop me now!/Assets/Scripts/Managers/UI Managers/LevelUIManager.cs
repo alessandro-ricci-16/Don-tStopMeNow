@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -30,8 +31,9 @@ public class LevelUIManager : Singleton<LevelUIManager>
     [Header("Commands")]
     public GameObject commandsMenuCanvas;
 
-    private readonly float _fadeDelay = 0f;
-    private readonly float _fadeTime = 1f;
+    private readonly float _fadeDelay = 0.5f;
+    private readonly float _fadeInTime = 0.25f;
+    private readonly float _fadeOutTime = 0.75f;
     private Color _backgroundColor;
     private bool _paused = false;
 
@@ -191,12 +193,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
     #region Graphics
 
     private IEnumerator FadeLevelText()
-    {
-        levelText.gameObject.SetActive(true);
-        backgroundImage.gameObject.SetActive(true);
-        
-        yield return new WaitForSeconds(_fadeDelay);
-        
+    { 
         float elapsedTime = 0;
         Color textColor = levelText.color;
         Color textStartColor = new Color(textColor.r, textColor.g, textColor.b, 1);
@@ -204,13 +201,31 @@ public class LevelUIManager : Singleton<LevelUIManager>
         Color backgroundStartColor = backgroundImage.color;
         Color backgroundEndColor = new Color(backgroundStartColor.r, backgroundStartColor.g, backgroundStartColor.b, 0);
         
-        levelText.color = textStartColor;
+        levelText.color = textEndColor;
         backgroundImage.color = backgroundStartColor;
         
-        while (elapsedTime < _fadeTime)
+        levelText.gameObject.SetActive(true);
+        backgroundImage.gameObject.SetActive(true);
+        
+        // fade in text
+        while (elapsedTime < _fadeInTime)
         {
-            levelText.color = Color.Lerp(textStartColor, textEndColor, elapsedTime / _fadeTime);
-            backgroundImage.color = Color.Lerp(backgroundStartColor, backgroundEndColor, elapsedTime / _fadeTime);
+            levelText.color = Color.Lerp(textEndColor, textStartColor, elapsedTime / _fadeInTime);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        elapsedTime = 0;
+        
+        yield return new WaitForSeconds(_fadeDelay);
+        
+        levelText.color = textStartColor;
+        
+        // fade out
+        while (elapsedTime < _fadeOutTime)
+        {
+            levelText.color = Color.Lerp(textStartColor, textEndColor, elapsedTime / _fadeOutTime);
+            backgroundImage.color = Color.Lerp(backgroundStartColor, backgroundEndColor, elapsedTime / _fadeOutTime);
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

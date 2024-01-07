@@ -63,9 +63,9 @@ public class GameManager : Singleton<GameManager>
             Vector2 vignetteCenter = Camera.main.WorldToViewportPoint(playerPosition);
             _vignetteEffect.center.value = vignetteCenter;
         }
-        // play the reload index state of the animator that will trigger the ReloadScene() method at the end
+        // play the die state of the animator that will trigger the ReloadScene() method at the end
         _functionToPlay = ReloadScene;
-        _canvasAnimator.Play("ChangeScene");
+        _canvasAnimator.Play("Die");
     }
 
     private void CheckpointPassed(Vector3 checkpointPosition, Direction direction)
@@ -78,7 +78,9 @@ public class GameManager : Singleton<GameManager>
     private void LevelPassed(string levelName)
     {
         StartAtCheckPoint = false;
-        LoadNextScene();
+        // play the fade in state of the animator that will trigger the LoadNextScene() method at the end
+        _functionToPlay = LoadNextScene;
+        _canvasAnimator.Play("FadeIn");
     }
     
     #endregion

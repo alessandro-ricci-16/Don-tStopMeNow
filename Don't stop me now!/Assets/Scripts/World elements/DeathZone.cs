@@ -17,8 +17,10 @@ public class DeathZone : MonoBehaviour
     {
         CheckDeath(collision.collider);
         
+        // removes this object once collided
         if (destroyOnHit)
         {
+            // if set, breaks the sprite of the object with the deathzone once collided
             if (spriteSplitterPrefab is not null)
             {
                 GameObject newTile = Instantiate(spriteSplitterPrefab, transform.position, Quaternion.identity);

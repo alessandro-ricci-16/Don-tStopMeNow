@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum TypeOfSounds
+{
+    Master,
+    Music,
+    Sfx
+}
+
 public class SoundSlider : MonoBehaviour
 {
-    public enum TypeOfSounds
-    {
-        Master,
-        Music,
-        Sfx
-    }
-
     public TypeOfSounds type;
     private Slider _slider;
     public float delayInSeconds = 0.5f;
@@ -26,13 +26,13 @@ public class SoundSlider : MonoBehaviour
         _slider = GetComponent<Slider>();
         UpdateSliderValues();
     }
-    
+
 
     // Start is called before the first frame update
     void OnEnable()
     {
         UpdateSliderValues();
-        
+
         _slider.onValueChanged.AddListener((v) =>
         {
             if (type == TypeOfSounds.Master)
@@ -49,11 +49,11 @@ public class SoundSlider : MonoBehaviour
                 AudioManager.Instance.PlayButtonClickSound();
             }
         });
-        
+
         /*
         _slider.onValueChanged.AddListener((v) =>
         {
-            
+
             if (type == TypeOfSounds.Music)
             {
                 AudioManager.Instance.OnVolumeMusicChanged(v);
@@ -82,7 +82,7 @@ public class SoundSlider : MonoBehaviour
         });
         */
     }
-    
+
     public void UpdateSliderValues()
     {
         if (type == TypeOfSounds.Master)

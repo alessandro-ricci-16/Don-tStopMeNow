@@ -12,5 +12,6 @@ public enum EventNames
     GamePause,
     GameResume,
     CollisionWithGround,
-    BreakingPlatform
+    BreakingPlatform,
+    NewSceneLoaded
 }

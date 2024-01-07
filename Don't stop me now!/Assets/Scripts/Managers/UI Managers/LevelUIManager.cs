@@ -43,6 +43,12 @@ public class LevelUIManager : Singleton<LevelUIManager>
         _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         _currentLevelIndex = CalculateLevelIndex();
         UpdateUI();
+        EventManager.StartListening(EventNames.NewSceneLoaded, UpdateUI);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventNames.NewSceneLoaded, UpdateUI);
     }
 
     private void Update()

@@ -174,9 +174,7 @@ public class GameManager : Singleton<GameManager>
         // reset the time scale to normal
         Time.timeScale = 1.0f;
         
-        // update level UI and music
-        LevelUIManager.Instance.UpdateUI();
-        AudioManager.Instance.UpdateMusic();
+        EventManager.TriggerEvent(EventNames.NewSceneLoaded);
     }
     
     private IEnumerator LoadAsyncScene(string scene)

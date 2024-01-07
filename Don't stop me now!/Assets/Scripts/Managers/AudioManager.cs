@@ -10,7 +10,6 @@ using UnityEngine.Serialization;
 public class SoundData
 {
     public AudioClip sound;
-    public bool loopOnPlay;
     public float volume = 1f;
 }
 
@@ -34,8 +33,6 @@ public class AudioManager : Singleton<AudioManager>
     [Range(0, 1)] private float _sfxVolume = 0.8f;
 
     // Music variables
-    // private int _currentSongIndex = 0;
-    // private bool _isLooping = false;
     private SoundData _currentSong;
     private Coroutine _preloadCoroutine;
     private AudioSource _musicAudioSource;
@@ -59,13 +56,15 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.BreakingPlatform, OnPlatformBreaking);
-        //EventManager.StartListening(EventNames.CollisionWithGround, OnCollisionWithGround);
-        //EventManager.StartListening(EventNames.ChangedDirection, OnCollisionWithGround);
+        EventManager.StartListening(EventNames.NewSceneLoaded, UpdateMusic);
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening(EventNames.Death, OnDeath);
+        EventManager.StopListening(EventNames.StateChanged, OnStateChanged);
+        EventManager.StopListening(EventNames.BreakingPlatform, OnPlatformBreaking);
+        EventManager.StopListening(EventNames.NewSceneLoaded, UpdateMusic);
     }
 
     #endregion

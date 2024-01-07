@@ -220,6 +220,7 @@ MonoBehaviour:
   dashTrailTime: 1
   dashingSprite: {fileID: 21300000, guid: 13b6b54b931a5364a85f4a5a86389cd2, type: 3}
   jumpAnimation: {fileID: 7259548613012665465, guid: 8126b439dbc26c3499950a2a1ca979e3, type: 3}
+  wallJumpAnimation: {fileID: 7259548613012665465, guid: 5d3f753f71d63ba4aa2b0d9955cfe700, type: 3}
   heatableSettings: {fileID: 11400000, guid: 1cbd62d8b03a6424382848246d644f00, type: 2}
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
 --- !u!96 &1593892162703338945

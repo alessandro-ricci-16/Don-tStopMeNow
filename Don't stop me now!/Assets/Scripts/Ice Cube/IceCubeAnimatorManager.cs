@@ -17,6 +17,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
     public float dashTrailTime;
     public Sprite dashingSprite;
     public GameObject jumpAnimation;
+    public GameObject wallJumpAnimation;
     private GameObject _instanceJump;
     private GameObject _instanceWallJump;
     private Animator _animator;
@@ -43,7 +44,7 @@ public class IceCubeAnimatorManager : MonoBehaviour
         _normalTrailWidth = _trailRenderer.widthMultiplier;
         _normalTrailTime = _trailRenderer.time;
         _instanceJump = Instantiate(jumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
-        _instanceWallJump = Instantiate(jumpAnimation);
+        _instanceWallJump = Instantiate(wallJumpAnimation); //Spawn a copy of 'prefab' and store a reference to it.
         //rotate the instance wall jump z of 90 degrees
         _instanceWallJump.transform.Rotate(0, 0, 90);
         //flip the sprite render along y of the instance wall jump

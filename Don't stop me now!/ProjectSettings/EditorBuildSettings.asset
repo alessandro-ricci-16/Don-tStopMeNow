@@ -60,6 +60,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
     guid: 40961206d24b19e41ab163211c5b7da1
   - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/GpOrDie.unity
+    guid: 041ad109a2a9d214da6d46f2dcb1fcb5
+  - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/VerticalUpSara_1.unity
     guid: 6d3d5f1a661fa7941929799dcccfdd56
   - enabled: 1

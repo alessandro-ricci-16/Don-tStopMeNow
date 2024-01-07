@@ -41,6 +41,7 @@ public class GroundTile : Tile
     private Sprite GetSprite(Vector3Int position, ITilemap tilemap)
     {
         Sprite topTileSprite = tilemap.GetSprite(position + new Vector3Int(0, 1, 0));
+        Sprite bottomTileSprite = tilemap.GetSprite(position + new Vector3Int(0, -1, 0));
         
         // HARD BOUNDARIES
         
@@ -56,6 +57,11 @@ public class GroundTile : Tile
                 return topLeftCornerSprite;
             if (HasGroundTile(tilemap, position + new Vector3Int(1, 1, 0)))
                 return topRightCornerSprite;
+            
+            if (bottomTileSprite == rightWallSprite)
+                return topRightCornerSprite;
+            if (bottomTileSprite == leftWallSprite)
+                return topLeftCornerSprite;
             
             return topWallSprite;
         }
@@ -90,46 +96,59 @@ public class GroundTile : Tile
         // SOFT BOUNDARIES
 
         int i = 1;
+        
+        bool keepLookingUp = true;
+        bool keepLookingDown = true;
+        
         while (true)
         {
-            bool groundTop = HasGroundTile(tilemap, position + new Vector3Int(0, i, 0));
-            bool groundTopRight = HasGroundTile(tilemap, position + new Vector3Int(1, i, 0));
-            bool groundTopLeft = HasGroundTile(tilemap, position + new Vector3Int(-1, i, 0));
+            
+            if (keepLookingUp)
+            {
+                bool groundTop = HasGroundTile(tilemap, position + new Vector3Int(0, i, 0));
+                bool groundTopRight = HasGroundTile(tilemap, position + new Vector3Int(1, i, 0));
+                bool groundTopLeft = HasGroundTile(tilemap, position + new Vector3Int(-1, i, 0));
+                
+                if (groundTop && !groundTopRight)
+                    return rightWallSprite;
+                if (groundTop && !groundTopLeft)
+                    return leftWallSprite;
+                if (!groundTop && groundTopRight)
+                    return rightWallSprite;
+                if (!groundTop && groundTopLeft)
+                    return leftWallSprite;
+                
+                // if there is nothing up, stop looking
+                if (!groundTop && !groundTopRight && !groundTopLeft)
+                    keepLookingUp = false;
+            }
 
-            if (!groundTop && !groundTopLeft && !groundTopRight)
+            if (keepLookingDown)
+            {
+                bool groundBottom = HasGroundTile(tilemap, position + new Vector3Int(0, -i, 0));
+                bool groundBottomRight = HasGroundTile(tilemap, position + new Vector3Int(1, -i, 0));
+                bool groundBottomLeft = HasGroundTile(tilemap, position + new Vector3Int(-1, -i, 0));
+                
+                if (groundBottom && !groundBottomRight)
+                    return rightWallSprite;
+                if (groundBottom && !groundBottomLeft)
+                    return leftWallSprite;
+                if (!groundBottom && groundBottomRight)
+                    return rightWallSprite;
+                if (!groundBottom && groundBottomLeft)
+                    return leftWallSprite;
+                
+                // if there is nothing down, stop looking
+                if (!groundBottom && !groundBottomRight && !groundBottomLeft)
+                    keepLookingDown = false;
+            }
+            
+            // if there is nothing up and nothing down, there should be no wall here -> can return default sprite
+            if (!keepLookingUp && !keepLookingDown)
                 return defaultSprite;
-            if (groundTop && !groundTopRight)
-                return rightWallSprite;
-            if (!groundTop && groundTopRight)
-                return rightWallSprite;
-            if (groundTopLeft && !groundTop)
-                return leftWallSprite;
-            if (!groundTopLeft && groundTop)
-                return leftWallSprite;
             
             i++;
         }
-        
-
-        // continuation of corners and walls: if tile on top or bottom is corner or wall
-        // if (topTileSprite == topRightCornerSprite || bottomTileSprite == bottomRightCornerSprite)
-        //     return rightWallSprite;
-        // if (topTileSprite == topLeftCornerSprite || bottomTileSprite == bottomLeftCornerSprite)
-        //     return leftWallSprite;
-        // 
-        // if (topTileSprite == topWallSprite && HasGroundTile(tilemap, position + new Vector3Int(0, -1, 0)))
-        //     return defaultSprite;
-        // if (topTileSprite == defaultSprite && HasGroundTile(tilemap, position + new Vector3Int(0, -1, 0)))
-        //     return defaultSprite;
-        // if (bottomTileSprite == bottomWallSprite && HasGroundTile(tilemap, position + new Vector3Int(0, 1, 0)))
-        //     return defaultSprite;
-        // if (bottomTileSprite == defaultSprite && HasGroundTile(tilemap, position + new Vector3Int(0, 1, 0)))
-        //     return defaultSprite;
-        // 
-        // if (topTileSprite == rightWallSprite || bottomTileSprite == rightWallSprite)
-        //     return rightWallSprite;
-        // if (topTileSprite == leftWallSprite || bottomTileSprite == leftWallSprite)
-        //     return leftWallSprite;
     }
     
     private bool HasGroundTile(ITilemap tilemap, Vector3Int position)

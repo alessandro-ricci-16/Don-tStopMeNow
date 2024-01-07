@@ -15,21 +15,17 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public Image backgroundImage;
 
     [Header("Start Level Graphics")] public TextMeshProUGUI levelText;
-    
-    [Header("Pause")]
-    public GameObject pauseMenuCanvas;
+
+    [Header("Pause")] public GameObject pauseMenuCanvas;
     public TextMeshProUGUI pauseLevelText;
     public GameObject pauseButtons;
 
-    [Header("Feedback")]
-    public GameObject feedbackMenuCanvas;
+    [Header("Feedback")] public GameObject feedbackMenuCanvas;
     public TextMeshProUGUI feedbackTitleText;
-    
-    [Header("Settings")]
-    public GameObject settingsMenuCanvas;
-    
-    [Header("Commands")]
-    public GameObject commandsMenuCanvas;
+
+    [Header("Settings")] public GameObject settingsMenuCanvas;
+
+    [Header("Commands")] public GameObject commandsMenuCanvas;
 
     private readonly float _fadeDelay = 0.5f;
     private readonly float _fadeInTime = 0.25f;
@@ -39,6 +35,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private int _currentSceneIndex;
     private int _currentLevelIndex;
+    private UIInputAction _uiInputAction;
 
     private void Start()
     {
@@ -46,6 +43,9 @@ public class LevelUIManager : Singleton<LevelUIManager>
         _currentLevelIndex = CalculateLevelIndex();
         UpdateUI();
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateUI);
+        _uiInputAction = new UIInputAction();
+        _uiInputAction.Enable();
+        _uiInputAction.UI.Pause.started += ctx => PressedEsc();
     }
 
     private void OnDestroy()
@@ -53,19 +53,10 @@ public class LevelUIManager : Singleton<LevelUIManager>
         EventManager.StopListening(EventNames.NewSceneLoaded, UpdateUI);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PressedEsc();
-        }
-    }
-    
-
     private void PressedEsc()
     {
         if (!GameManager.Instance.SceneIsLevel()) return;
-        
+
         if (!_paused)
         {
             _paused = true;
@@ -79,13 +70,13 @@ public class LevelUIManager : Singleton<LevelUIManager>
     }
 
     #region UpdateUI
-    
+
     public void UpdateUI()
     {
         pauseMenuCanvas.SetActive(false);
 
         int i = SceneManager.GetActiveScene().buildIndex;
-        
+
         // expensive method invocation -> only update if the scene changed
         if (i != _currentSceneIndex)
         {
@@ -109,20 +100,20 @@ public class LevelUIManager : Singleton<LevelUIManager>
     private int CalculateLevelIndex()
     {
         int i = SceneManager.GetActiveScene().buildIndex;
-        
+
         if (GameManager.Instance.SceneIsWorld1(i))
         {
             return i - GameManager.Instance.initialScenesOffset;
         }
         else
         {
-            return i - (GameManager.Instance.initialScenesOffset + GameManager.Instance.world1LevelsNumber 
+            return i - (GameManager.Instance.initialScenesOffset + GameManager.Instance.world1LevelsNumber
                                                                  + GameManager.Instance.world2ScreenOffset);
         }
     }
 
     #endregion
-    
+
     #region Pause
 
     public void CallPause()
@@ -151,7 +142,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
         commandsMenuCanvas.SetActive(false);
         feedbackMenuCanvas.SetActive(false);
     }
-    
+
     #endregion
 
     #region Feedback
@@ -178,7 +169,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
         DeactivateEverything();
         GameManager.Instance.LoadLevelSelectionScene();
     }
-    
+
     public void SkipLevel()
     {
         Time.timeScale = 1;
@@ -187,26 +178,25 @@ public class LevelUIManager : Singleton<LevelUIManager>
         GameManager.Instance.LoadNextScene();
     }
 
-
     #endregion
 
     #region Graphics
 
     private IEnumerator FadeLevelText()
-    { 
+    {
         float elapsedTime = 0;
         Color textColor = levelText.color;
         Color textStartColor = new Color(textColor.r, textColor.g, textColor.b, 1);
         Color textEndColor = new Color(textColor.r, textColor.g, textColor.b, 0);
         Color backgroundStartColor = backgroundImage.color;
         Color backgroundEndColor = new Color(backgroundStartColor.r, backgroundStartColor.g, backgroundStartColor.b, 0);
-        
+
         levelText.color = textEndColor;
         backgroundImage.color = backgroundStartColor;
-        
+
         levelText.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
-        
+
         // fade in text
         while (elapsedTime < _fadeInTime)
         {
@@ -216,11 +206,11 @@ public class LevelUIManager : Singleton<LevelUIManager>
         }
 
         elapsedTime = 0;
-        
+
         yield return new WaitForSeconds(_fadeDelay);
-        
+
         levelText.color = textStartColor;
-        
+
         // fade out
         while (elapsedTime < _fadeOutTime)
         {
@@ -229,7 +219,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        
+
         levelText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
         backgroundImage.color = _backgroundColor;
@@ -237,30 +227,36 @@ public class LevelUIManager : Singleton<LevelUIManager>
     }
 
     #endregion
-    
+
     #region Settings
+
     public void CallSettings()
     {
         pauseButtons.SetActive(false);
         settingsMenuCanvas.SetActive(true);
     }
+
     public void BackToPauseMenuFromSettings()
     {
         pauseButtons.SetActive(true);
         settingsMenuCanvas.SetActive(false);
     }
+
     #endregion
-    
+
     #region Commands
+
     public void CallCommands()
     {
         pauseButtons.SetActive(false);
         commandsMenuCanvas.SetActive(true);
     }
+
     public void BackToPauseMenuFromCommands()
     {
         pauseButtons.SetActive(true);
         commandsMenuCanvas.SetActive(false);
     }
+
     #endregion
 }

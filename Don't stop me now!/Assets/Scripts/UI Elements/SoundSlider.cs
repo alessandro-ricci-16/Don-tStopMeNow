@@ -83,7 +83,7 @@ public class SoundSlider : MonoBehaviour
         */
     }
 
-    public void UpdateSliderValues()
+    private void UpdateSliderValues()
     {
         if (type == TypeOfSounds.Master)
         {

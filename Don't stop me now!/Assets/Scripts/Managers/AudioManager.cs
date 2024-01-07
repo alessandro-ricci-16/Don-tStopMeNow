@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ice_Cube.States;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 [Serializable]
@@ -39,20 +40,23 @@ public class AudioManager : Singleton<AudioManager>
 
     // Sound effects variables
     private AudioSource _sfxAudioSource;
+    
+    // to avoid unnecessary computation
+    private int _prevSceneIndex;
 
 
     #region Inizialization
 
-    private new void Awake()
-    {
-        base.Awake();
-        _musicAudioSource = gameObject.AddComponent<AudioSource>();
-        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
-    }
-
     private void Start()
     {
+        Debug.Log("Initializing audio manager");
+        
+        _musicAudioSource = gameObject.AddComponent<AudioSource>();
+        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        _prevSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        
         StartCoroutine(PlayIntro());
+        
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.BreakingPlatform, OnPlatformBreaking);
@@ -61,6 +65,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private void OnDestroy()
     {
+        Debug.Log("Destroying audio manager");
         EventManager.StopListening(EventNames.Death, OnDeath);
         EventManager.StopListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StopListening(EventNames.BreakingPlatform, OnPlatformBreaking);
@@ -125,8 +130,15 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void UpdateMusic()
+    private void UpdateMusic()
     {
+        // avoid computing update unnecessarily
+        int newSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (_prevSceneIndex == newSceneIndex)
+        {
+            return;
+        }
+        
         if (_currentSong == intro || _currentSong == loopWorld1)
         {
             if (GameManager.Instance.SceneIsWorld2Screen() || GameManager.Instance.SceneIsWorld2())
@@ -155,7 +167,6 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (soundData.sound != null)
         {
-            // Debug.Log("Playing sound " + soundData.sound.name);
             _sfxAudioSource.PlayOneShot(soundData.sound, soundData.volume * _masterVolume * _sfxVolume);
         }
     }

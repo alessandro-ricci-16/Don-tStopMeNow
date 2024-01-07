@@ -33,14 +33,12 @@ public class LevelUIManager : Singleton<LevelUIManager>
     private Color _backgroundColor;
     private bool _paused = false;
 
-    private int _currentSceneIndex;
+    private int _prevSceneIndex = -1;
     private int _currentLevelIndex;
     private UIInputAction _uiInputAction;
 
     private void Start()
     {
-        _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        _currentLevelIndex = CalculateLevelIndex();
         UpdateUI();
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateUI);
         _uiInputAction = new UIInputAction();
@@ -71,16 +69,16 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     #region UpdateUI
 
-    public void UpdateUI()
+    private void UpdateUI()
     {
         pauseMenuCanvas.SetActive(false);
 
         int i = SceneManager.GetActiveScene().buildIndex;
 
         // expensive method invocation -> only update if the scene changed
-        if (i != _currentSceneIndex)
+        if (i != _prevSceneIndex)
         {
-            _currentSceneIndex = i;
+            _prevSceneIndex = i;
             _currentLevelIndex = CalculateLevelIndex();
             levelText.text = "Level " + _currentLevelIndex;
             pauseLevelText.text = "Level " + _currentLevelIndex;

@@ -42,7 +42,7 @@ public class AudioManager : Singleton<AudioManager>
     private AudioSource _sfxAudioSource;
     
     // to avoid unnecessary computation
-    private int _prevSceneIndex;
+    private int _prevSceneIndex = -1;
 
 
     #region Inizialization

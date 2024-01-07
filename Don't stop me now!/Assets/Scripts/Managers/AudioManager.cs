@@ -109,7 +109,7 @@ public class AudioManager : Singleton<AudioManager>
         float startVolume = _musicAudioSource.volume;
         while (_musicAudioSource.volume > 0)
         {
-            _musicAudioSource.volume -= startVolume * Time.deltaTime / fadeOutDuration;
+            _musicAudioSource.volume -= startVolume * Time.unscaledDeltaTime / fadeOutDuration;
             yield return new WaitForEndOfFrame();
         }
 
@@ -125,7 +125,7 @@ public class AudioManager : Singleton<AudioManager>
         _musicAudioSource.loop = true;
         while (_musicAudioSource.volume < song.volume * _masterVolume * _musicVolume)
         {
-            _musicAudioSource.volume += startVolume * Time.deltaTime / fadeInDuration;
+            _musicAudioSource.volume += startVolume * Time.unscaledDeltaTime / fadeInDuration;
             yield return new WaitForEndOfFrame();
         }
     }

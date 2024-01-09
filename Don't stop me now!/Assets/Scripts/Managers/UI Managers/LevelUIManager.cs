@@ -26,12 +26,16 @@ public class LevelUIManager : Singleton<LevelUIManager>
     [Header("Settings")] public GameObject settingsMenuCanvas;
 
     [Header("Commands")] public GameObject commandsMenuCanvas;
-
-    private readonly float _fadeDelay = 0.5f;
-    private readonly float _fadeInTime = 0.25f;
+    
+    private readonly float _fadeDelay = 0f;
+    private readonly float _fadeInTime = 0.75f;
     private readonly float _fadeOutTime = 0.5f;
-    private Color _backgroundColor;
-    private bool _paused = false;
+    
+    private Animator _levelTextAnimator;
+    private Animator _backgroundAnimator;
+
+    private readonly float _backgroundAlpha = 0.8f;
+    private bool _paused;
 
     private int _prevSceneIndex = -1;
     private int _currentLevelIndex;
@@ -39,12 +43,14 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private void Start()
     {
+        _levelTextAnimator = levelText.GetComponent<Animator>();
+        _backgroundAnimator = backgroundImage.GetComponent<Animator>();
+        
         UpdateUI();
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateUI);
         _uiInputAction = new UIInputAction();
         _uiInputAction.Enable();
         _uiInputAction.UI.Pause.started += ctx => PressedEsc();
-        _backgroundColor = backgroundImage.color;
     }
 
     private void OnDestroy()
@@ -89,7 +95,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
         if (GameManager.Instance.SceneIsLevel())
         {
-            StartCoroutine(FadeLevelText());
+            StartCoroutine(FadeInOutLevelText());
         }
     }
 
@@ -112,14 +118,20 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     #region Pause
 
-    public void CallPause()
+    private void CallPause()
     {
         EventManager.TriggerEvent(EventNames.GamePause);
         Time.timeScale = 0;
+        
+        // if calling pause while level text fade in/out is still happening
+        StopAllCoroutines();
+        levelText.gameObject.SetActive(false);
+        // reset background color
+        backgroundImage.color = new Color(0, 0, 0, _backgroundAlpha);
+        
+        backgroundImage.gameObject.SetActive(true);
         pauseMenuCanvas.SetActive(true);
         pauseButtons.SetActive(true);
-        backgroundImage.color = _backgroundColor;
-        backgroundImage.gameObject.SetActive(true);
     }
 
     public void Resume()
@@ -133,6 +145,8 @@ public class LevelUIManager : Singleton<LevelUIManager>
     private void DeactivateEverything()
     {
         pauseMenuCanvas.SetActive(false);
+        pauseButtons.SetActive(false);
+        levelText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
         settingsMenuCanvas.SetActive(false);
         commandsMenuCanvas.SetActive(false);
@@ -177,62 +191,35 @@ public class LevelUIManager : Singleton<LevelUIManager>
     #endregion
 
     #region Graphics
-
-    private IEnumerator FadeLevelText()
+    
+    private IEnumerator FadeInOutLevelText()
     {
-        levelText.gameObject.SetActive(true);
-        backgroundImage.gameObject.SetActive(true);
-        
-        float elapsedTime = 0;
-        
-        Color textColor = levelText.color;
-        Color textStartColor = new Color(textColor.r, textColor.g, textColor.b, 1);
-        Color textEndColor = new Color(textColor.r, textColor.g, textColor.b, 0);
-        
-        Color backgroundStartColor = backgroundImage.color;
-        Color backgroundEndColor = new Color(backgroundStartColor.r, backgroundStartColor.g, backgroundStartColor.b, 0);
-
-        levelText.color = textEndColor;
-        backgroundImage.color = backgroundStartColor;
-
-        levelText.gameObject.SetActive(true);
-        backgroundImage.gameObject.SetActive(true);
-        
-        // stop the time while the text is displayed
         Time.timeScale = 0;
         
-        // fade in text
-        while (elapsedTime < _fadeInTime)
-        {
-            levelText.color = Color.Lerp(textEndColor, textStartColor, elapsedTime / _fadeInTime);
-            elapsedTime += Time.unscaledDeltaTime;
-            yield return new WaitForEndOfFrame();
-        }
+        // reset background color
+        backgroundImage.color = new Color(0, 0, 0, _backgroundAlpha);
+        levelText.gameObject.SetActive(true);
+        backgroundImage.gameObject.SetActive(true);
         
-        levelText.color = textStartColor;
+        _levelTextAnimator.SetFloat(Animator.StringToHash("FadeInScale"), 1 / _fadeInTime);
+        _levelTextAnimator.SetFloat(Animator.StringToHash("FadeOutScale"), 1 / _fadeOutTime);
+        _backgroundAnimator.SetFloat(Animator.StringToHash("FadeOutScale"), 1 / _fadeOutTime);
+        
+        _levelTextAnimator.Play("FadeInText");
 
-        elapsedTime = 0;
+        yield return new WaitForSecondsRealtime(_fadeInTime + _fadeDelay);
         
-        yield return new WaitForSecondsRealtime(_fadeDelay);
-        
-        // resume the time for the fade out
         Time.timeScale = 1;
         
-        // fade out
-        while (elapsedTime < _fadeOutTime)
-        {
-            levelText.color = Color.Lerp(textStartColor, textEndColor, elapsedTime / _fadeOutTime);
-            backgroundImage.color = Color.Lerp(backgroundStartColor, backgroundEndColor, elapsedTime / _fadeOutTime);
-            elapsedTime += Time.unscaledDeltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
+        _levelTextAnimator.Play("FadeOutText");
+        _backgroundAnimator.Play("FadeOutBackground");
+        
+        yield return new WaitForSecondsRealtime(_fadeOutTime);
+        
         levelText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
-        backgroundImage.color = _backgroundColor;
-        levelText.color = textStartColor;
     }
-
+    
     #endregion
 
     #region Settings

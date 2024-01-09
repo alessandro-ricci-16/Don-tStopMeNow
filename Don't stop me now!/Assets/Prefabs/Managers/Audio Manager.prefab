@@ -46,37 +46,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intro:
     sound: {fileID: 8300000, guid: 489e90c551bf559438d86d6ca02481eb, type: 3}
-    loopOnPlay: 0
     volume: 1
   loopWorld1:
     sound: {fileID: 8300000, guid: 24b4edb4233609c4ba8a9179229458a9, type: 3}
-    loopOnPlay: 1
     volume: 1
   loopWorld2:
-    sound: {fileID: 8300000, guid: f1f5bcc1f1013744fbbcab8bfeddcc74, type: 3}
-    loopOnPlay: 1
+    sound: {fileID: 8300000, guid: 9d98e87cac84be1438003e5baf6e8802, type: 3}
     volume: 1
   deathSound:
     sound: {fileID: 8300000, guid: c51fa8732c3bb934a91cf9d27d0a7c5e, type: 3}
-    loopOnPlay: 0
     volume: 0.5
   jumpSound:
     sound: {fileID: 8300000, guid: ef334a21dd22ae549a63582950af3b45, type: 3}
-    loopOnPlay: 0
     volume: 0.3
   groundPoundSound:
     sound: {fileID: 8300000, guid: a73e4e71fc8c57c4a8e756db438686f2, type: 3}
-    loopOnPlay: 0
     volume: 2
   dashSound:
     sound: {fileID: 8300000, guid: 509eaa04925578743a664cde5c9e0dd5, type: 3}
-    loopOnPlay: 0
     volume: 2
   breakingPlatformSound:
     sound: {fileID: 8300000, guid: 843693b2491630b4fb9693bdb7094c17, type: 3}
-    loopOnPlay: 0
     volume: 1
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
-    loopOnPlay: 0
     volume: 0.2

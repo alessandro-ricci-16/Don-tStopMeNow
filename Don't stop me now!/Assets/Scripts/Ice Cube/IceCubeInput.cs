@@ -9,7 +9,11 @@ using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
 
-public enum Direction { Right, Left }
+public enum Direction
+{
+    Right,
+    Left
+}
 
 
 [RequireComponent(typeof(IceCubeStateManager))]
@@ -20,6 +24,7 @@ public class IceCubeInput : MonoBehaviour
 {
     [Header("Movement and input parameters")]
     public Direction initialDirection;
+
     [SerializeField] protected IceCubeParameters parameters;
     [SerializeField] private bool canWallJump = true;
     [SerializeField] private bool canDash = true;
@@ -36,7 +41,7 @@ public class IceCubeInput : MonoBehaviour
     private float _wallCoyoteTimeCounter;
     private int _wallJumpCounter;
     private int _dashCounter;
-    
+
     // minimum time between two collisions to send the event
     private float _collisionCoolDown = 0.1f;
     private float _collisionCoolDownTimer = 0.0f;
@@ -54,7 +59,7 @@ public class IceCubeInput : MonoBehaviour
     private IceCubeStateManager _stateManager;
 
     #region Setup Methods
-    
+
     private void Start()
     {
         //class initialization
@@ -65,21 +70,21 @@ public class IceCubeInput : MonoBehaviour
         trailRenderer.enabled = false;
         _rigidbody2D.gravityScale = parameters.downwardGravityScale;
         _rigidbody2D.freezeRotation = true;
-        
+
         SetPositionAndDirection();
-        
+
         if (initialDirection == Direction.Left)
             SetCurrentDirection(Vector2.left);
         else
             SetCurrentDirection(Vector2.right);
 
         _rigidbody2D.velocity = parameters.defaultSpeed * _currentDirection;
-        
+
         trailRenderer.enabled = true;
-        
+
         InitializeCallbacks();
     }
-    
+
     private void OnDestroy()
     {
         // Unsubscribe from events and clean up resources
@@ -94,11 +99,11 @@ public class IceCubeInput : MonoBehaviour
             // Clean up the _playerInputAction object
             _playerInputAction.Dispose();
         }
-        
+
         EventManager.StopListening(EventNames.GamePause, DisableInput);
         EventManager.StopListening(EventNames.GameResume, EnableInput);
     }
-    
+
     private void Update()
     {
         HandleJumpInput();
@@ -110,7 +115,7 @@ public class IceCubeInput : MonoBehaviour
         _stateManager.GetCurrentState().PerformPhysicsAction(_currentDirection);
         _prevFrameVelocity = _rigidbody2D.velocity;
     }
-    
+
     #endregion
 
     #region Initialization and Settings
@@ -126,28 +131,29 @@ public class IceCubeInput : MonoBehaviour
             this.initialDirection = GameManager.Instance.CheckpointStartDirection;
         }
     }
+
     private void InitializeCallbacks()
     {
         //callback initialization
         _playerInputAction = new PlayerInputAction();
         _stateManager = GetComponent<IceCubeStateManager>();
         _stateManager.InitStateManager(_playerInputAction, parameters);
-        
+
         _playerInputAction.Jump.Enable();
         _playerInputAction.Jump.Jump.started += JumpStarted;
         _playerInputAction.OnGround.Acceleration.started += AccelerationStarted;
-        
+
         if (canGroundPound)
             _playerInputAction.OnAir.GroundPound.started += GroundPoundStarted;
         if (canDash)
             _playerInputAction.OnAir.Dash.started += DashStarted;
-        
+
         _playerInputAction.Jump.Jump.canceled += InterruptJump;
-        
+
         EventManager.StartListening(EventNames.GamePause, DisableInput);
         EventManager.StartListening(EventNames.GameResume, EnableInput);
     }
-    
+
     /// <summary>
     /// Set the current Direction and trigger the event associated
     /// </summary>
@@ -161,7 +167,6 @@ public class IceCubeInput : MonoBehaviour
         transform.localScale = newScale;
         EventManager.TriggerEvent(EventNames.ChangedDirection, newD);
     }
-    
 
     #endregion
 
@@ -179,9 +184,26 @@ public class IceCubeInput : MonoBehaviour
     /// OnCollisionStay2D
     private void HandleCollisions(Collision2D other)
     {
-         // Ignore if collided with a breakable while dashing
-         if (other.gameObject.CompareTag("Breakable")&& _stateManager.GetCurrentState().GetEnumState() == IceCubeStatesEnum.IsDashing)
+        // Ignore if collided with a breakable while dashing
+        if (other.gameObject.CompareTag("Breakable") &&
+            _stateManager.GetCurrentState().GetEnumState() == IceCubeStatesEnum.IsDashing)
+        {
+            //readd the force lost during the collision
+            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.AddForce(parameters.dashIntensity * _currentDirection, ForceMode2D.Impulse);
             return;
+        }
+
+        // Ignore if collided with a breakable while ground pounding
+        if (other.gameObject.CompareTag("Breakable") &&
+            _stateManager.GetCurrentState().GetEnumState() == IceCubeStatesEnum.IsGroundPounding)
+        {
+            // readd the force lost during the collision
+            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.AddForce(parameters.groundPoundSpeed * Vector2.down, ForceMode2D.Impulse);
+            return;
+        }
+
         // get the contacts from the collision
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
@@ -230,11 +252,11 @@ public class IceCubeInput : MonoBehaviour
                     isPlayerOnGround = true;
             }
         }
-        
+
         SetGrounded(isPlayerOnGround);
         _onWall = isPlayerOnWall;
     }
-    
+
     private void SendCollisionEvent()
     {
         if (_collisionCoolDownTimer <= 0.0f)
@@ -274,13 +296,13 @@ public class IceCubeInput : MonoBehaviour
     {
         _playerInputAction.Disable();
     }
-    
+
     private void EnableInput()
     {
         _playerInputAction.Enable();
     }
-    
-    
+
+
     /// <summary>
     /// Handle jump input with jump buffer and coyone time. When it can jump it invokes jump or wallJump state
     /// </summary>
@@ -353,9 +375,9 @@ public class IceCubeInput : MonoBehaviour
             EventManager.TriggerEvent(EventNames.OnGround, grounded);
         }
     }
-    
+
     #endregion
-    
+
     #region CallBacks
 
     private void GroundPoundStarted(InputAction.CallbackContext obj)
@@ -392,9 +414,9 @@ public class IceCubeInput : MonoBehaviour
     {
         // only interrupt jump if the jump is not a wall jump
         if (gameObject.activeSelf && _wallJumpCounter == 0)
-            StartCoroutine(InterruptJumpCoroutine());    
+            StartCoroutine(InterruptJumpCoroutine());
     }
-    
+
     private IEnumerator InterruptJumpCoroutine()
     {
         float jumpReleaseTimer = parameters.jumpReleaseTime;
@@ -404,19 +426,20 @@ public class IceCubeInput : MonoBehaviour
             Vector2 velocity = _rigidbody2D.velocity;
             if (jumpReleaseTimer <= 0 && velocity.y > 0)
             {
-                _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y/5);
+                _rigidbody2D.velocity = new Vector2(velocity.x, velocity.y / 5);
                 break;
             }
+
             // if velocity.y <= this jump has ended, stop updating timer
             if (velocity.y <= 0)
             {
                 break;
             }
-            
+
             yield return new WaitForEndOfFrame();
             jumpReleaseTimer -= Time.deltaTime;
         }
     }
+
     #endregion
-    
 }

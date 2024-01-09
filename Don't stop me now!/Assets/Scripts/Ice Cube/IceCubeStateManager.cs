@@ -155,7 +155,9 @@ public class IceCubeStateManager : MonoBehaviour
             _currentState.EnterState();
             //send the event to the event manager with first parameter the previous state and second parameter the current state
             EventManager.TriggerEvent(EventNames.StateChanged, currentEnum, state.GetEnumState());
-
+            if (_currentState.GetEnumState() == IceCubeStatesEnum.IsGroundPounding ||
+                currentEnum == IceCubeStatesEnum.IsGroundPounding)
+                Debug.Log("previous state: " + currentEnum + " current state: " + state.GetEnumState());
         }
     }
 }

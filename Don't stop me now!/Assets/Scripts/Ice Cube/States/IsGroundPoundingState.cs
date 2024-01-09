@@ -7,6 +7,7 @@ namespace Ice_Cube.States
     public class IsGroundPoundingState : IceCubeState
     {
         private bool _forceAlreadyApplied;
+        private bool _timeScaleReset;
 
         //use the base constructor
         public IsGroundPoundingState(PlayerInputAction playerInputAction, Rigidbody2D rigidbody2D,
@@ -20,6 +21,7 @@ namespace Ice_Cube.States
             PlayerInputAction.OnGround.Disable();
             PlayerInputAction.OnAir.Disable();
             _forceAlreadyApplied = false;
+            _timeScaleReset = false;
             Time.timeScale = Parameters.groundPoundTimeScale;
             //start a coroutine that will set the time scale back to 1.0f after a certain amount of time
             GameManager.Instance.StartCoroutine(ResetScale());
@@ -36,6 +38,7 @@ namespace Ice_Cube.States
 
         public override void PerformPhysicsAction(Vector2 currentDirection)
         {
+            Debug.Log(Rigidbody2D.velocity);
             if (!_forceAlreadyApplied)
             {
                 // set the gravity scale to zero so only the vertical force affects the rigidbody
@@ -45,7 +48,11 @@ namespace Ice_Cube.States
             }
             else
             {
-                Time.timeScale = 1.0f;
+                if (!_timeScaleReset)
+                {
+                    Time.timeScale = 1.0f;
+                    _timeScaleReset = true;
+                }
             }
         }
 

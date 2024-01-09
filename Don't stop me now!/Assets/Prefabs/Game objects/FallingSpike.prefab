@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4605672485505399593}
   - component: {fileID: 5293633152883872040}
   - component: {fileID: 1849928133184305003}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FallingSpike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 6545970847946595058}
   - component: {fileID: 5366285840040825360}
   - component: {fileID: 3266264453486977027}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

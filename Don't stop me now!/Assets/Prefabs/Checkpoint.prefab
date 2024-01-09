@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFinal: 0
-  checkpointIndex: -1
+  checkpointIndex: 1
   startDirection: 0
 --- !u!61 &6703252461676239543
 BoxCollider2D:

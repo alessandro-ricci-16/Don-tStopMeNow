@@ -57,23 +57,23 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/WallJumpAle.unity
     guid: 8cb9d8d1c22401349aff0923c326067a
   - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
-    guid: 40961206d24b19e41ab163211c5b7da1
-  - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/GpOrDie.unity
-    guid: 041ad109a2a9d214da6d46f2dcb1fcb5
+    path: Assets/Scenes/Levels/World 1/All actions/JumpDash_1.unity
+    guid: 4cc73301e6a1d234b9cbe0a557ff2de4
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/VerticalUpSara_1.unity
     guid: 6d3d5f1a661fa7941929799dcccfdd56
   - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/JumpDash_1.unity
-    guid: 4cc73301e6a1d234b9cbe0a557ff2de4
+    path: Assets/Scenes/Levels/World 1/All actions/GpOrDie.unity
+    guid: 041ad109a2a9d214da6d46f2dcb1fcb5
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/VerticalDownSara_1.unity
     guid: d92e207862a9b214980698189924834d
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/TryToStop.unity
     guid: 534bc67862544d642a6a0dce452c2cba
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
+    guid: 40961206d24b19e41ab163211c5b7da1
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/Escape.unity
     guid: 451064abd909a48449aa524bb4387631

@@ -32,8 +32,8 @@ public class DeathZone : MonoBehaviour
                 tileSplitter.scale = transform.lossyScale;
                 tileSplitter.initialVelocity = GetComponent<Rigidbody2D>().velocity;
             }
-
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject); // destroys all if contained in a prefab :/
         }
     }
 

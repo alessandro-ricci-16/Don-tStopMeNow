@@ -27,9 +27,10 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     [Header("Commands")] public GameObject commandsMenuCanvas;
     
-    private readonly float _fadeDelay = 0f;
-    private readonly float _fadeInTime = 0.75f;
-    private readonly float _fadeOutTime = 0.5f;
+    [Header("Fade In/Out")]
+    public float _fadeDelay = 0f;
+    public float _fadeInTime = 0.75f;
+    public float _fadeOutTime = 0.5f;
     
     private Animator _levelTextAnimator;
     private Animator _backgroundAnimator;

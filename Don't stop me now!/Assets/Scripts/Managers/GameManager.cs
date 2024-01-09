@@ -105,6 +105,9 @@ public class GameManager : Singleton<GameManager>
         // call me to load the next index
         int index = SceneManager.GetActiveScene().buildIndex + 1;
         
+        // reset the checkpoint
+        StartAtCheckPoint = false;
+        
         if (index <= SceneManager.sceneCountInBuildSettings)
             ChangeScene(index);
         else

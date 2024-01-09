@@ -29,7 +29,7 @@ public class SpriteSplitter : MonoBehaviour
         
         for (var i = 0; i < spriteMasks.Count; i++)
         {
-            GameObject newGo = Instantiate(prefab, transform.position + new Vector3(0.5f, 0.5f, 0),
+            GameObject newGo = Instantiate(prefab, transform.position,
                 Quaternion.identity);
             newObjects.Add(newGo);
         }

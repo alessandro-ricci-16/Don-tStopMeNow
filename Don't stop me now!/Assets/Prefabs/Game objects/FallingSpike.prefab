@@ -99,7 +99,7 @@ MonoBehaviour:
   cubeScale: 1.5
   hPosCubeHit: 0
   yPosCubeHit: 1
-  triggerHeight: 5
+  triggerHeight: 14
   gravityScale: 20
   parameters: {fileID: 11400000, guid: fea7bb307ffc3234eb397ff9d0f7e0b9, type: 2}
 --- !u!114 &5293633152883872040

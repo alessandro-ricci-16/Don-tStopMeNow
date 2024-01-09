@@ -33,16 +33,18 @@ public class FallingSpike : MonoBehaviour
         //_doh.enabled = false;
 
         _defaultCubeSpeed = parameters.defaultSpeed;
-
+        var fallingSpikeScale = transform.lossyScale;
+        
         Vector2[] triangleColliderPoints = new Vector2[3];
         // upper point of the triangle trigger
-        float upperY = -0.5f + transform.GetChild(0).transform.localPosition.y; // - cubeScale;
+        float upperY = -0.5f + transform.GetChild(0).localPosition.y; // - cubeScale;
         // lower points (base) of the triangle trigger
-        float lowerY = upperY - triggerHeight;
+        float lowerY = upperY - triggerHeight / fallingSpikeScale.y;
         // physics shit to compute the base width in order to hit the cube with its default speed based on the height
         float halfBaseWidth =
             _defaultCubeSpeed * MathF.Sqrt((2 * (triggerHeight - cubeScale * yPosCubeHit)) /
                                            (gravityScale * MathF.Abs(Physics2D.gravity.y))) - cubeScale * hPosCubeHit;
+        halfBaseWidth /= fallingSpikeScale.x;
         triangleColliderPoints[0] = new Vector2(0, upperY);
         triangleColliderPoints[1] = new Vector2(-halfBaseWidth, lowerY);
         triangleColliderPoints[2] = new Vector2(halfBaseWidth, lowerY);
@@ -52,28 +54,7 @@ public class FallingSpike : MonoBehaviour
 
     void Start()
     {
-        _spikeRb = GetComponentInChildren<Rigidbody2D>();
-        // don't let the spike fall for the moment
-        _spikeRb.gravityScale = 0;
-        _pc = GetComponent<PolygonCollider2D>();
-        //_doh.enabled = false;
-
-        _defaultCubeSpeed = parameters.defaultSpeed;
-
-        Vector2[] triangleColliderPoints = new Vector2[3];
-        // upper point of the triangle trigger
-        float upperY = -0.5f; // - cubeScale;
-        // lower points of the triangle trigger
-        float lowerY = -0.5f - triggerHeight;
-        // physics shit to compute the base width in order to hit the cube with its default speed based on the height
-        float halfBaseWidth =
-            _defaultCubeSpeed * MathF.Sqrt((2 * (triggerHeight - cubeScale * yPosCubeHit)) /
-                                           (gravityScale * MathF.Abs(Physics2D.gravity.y))) - cubeScale * hPosCubeHit;
-        triangleColliderPoints[0] = new Vector2(0, upperY);
-        triangleColliderPoints[1] = new Vector2(-halfBaseWidth, lowerY);
-        triangleColliderPoints[2] = new Vector2(halfBaseWidth, lowerY);
-
-        _pc.points = triangleColliderPoints;
+        GenerateCollider();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

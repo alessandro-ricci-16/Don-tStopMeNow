@@ -104,7 +104,7 @@ public class BreakablePlatform : MonoBehaviour
 
     private void BreakTile(Vector3Int tilePosition, Vector3 iceCubePosition)
     {
-        GameObject newTile = Instantiate(spriteSplitterPrefab, tilePosition, Quaternion.identity);
+        GameObject newTile = Instantiate(spriteSplitterPrefab, tilePosition + new Vector3(0.5f, 0.5f, 0), Quaternion.identity);
         var tileSplitter = newTile.GetComponent<SpriteSplitter>();
         
         tileSplitter.tileSprite = _tilemap.GetSprite(tilePosition);

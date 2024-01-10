@@ -13,6 +13,7 @@ public class BreakablePlatform : MonoBehaviour
     private Tilemap _tilemap;
     public IceCubeParameters parameters;
     [SerializeField] private GameObject spriteSplitterPrefab;
+    private IceCubeStateManager _iceCubeStateManager;
 
     private void Start()
     {
@@ -23,14 +24,17 @@ public class BreakablePlatform : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            IceCubeStateManager sm = other.gameObject.GetComponent<IceCubeStateManager>();
-            if (sm is null)
+            if (_iceCubeStateManager is null)
             {
-                Debug.LogError("Cannot get IceCubeStateManager from player");
-                return;
+                _iceCubeStateManager = other.gameObject.GetComponent<IceCubeStateManager>();
+                if (_iceCubeStateManager is null)
+                {
+                    Debug.LogError("Cannot get IceCubeStateManager from player");
+                    return;
+                }
             }
 
-            IceCubeStatesEnum iceCubeState = sm.GetCurrentState().GetEnumState();
+            IceCubeStatesEnum iceCubeState = _iceCubeStateManager.GetCurrentState().GetEnumState();
 
             ContactPoint2D[] contactPoints = new ContactPoint2D[other.contactCount];
             other.GetContacts(contactPoints);
@@ -48,7 +52,7 @@ public class BreakablePlatform : MonoBehaviour
                     BreakPlatform(cellPosition, other.transform.position);
                     break;
                 }
-                
+
                 // Break the platform if ground pounding against a floor
                 if (roundedNorm.y != 0 && (iceCubeState == IceCubeStatesEnum.IsGroundPounding ||
                                            Mathf.Approximately(other.relativeVelocity.y, -parameters.groundPoundSpeed)))
@@ -116,7 +120,7 @@ public class BreakablePlatform : MonoBehaviour
             var tile = _tilemap.GetTile(currentCellPosition);
             if (tile is null)
                 continue;
-            
+
             BreakTile(currentCellPosition, iceCubePosition);
 
             // Adds adjacent tiles into the queue
@@ -129,12 +133,13 @@ public class BreakablePlatform : MonoBehaviour
 
     private void BreakTile(Vector3Int tilePosition, Vector3 iceCubePosition)
     {
-        GameObject newTile = Instantiate(spriteSplitterPrefab, tilePosition + new Vector3(0.5f, 0.5f, 0), Quaternion.identity);
+        GameObject newTile = Instantiate(spriteSplitterPrefab, tilePosition + new Vector3(0.5f, 0.5f, 0),
+            Quaternion.identity);
         var tileSplitter = newTile.GetComponent<SpriteSplitter>();
-        
+
         tileSplitter.tileSprite = _tilemap.GetSprite(tilePosition);
         tileSplitter.forcePosition = iceCubePosition;
-        
+
         // Remove tile from tilemap
         _tilemap.SetTile(tilePosition, null);
     }

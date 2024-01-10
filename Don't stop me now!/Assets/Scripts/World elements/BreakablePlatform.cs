@@ -59,6 +59,31 @@ public class BreakablePlatform : MonoBehaviour
                 }
             }
         }
+
+        if (other.gameObject.CompareTag("BigCattivoneBoy"))
+        {
+            //check if the velocity along y is negative (falling down) and destroy the breakable
+            if (other.relativeVelocity.y < 0)
+            {
+                ContactPoint2D[] contactPoints = new ContactPoint2D[other.contactCount];
+                other.GetContacts(contactPoints);
+
+                foreach (var contact in contactPoints)
+                {
+                    Vector2 roundedNorm = new Vector2(Mathf.Round(contact.normal.x), Mathf.Round(contact.normal.y));
+                    // Get the position of the contact point in the tilemap
+                    Vector3Int cellPosition = _tilemap.WorldToCell(contact.point);
+
+                    // Break the platform if ground pounding against a floor
+                    if (roundedNorm.y != 0)
+                    {
+                        cellPosition += Vector3Int.up * MathF.Sign(roundedNorm.y);
+                        BreakPlatform(cellPosition, other.transform.position);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     // Grazie sommo per non farci usare le ricorsioni (scusa Maristella so che ti piacciono)    

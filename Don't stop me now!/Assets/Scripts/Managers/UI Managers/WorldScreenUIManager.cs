@@ -5,7 +5,6 @@ using UnityEngine;
 public class WorldScreenUIManager : MonoBehaviour
 {
     public float displayTime = 2f;
-    
     private void Start()
     {
         StartCoroutine(LoadAfterDelay());

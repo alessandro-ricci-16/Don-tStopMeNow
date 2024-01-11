@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7078420951093305849}
   - component: {fileID: 6579455675136926038}
   - component: {fileID: 3774530231322266034}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Moving Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   - {x: -0.25, y: -0.44, z: 0.0000000046957993}
   m_ShapePathHash: -768896031
   m_Mesh: {fileID: 0}
-  m_InstanceId: 34006
+  m_InstanceId: 195176
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -140,7 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dab9c1d9ec85a8469e966de85289147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnPlayerHit: 0
+  destroyOnHit: 0
+  spriteSplitterPrefab: {fileID: 0}
 --- !u!212 &6579455675136926038
 SpriteRenderer:
   m_ObjectHideFlags: 0

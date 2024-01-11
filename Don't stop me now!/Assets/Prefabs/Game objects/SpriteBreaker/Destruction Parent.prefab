@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645338078777390295}
   - component: {fileID: -655982568427840631}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Destruction Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}

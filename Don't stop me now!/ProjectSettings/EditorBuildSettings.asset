@@ -42,17 +42,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/Tutorials/TutorialGroundPound.unity
     guid: 8b65847f956bec441a72bf7ab80d82b2
   - enabled: 1
-    path: Assets/Scenes/Levels/World 1/GroundPound/GroundPoundLevelSara.unity
-    guid: b31cf71221f6a0441ade0084edffd58b
-  - enabled: 1
     path: Assets/Scenes/Levels/World 1/GroundPound/GroundPoundLevelAle.unity
     guid: a7a53211b2f7f974fa3f2397845f6ec8
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/GroundPound/GroundPoundLevelSara.unity
+    guid: b31cf71221f6a0441ade0084edffd58b
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/Tutorials/TutorialDash.unity
     guid: abb22e2d7ef772142b82e54ca8408fc3
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/DashLevelAle.unity
     guid: 629fcecfe938f4c45a55f5312a5dc54a
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/DestructionAndDestructionAgain.unity
+    guid: 5dbb2c921654b37449613c4c4a1ba82e
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/WallJumpAle.unity
     guid: 8cb9d8d1c22401349aff0923c326067a
@@ -63,9 +66,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/VerticalUpSara_1.unity
     guid: 6d3d5f1a661fa7941929799dcccfdd56
   - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/DestructionAndDestructionAgain.unity
-    guid: 5dbb2c921654b37449613c4c4a1ba82e
-  - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/GpOrDie.unity
     guid: 041ad109a2a9d214da6d46f2dcb1fcb5
   - enabled: 1
@@ -75,14 +75,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/TryToStop.unity
     guid: 534bc67862544d642a6a0dce452c2cba
   - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
-    guid: 40961206d24b19e41ab163211c5b7da1
-  - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/Escape.unity
     guid: 451064abd909a48449aa524bb4387631
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/FakeBreakableAle.unity
     guid: d9722657f66e6fc4592956d234b4aad2
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/SmallerAndSmaller.unity
+    guid: 389fe4920a53dda4fbdbc5ab0fc2a2db
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
+    guid: 40961206d24b19e41ab163211c5b7da1
   - enabled: 1
     path: Assets/Scenes/Cutscenes/World2Screen.unity
     guid: 9c34932e6ce42284f9150db342e197ca
@@ -134,6 +137,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/World2/Falling Spike/GOTTAGOFAST.unity
     guid: 2345af5dfb8daac4ba6a871de40e0a86
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Tutorial/BigCattivoneBoyTutorial.unity
+    guid: 1d7e1f2d2bb1119499f0858ec86f2ee1
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/BigCattivoneBoy/ReleaseTheBoy.unity
+    guid: cbe0653e9f19e584d8f297d87559f2d6
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/All objects/Run.unity
+    guid: dbe10fca957b9f14b8a02f9c2e2553b7
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/BigCattivoneBoy/MakeThemFall.unity
+    guid: 45b1d4325ed52ea4a9d9794f7ffef7cf
   - enabled: 1
     path: Assets/Scenes/Menus/End Of Game.unity
     guid: 97fa5bb283f9eee4cb692d3c721f918e

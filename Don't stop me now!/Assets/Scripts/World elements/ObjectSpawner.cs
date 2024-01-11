@@ -38,8 +38,7 @@ public class ObjectSpawner : MonoBehaviour
         }
 
         _boxCollider2D = GetComponent<BoxCollider2D>();
-
-        if (_boxCollider2D is null)
+        if (_boxCollider2D == null)
             StartCoroutine(SpawnCoroutine());
     }
 

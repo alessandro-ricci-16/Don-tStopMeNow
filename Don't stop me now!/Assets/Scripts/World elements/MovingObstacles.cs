@@ -20,8 +20,9 @@ public class MovingObstacles : MonoBehaviour
     private float maxFallingSpeed = 69.0f;
     private float acceleration = 40.0f;
     private float gravityScale = 30.0f;
-    
+
     private float _epsilon = 0.1f;
+
     // should be Vector2.left or Vector2.right;
     // does not take into account vertical movement by design
     private Vector2 _currentDirection;
@@ -30,19 +31,22 @@ public class MovingObstacles : MonoBehaviour
     private Vector2 _prevFrameVelocity;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
+    private Collider2D _collider2D;
+
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = gravityScale;
-        
+
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         if (initialDirection == Direction.Left)
             _currentDirection = Vector2.left;
         else
             _currentDirection = Vector2.right;
-
+        _collider2D = GetComponent<Collider2D>();
     }
+
     private void Update()
     {
         _spriteRenderer.flipX = _currentDirection == Vector2.left;
@@ -60,7 +64,7 @@ public class MovingObstacles : MonoBehaviour
     {
         _prevFrameVelocity = _rigidbody2D.velocity;
         _epsilon = Time.fixedDeltaTime * acceleration;
-        
+
         if (Mathf.Abs(_prevFrameVelocity.x) < defaultSpeed - _epsilon)
         {
             _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
@@ -69,10 +73,11 @@ public class MovingObstacles : MonoBehaviour
         {
             _rigidbody2D.AddForce(-acceleration * _currentDirection, ForceMode2D.Force);
         }
-        
+
         if (Mathf.Abs(_prevFrameVelocity.y) > maxFallingSpeed)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, Mathf.Sign(_prevFrameVelocity.y) * maxFallingSpeed);
+            _rigidbody2D.velocity =
+                new Vector2(_rigidbody2D.velocity.x, Mathf.Sign(_prevFrameVelocity.y) * maxFallingSpeed);
         }
     }
 
@@ -93,7 +98,7 @@ public class MovingObstacles : MonoBehaviour
         int contactsNumber = other.contactCount;
         ContactPoint2D[] contacts = new ContactPoint2D[contactsNumber];
         other.GetContacts(contacts);
-        
+
         // iterate and check normals
         foreach (ContactPoint2D c in contacts)
         {
@@ -118,11 +123,12 @@ public class MovingObstacles : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        //print the tag of the object we collided with
+
         HandleCollisions(other);
     }
 
@@ -130,6 +136,6 @@ public class MovingObstacles : MonoBehaviour
     {
         HandleCollisions(other);
     }
-    
+
     #endregion
 }

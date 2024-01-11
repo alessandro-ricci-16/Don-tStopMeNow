@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7477012366843078580}
   m_Layer: 0
   m_Name: Ground Tilemap
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -535,7 +535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dab9c1d9ec85a8469e966de85289147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnPlayerHit: 0
+  destroyOnHit: 0
+  spriteSplitterPrefab: {fileID: 0}
 --- !u!1 &4588695411708520436
 GameObject:
   m_ObjectHideFlags: 0

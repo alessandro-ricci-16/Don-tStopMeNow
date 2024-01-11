@@ -64,10 +64,10 @@ MonoBehaviour:
     volume: 2
   dashSound:
     sound: {fileID: 8300000, guid: 509eaa04925578743a664cde5c9e0dd5, type: 3}
-    volume: 2
+    volume: 1.5
   breakingPlatformSound:
     sound: {fileID: 8300000, guid: 843693b2491630b4fb9693bdb7094c17, type: 3}
-    volume: 1
+    volume: 0.2
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     volume: 0.2

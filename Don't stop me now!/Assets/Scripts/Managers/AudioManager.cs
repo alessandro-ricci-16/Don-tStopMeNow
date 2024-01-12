@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Ice_Cube.States;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class SoundData
@@ -40,7 +37,7 @@ public class AudioManager : Singleton<AudioManager>
 
     // Sound effects variables
     private AudioSource _sfxAudioSource;
-    
+
     // to avoid unnecessary computation
     private int _prevSceneIndex = -1;
 
@@ -50,13 +47,13 @@ public class AudioManager : Singleton<AudioManager>
     private void Start()
     {
         Debug.Log("Initializing audio manager");
-        
+
         _musicAudioSource = gameObject.AddComponent<AudioSource>();
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
         _prevSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        
+
         StartCoroutine(PlayIntro());
-        
+
         EventManager.StartListening(EventNames.Death, OnDeath);
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.BreakingPlatform, OnPlatformBreaking);
@@ -89,16 +86,12 @@ public class AudioManager : Singleton<AudioManager>
 
         _musicAudioSource.loop = false;
 
-        yield return new WaitForSeconds(intro.sound.length);
+        yield return new WaitForSeconds(intro.sound.length - 1.0f);
 
         // if the intro is still the current song (haven't gone into world 2), then play world 1 loop
         if (_currentSong == intro)
         {
-            _musicAudioSource.Stop();
-            _musicAudioSource.clip = loopWorld1.sound;
-            _musicAudioSource.volume = loopWorld1.volume * _masterVolume * _musicVolume;
-            _musicAudioSource.Play();
-            _musicAudioSource.loop = true;
+            StartCoroutine(FadeOutAndPlayLoop(loopWorld1, delay: 0f));
         }
     }
 
@@ -138,7 +131,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             return;
         }
-        
+
         if (_currentSong == intro || _currentSong == loopWorld1)
         {
             if (GameManager.Instance.SceneIsWorld2Screen() || GameManager.Instance.SceneIsWorld2())

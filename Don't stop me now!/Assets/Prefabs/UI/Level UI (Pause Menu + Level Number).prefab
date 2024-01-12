@@ -1527,6 +1527,9 @@ MonoBehaviour:
   feedbackTitleText: {fileID: 803580173159021492}
   settingsMenuCanvas: {fileID: 503185848557085118}
   commandsMenuCanvas: {fileID: 7477460633007280987}
+  _fadeDelay: 0
+  _fadeInTime: 0.75
+  _fadeOutTime: 0.5
 --- !u!1 &2718911653251352428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,6 +2267,9 @@ MonoBehaviour:
   feedbackTitleText: {fileID: 803580173159021492}
   settingsMenuCanvas: {fileID: 503185848557085118}
   commandsMenuCanvas: {fileID: 7477460633007280987}
+  _fadeDelay: 0
+  _fadeInTime: 0.75
+  _fadeOutTime: 0.5
 --- !u!1 &3910181803454134957
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,7 +3278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

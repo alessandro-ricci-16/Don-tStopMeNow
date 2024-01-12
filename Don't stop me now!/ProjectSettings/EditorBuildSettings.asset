@@ -69,11 +69,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World 1/All actions/GpOrDie.unity
     guid: 041ad109a2a9d214da6d46f2dcb1fcb5
   - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/BreakableSmasher.unity
+    guid: c38aba86c4a276044a3a2b8c28ab1776
+  - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/VerticalDownSara_1.unity
     guid: d92e207862a9b214980698189924834d
-  - enabled: 1
-    path: Assets/Scenes/Levels/World 1/All actions/TryToStop.unity
-    guid: 534bc67862544d642a6a0dce452c2cba
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/Escape.unity
     guid: 451064abd909a48449aa524bb4387631
@@ -86,6 +86,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/World 1/All actions/LearnToCombo.unity
     guid: 40961206d24b19e41ab163211c5b7da1
+  - enabled: 1
+    path: Assets/Scenes/Levels/World 1/All actions/TryToStop.unity
+    guid: 534bc67862544d642a6a0dce452c2cba
   - enabled: 1
     path: Assets/Scenes/Cutscenes/World2Screen.unity
     guid: 9c34932e6ce42284f9150db342e197ca

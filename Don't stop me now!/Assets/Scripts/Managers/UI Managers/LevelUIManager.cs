@@ -14,7 +14,8 @@ public class LevelUIManager : Singleton<LevelUIManager>
 {
     public Image backgroundImage;
 
-    [Header("Start Level Graphics")] public TextMeshProUGUI levelText;
+    [Header("Start Level Graphics")] 
+    public TextMeshProUGUI levelText;
 
     [Header("Pause")] public GameObject pauseMenuCanvas;
     public TextMeshProUGUI pauseLevelText;
@@ -23,14 +24,20 @@ public class LevelUIManager : Singleton<LevelUIManager>
     [Header("Feedback")] public GameObject feedbackMenuCanvas;
     public TextMeshProUGUI feedbackTitleText;
 
-    [Header("Settings")] public GameObject settingsMenuCanvas;
+    [Header("Settings")] 
+    public GameObject settingsMenuCanvas;
 
-    [Header("Commands")] public GameObject commandsMenuCanvas;
+    [Header("Commands")] 
+    public GameObject commandsMenuCanvas;
     
-    [Header("Fade In/Out")]
-    public float _fadeDelay = 0f;
-    public float _fadeInTime = 0.75f;
-    public float _fadeOutTime = 0.5f;
+    [Header("DeathCounter")]
+    public TextMeshProUGUI deathCounterText;
+    public GameObject deathCounterCanvas;
+    
+    
+    private float _fadeDelay = 0f;
+    private float _fadeInTime = 0.75f;
+    private float _fadeOutTime = 0.5f;
     
     private Animator _levelTextAnimator;
     private Animator _backgroundAnimator;
@@ -82,9 +89,20 @@ public class LevelUIManager : Singleton<LevelUIManager>
         pauseMenuCanvas.SetActive(false);
 
         int i = SceneManager.GetActiveScene().buildIndex;
+        bool isLevel = GameManager.Instance.SceneIsLevel(i);
+        
+        if (isLevel)
+        {
+            deathCounterCanvas.gameObject.SetActive(true);
+            deathCounterText.text = "x " + GameManager.Instance.DeathCounter;
+        }
+        else
+        {
+            deathCounterCanvas.gameObject.SetActive(false);
+        }
 
         // expensive method invocation -> only update if the scene changed
-        if (i != _prevSceneIndex)
+        if (i != _prevSceneIndex && isLevel)
         {
             _prevSceneIndex = i;
             _currentLevelIndex = CalculateLevelIndex();
@@ -92,12 +110,10 @@ public class LevelUIManager : Singleton<LevelUIManager>
             pauseLevelText.text = "Level " + _currentLevelIndex;
             feedbackTitleText.text = "Feedback about level " + _currentLevelIndex;
             feedbackMenuCanvas.SetActive(false);
-        }
-
-        if (GameManager.Instance.SceneIsLevel())
-        {
+            
             StartCoroutine(FadeInOutLevelText());
         }
+
     }
 
     private int CalculateLevelIndex()

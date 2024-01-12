@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     public bool StartAtCheckPoint { get; private set; }
     public Vector3 LastCheckpoint { get; private set; }
     public Direction CheckpointStartDirection { get; private set; }
+    public int DeathCounter { get; private set; }
     
     private Animator _canvasAnimator;
     private Vignette _vignetteEffect;
@@ -57,6 +58,10 @@ public class GameManager : Singleton<GameManager>
     {
         // update the time scale
         Time.timeScale = timeScaleDeath;
+        
+        // update the death counter
+        DeathCounter++;
+        
         // center the vignette animation on the passed position
         if (Camera.main != null)
         {
@@ -107,6 +112,7 @@ public class GameManager : Singleton<GameManager>
         
         // reset the checkpoint
         StartAtCheckPoint = false;
+        DeathCounter = 0;
         
         if (index <= SceneManager.sceneCountInBuildSettings)
             ChangeScene(index);

@@ -68,6 +68,9 @@ MonoBehaviour:
   breakingPlatformSound:
     sound: {fileID: 8300000, guid: 843693b2491630b4fb9693bdb7094c17, type: 3}
     volume: 0.2
+  heatedPlatformSound:
+    sound: {fileID: 8300000, guid: 2dbff0be202125949a86fac1fc0228ea, type: 3}
+    volume: 1
   buttonClickSound:
     sound: {fileID: 8300000, guid: 249e7657e96547a4db93d315d658c52e, type: 3}
     volume: 0.2

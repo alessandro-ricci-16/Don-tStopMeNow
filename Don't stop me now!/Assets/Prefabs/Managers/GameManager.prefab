@@ -725,9 +725,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeScaleDeath: 1
   initialScenesOffset: 2
-  world1LevelsNumber: 24
+  world1LevelsNumber: 25
   world2ScreenOffset: 1
-  world2LevelsNumber: 20
+  world2LevelsNumber: 24
 --- !u!95 &6939347951070593622
 Animator:
   serializedVersion: 5

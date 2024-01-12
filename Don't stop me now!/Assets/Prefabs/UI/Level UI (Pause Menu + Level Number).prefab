@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 2
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 75
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2613,12 +2613,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2254087223166154069}
-  - {fileID: 5749610894542876693}
   - {fileID: 4391105871479346729}
-  - {fileID: 4727896431048749095}
   - {fileID: 4828535506652947035}
   - {fileID: 4736039819154623749}
+  - {fileID: 5749610894542876693}
+  - {fileID: 4727896431048749095}
+  - {fileID: 2254087223166154069}
   m_Father: {fileID: 883306885622436166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 50
+  m_ReferencePixelsPerUnit: 30
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -3009,14 +3009,14 @@ RectTransform:
   m_GameObject: {fileID: 5209638008034192830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 311057705430641354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -175, y: -55}
+  m_AnchoredPosition: {x: -135, y: -44}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6823906861297752279
@@ -3527,7 +3527,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -20, y: -20}
-  m_SizeDelta: {x: 200, y: 70}
+  m_SizeDelta: {x: 150, y: 48}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &671210292439794904
 CanvasRenderer:
@@ -5885,6 +5885,10 @@ PrefabInstance:
       value: Back to level selection button
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: BackToLevelSelection
       objectReference: {fileID: 0}
@@ -6007,6 +6011,10 @@ PrefabInstance:
       value: Skip Level Button
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SkipLevel
       objectReference: {fileID: 0}
@@ -6110,7 +6118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -125
+      value: -215
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6126,7 +6134,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7735669702768868623, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_Name
-      value: Setting
+      value: Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CallSettings
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -6230,7 +6246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -215
+      value: -125
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6248,6 +6264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Commands
       objectReference: {fileID: 0}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CallCommands
@@ -6298,7 +6318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontSize
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontColor.b
@@ -6314,7 +6334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontSizeBase
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -6382,11 +6402,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -85
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -44
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6818,6 +6838,10 @@ PrefabInstance:
       value: Feedback Button
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: EnableFeedbackScreen
       objectReference: {fileID: 0}
@@ -7089,6 +7113,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Resume Button
       objectReference: {fileID: 0}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Resume

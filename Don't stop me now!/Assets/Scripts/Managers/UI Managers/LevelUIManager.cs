@@ -155,11 +155,11 @@ public class LevelUIManager : Singleton<LevelUIManager>
     {
         _paused = false;
         EventManager.TriggerEvent(EventNames.GameResume);
-        DeactivateEverything();
+        DeactivatePauseMenu();
         Time.timeScale = 1;
     }
 
-    private void DeactivateEverything()
+    private void DeactivatePauseMenu()
     {
         pauseMenuCanvas.SetActive(false);
         pauseButtons.SetActive(false);
@@ -169,6 +169,16 @@ public class LevelUIManager : Singleton<LevelUIManager>
         commandsMenuCanvas.SetActive(false);
         feedbackMenuCanvas.SetActive(false);
     }
+    
+    public void BackToPauseMenu()
+    {
+        settingsMenuCanvas.SetActive(false);
+        commandsMenuCanvas.SetActive(false);
+        feedbackMenuCanvas.SetActive(false);
+
+        pauseMenuCanvas.SetActive(true);
+        pauseButtons.SetActive(true);
+    }
 
     #endregion
 
@@ -176,15 +186,12 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     public void EnableFeedbackScreen()
     {
-        pauseMenuCanvas.SetActive(false);
+        pauseButtons.SetActive(false);
+        commandsMenuCanvas.SetActive(false);
+        settingsMenuCanvas.SetActive(false);
         feedbackMenuCanvas.SetActive(true);
     }
 
-    public void BackToPauseMenuFromFeedback()
-    {
-        feedbackMenuCanvas.SetActive(false);
-        pauseMenuCanvas.SetActive(true);
-    }
 
     #endregion
 
@@ -193,14 +200,14 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public void BackToLevelSelection()
     {
         Time.timeScale = 1;
-        DeactivateEverything();
+        DeactivatePauseMenu();
         GameManager.Instance.LoadLevelSelectionScene();
     }
 
     public void SkipLevel()
     {
         Time.timeScale = 1;
-        DeactivateEverything();
+        DeactivatePauseMenu();
         FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
         GameManager.Instance.LoadNextScene();
     }
@@ -243,14 +250,11 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     public void CallSettings()
     {
+        commandsMenuCanvas.SetActive(false);
+        feedbackMenuCanvas.SetActive(false);
+        
         pauseButtons.SetActive(false);
         settingsMenuCanvas.SetActive(true);
-    }
-
-    public void BackToPauseMenuFromSettings()
-    {
-        pauseButtons.SetActive(true);
-        settingsMenuCanvas.SetActive(false);
     }
 
     #endregion
@@ -260,13 +264,9 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public void CallCommands()
     {
         pauseButtons.SetActive(false);
+        feedbackMenuCanvas.SetActive(false);
+        settingsMenuCanvas.SetActive(false);
         commandsMenuCanvas.SetActive(true);
-    }
-
-    public void BackToPauseMenuFromCommands()
-    {
-        pauseButtons.SetActive(true);
-        commandsMenuCanvas.SetActive(false);
     }
 
     #endregion

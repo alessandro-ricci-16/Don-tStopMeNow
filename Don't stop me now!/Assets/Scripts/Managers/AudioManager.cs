@@ -22,7 +22,7 @@ public class AudioManager : Singleton<AudioManager>
     public SoundData groundPoundSound;
     public SoundData dashSound;
     public SoundData breakingPlatformSound;
-
+    public SoundData heatedPlatformSound;
     [Header("UI Sound Effects")] public SoundData buttonClickSound;
 
     // volumes
@@ -58,6 +58,8 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.BreakingPlatform, OnPlatformBreaking);
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateMusic);
+        EventManager.StartListening(EventNames.OnHeatedPlatform, OnHeatedPlatform);
+        EventManager.StartListening(EventNames.OffHeatedPlatform, OffHeatedPlatform);
     }
 
     private void OnDestroy()
@@ -67,6 +69,8 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StopListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StopListening(EventNames.BreakingPlatform, OnPlatformBreaking);
         EventManager.StopListening(EventNames.NewSceneLoaded, UpdateMusic);
+        EventManager.StopListening(EventNames.OnHeatedPlatform, OnHeatedPlatform);
+        EventManager.StopListening(EventNames.OffHeatedPlatform, OffHeatedPlatform);
     }
 
     #endregion
@@ -167,6 +171,21 @@ public class AudioManager : Singleton<AudioManager>
     private void OnDeath()
     {
         PlaySound(deathSound);
+    }
+
+    private void OnHeatedPlatform()
+    {
+        if (heatedPlatformSound.sound != null)
+        {
+            if (_sfxAudioSource.clip != heatedPlatformSound.sound)
+                _sfxAudioSource.clip = heatedPlatformSound.sound;
+            _sfxAudioSource.Play();
+        }
+    }
+
+    private void OffHeatedPlatform()
+    {
+        _sfxAudioSource.Stop();
     }
 
     private void OnStateChanged(IceCubeStatesEnum previous, IceCubeStatesEnum current)

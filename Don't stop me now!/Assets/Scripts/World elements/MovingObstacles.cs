@@ -65,19 +65,21 @@ public class MovingObstacles : MonoBehaviour
         _prevFrameVelocity = _rigidbody2D.velocity;
         _epsilon = Time.fixedDeltaTime * acceleration;
 
-        if (Mathf.Abs(_prevFrameVelocity.x) < defaultSpeed - _epsilon)
+        var xAbsVelocity = Mathf.Abs(_prevFrameVelocity.x);
+        var yAbsVelocity = Mathf.Abs(_prevFrameVelocity.y);
+        
+        if (xAbsVelocity < defaultSpeed - _epsilon)
         {
             _rigidbody2D.AddForce(acceleration * _currentDirection, ForceMode2D.Force);
         }
-        else if (Mathf.Abs(_prevFrameVelocity.x) > defaultSpeed + _epsilon)
+        else if (xAbsVelocity > defaultSpeed + _epsilon)
         {
             _rigidbody2D.AddForce(-acceleration * _currentDirection, ForceMode2D.Force);
         }
 
-        if (Mathf.Abs(_prevFrameVelocity.y) > maxFallingSpeed)
+        if (yAbsVelocity > maxFallingSpeed)
         {
-            _rigidbody2D.velocity =
-                new Vector2(_rigidbody2D.velocity.x, Mathf.Sign(_prevFrameVelocity.y) * maxFallingSpeed);
+            _rigidbody2D.AddForce(Vector2.up * (-Mathf.Sign(_prevFrameVelocity.y) * (yAbsVelocity - maxFallingSpeed)), ForceMode2D.Impulse);
         }
     }
 

@@ -1505,7 +1505,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 133685002332594715}
   - {fileID: 2105427561270201532}
   - {fileID: 3087468235160091266}
   m_Father: {fileID: 7945209887397979099}
@@ -3015,8 +3014,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -135, y: -44}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -95, y: -40}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6823906861297752279
 CanvasRenderer:
@@ -3483,81 +3482,6 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 3f080b0770ec6284b8cc656ca3895567, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!1 &6367612700178830667
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 133685002332594715}
-  - component: {fileID: 671210292439794904}
-  - component: {fileID: 4356956398865087853}
-  m_Layer: 5
-  m_Name: DC Panel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &133685002332594715
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6367612700178830667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 311057705430641354}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20, y: -20}
-  m_SizeDelta: {x: 150, y: 48}
-  m_Pivot: {x: 1, y: 1}
---- !u!222 &671210292439794904
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6367612700178830667}
-  m_CullTransparentMesh: 1
---- !u!114 &4356956398865087853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6367612700178830667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e7bd1b411a173a843a4971fa5b9aa9ab, type: 3}
-  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6335,13 +6259,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_text
-      value: 'x -100
-
-'
+      value: x -100
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontSize
-      value: 20
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontColor.b
@@ -6357,7 +6279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontSizeBase
-      value: 20
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 500386226459156437, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -6425,11 +6347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -70
+      value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -44
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 1389281574136505584, guid: c6d08df0dbfb2c94896f860febdf1599, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

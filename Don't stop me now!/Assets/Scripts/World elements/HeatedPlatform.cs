@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Ice_Cube.States;
 using ScriptableObjects;
 using UnityEngine;
@@ -48,7 +45,7 @@ public class HeatedPlatform : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && _timer >= heatableSettings.maxTime && !_sentDeathEvent)
+        if (_timer >= heatableSettings.maxTime && !_sentDeathEvent && other.gameObject.CompareTag("Player"))
         {
             var position = other.gameObject.transform.position;
             other.gameObject.GetComponent<Explodable>().Explode();

@@ -35,9 +35,9 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public GameObject deathCounterCanvas;
     
     
-    private float _fadeDelay = 0f;
-    private float _fadeInTime = 0.75f;
-    private float _fadeOutTime = 0.5f;
+    private readonly float _fadeDelay = 0f;
+    private readonly float _fadeInTime = 0.75f;
+    private readonly float _fadeOutTime = 0.5f;
     
     private Animator _levelTextAnimator;
     private Animator _backgroundAnimator;
@@ -100,16 +100,19 @@ public class LevelUIManager : Singleton<LevelUIManager>
         {
             deathCounterCanvas.gameObject.SetActive(false);
         }
+        
+        // sometimes the black background is still active
+        DeactivatePauseMenu();
 
         // expensive method invocation -> only update if the scene changed
         if (i != _prevSceneIndex && isLevel)
         {
             _prevSceneIndex = i;
             _currentLevelIndex = CalculateLevelIndex();
+            
             levelText.text = "Level " + _currentLevelIndex;
             pauseLevelText.text = "Level " + _currentLevelIndex;
             // feedbackTitleText.text = "Feedback about level " + _currentLevelIndex;
-            feedbackMenuCanvas.SetActive(false);
             
             StartCoroutine(FadeInOutLevelText());
         }

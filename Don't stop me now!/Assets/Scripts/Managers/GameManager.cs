@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public float timeScaleDeath;
+    private readonly float _timeScaleDeath = 1.0f;
 
     [Header("Level Number Parameters")] 
     public int initialScenesOffset = 2;
@@ -57,7 +57,7 @@ public class GameManager : Singleton<GameManager>
     private void Die(String levelName, Vector3 playerPosition)
     {
         // update the time scale
-        Time.timeScale = timeScaleDeath;
+        Time.timeScale = _timeScaleDeath;
         
         // update the death counter
         DeathCounter++;

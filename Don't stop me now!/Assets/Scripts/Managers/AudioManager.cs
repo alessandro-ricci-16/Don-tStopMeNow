@@ -58,8 +58,11 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StartListening(EventNames.StateChanged, OnStateChanged);
         EventManager.StartListening(EventNames.BreakingPlatform, OnPlatformBreaking);
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateMusic);
+        
         EventManager.StartListening(EventNames.OnHeatedPlatform, OnHeatedPlatform);
         EventManager.StartListening(EventNames.OffHeatedPlatform, OffHeatedPlatform);
+        // to stop the sound also if i skip the level
+        EventManager.StartListening(EventNames.NewSceneLoaded, OffHeatedPlatform);
     }
 
     private void OnDestroy()

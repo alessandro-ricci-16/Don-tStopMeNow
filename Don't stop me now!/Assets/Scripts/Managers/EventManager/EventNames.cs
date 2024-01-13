@@ -13,5 +13,6 @@ public enum EventNames
     GameResume,
     CollisionWithGround,
     BreakingPlatform,
-    NewSceneLoaded
+    NewSceneLoaded,
+    UpdateDeathCounter
 }

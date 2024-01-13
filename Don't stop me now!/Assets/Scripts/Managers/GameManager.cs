@@ -74,6 +74,7 @@ public class GameManager : Singleton<GameManager>
 
         // update the death counter
         DeathCounter++;
+        EventManager.TriggerEvent(EventNames.UpdateDeathCounter);
 
         // center the vignette animation on the passed position
         if (Camera.main != null)

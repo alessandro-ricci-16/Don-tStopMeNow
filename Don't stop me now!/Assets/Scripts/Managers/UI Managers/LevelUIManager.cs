@@ -56,6 +56,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
         
         UpdateUI();
         EventManager.StartListening(EventNames.NewSceneLoaded, UpdateUI);
+        EventManager.StartListening(EventNames.UpdateDeathCounter, () => StartCoroutine(UpdateDeathCounterCoroutine()));
         _uiInputAction = new UIInputAction();
         _uiInputAction.Enable();
         _uiInputAction.UI.Pause.started += ctx => PressedEsc();
@@ -64,6 +65,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
     private void OnDestroy()
     {
         EventManager.StopListening(EventNames.NewSceneLoaded, UpdateUI);
+        EventManager.StopListening(EventNames.UpdateDeathCounter, () => StartCoroutine(UpdateDeathCounterCoroutine()));
     }
 
     private void PressedEsc()
@@ -94,7 +96,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
         if (isLevel)
         {
             deathCounterCanvas.gameObject.SetActive(true);
-            deathCounterText.text = "x " + GameManager.Instance.DeathCounter;
+            UpdateDeathCounter();
         }
         else
         {
@@ -117,6 +119,17 @@ public class LevelUIManager : Singleton<LevelUIManager>
             StartCoroutine(FadeInOutLevelText());
         }
 
+    }
+
+    private void UpdateDeathCounter()
+    {
+        deathCounterText.text = "x " + GameManager.Instance.DeathCounter;
+    }
+
+    private IEnumerator UpdateDeathCounterCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        UpdateDeathCounter();
     }
 
     private int CalculateLevelIndex()

@@ -188,6 +188,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             if (_sfxAudioSource.clip != heatedPlatformSound.sound)
                 _sfxAudioSource.clip = heatedPlatformSound.sound;
+            _sfxAudioSource.volume = heatedPlatformSound.volume * _masterVolume * _sfxVolume;
             _sfxAudioSource.Play();
         }
     }
@@ -195,6 +196,7 @@ public class AudioManager : Singleton<AudioManager>
     private void OffHeatedPlatform()
     {
         _sfxAudioSource.Stop();
+        _sfxAudioSource.volume = 1;
     }
 
     private void OnStateChanged(IceCubeStatesEnum previous, IceCubeStatesEnum current)

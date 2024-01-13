@@ -50,7 +50,6 @@ public class AudioManager : Singleton<AudioManager>
 
         _musicAudioSource = gameObject.AddComponent<AudioSource>();
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
-        _prevSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         StartCoroutine(PlayIntro());
 
@@ -122,7 +121,7 @@ public class AudioManager : Singleton<AudioManager>
         _musicAudioSource.Stop();
 
         // DELAY
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay);
 
         // FADE IN
         _currentSong = song;

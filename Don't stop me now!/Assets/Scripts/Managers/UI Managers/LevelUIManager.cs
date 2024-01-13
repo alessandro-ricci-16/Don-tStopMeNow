@@ -22,7 +22,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public GameObject pauseButtons;
 
     [Header("Feedback")] public GameObject feedbackMenuCanvas;
-    public TextMeshProUGUI feedbackTitleText;
+    // public TextMeshProUGUI feedbackTitleText;
 
     [Header("Settings")] 
     public GameObject settingsMenuCanvas;
@@ -108,7 +108,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
             _currentLevelIndex = CalculateLevelIndex();
             levelText.text = "Level " + _currentLevelIndex;
             pauseLevelText.text = "Level " + _currentLevelIndex;
-            feedbackTitleText.text = "Feedback about level " + _currentLevelIndex;
+            // feedbackTitleText.text = "Feedback about level " + _currentLevelIndex;
             feedbackMenuCanvas.SetActive(false);
             
             StartCoroutine(FadeInOutLevelText());
@@ -218,7 +218,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
     
     private IEnumerator FadeInOutLevelText()
     {
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
         
         // reset background color
         backgroundImage.color = new Color(0, 0, 0, _backgroundAlpha);
@@ -233,7 +233,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
         yield return new WaitForSecondsRealtime(_fadeInTime + _fadeDelay);
         
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
         
         _levelTextAnimator.Play("FadeOutText");
         _backgroundAnimator.Play("FadeOutBackground");

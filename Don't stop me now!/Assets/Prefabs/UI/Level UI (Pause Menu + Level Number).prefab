@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 30
+  m_ReferencePixelsPerUnit: 50
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -5743,6 +5743,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -5752,7 +5756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToPauseMenuFromCommands
+      value: BackToPauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -5908,6 +5912,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6033,6 +6041,10 @@ PrefabInstance:
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6161,6 +6173,10 @@ PrefabInstance:
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6291,6 +6307,10 @@ PrefabInstance:
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_enableAutoSizing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6546,6 +6566,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -6555,7 +6579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToPauseMenuFromSettings
+      value: BackToPauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -6700,6 +6724,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4018057076973571831}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2894033708082571841}
+    - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -6709,7 +6737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: BackToPauseMenuFromFeedback
+      value: BackToPauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -6860,6 +6888,10 @@ PrefabInstance:
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7136,6 +7168,10 @@ PrefabInstance:
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279371520
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -144,13 +144,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World2/Tutorial/BigCattivoneBoyTutorial.unity
     guid: 1d7e1f2d2bb1119499f0858ec86f2ee1
   - enabled: 1
-    path: Assets/Scenes/Levels/World2/BigCattivoneBoy/ReleaseTheBoy.unity
+    path: Assets/Scenes/Levels/World2/All objects/BigCattivoneBoy/ReleaseTheBoy.unity
     guid: cbe0653e9f19e584d8f297d87559f2d6
   - enabled: 1
     path: Assets/Scenes/Levels/World2/All objects/Run.unity
     guid: dbe10fca957b9f14b8a02f9c2e2553b7
   - enabled: 1
-    path: Assets/Scenes/Levels/World2/BigCattivoneBoy/MakeThemFall.unity
+    path: Assets/Scenes/Levels/World2/All objects/BigCattivoneBoy/MakeThemFall.unity
     guid: 45b1d4325ed52ea4a9d9794f7ffef7cf
   - enabled: 1
     path: Assets/Scenes/Levels/World2/All objects/MO+FS Ale.unity

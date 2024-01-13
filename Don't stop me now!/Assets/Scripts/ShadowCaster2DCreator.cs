@@ -3,14 +3,14 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-
-
-
-#if UNITY_EDITOR
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CompositeCollider2D))]
 public class ShadowCaster2DCreator : MonoBehaviour
 {
+	
+	#if UNITY_EDITOR
+	
 	[SerializeField]
 	private bool selfShadows = true;
 
@@ -60,7 +60,17 @@ public class ShadowCaster2DCreator : MonoBehaviour
 			DestroyImmediate(child.gameObject);
 		}
 	}
+
+	#endif
+	
+	private void OnEnable()
+	{
+		Destroy(this);
+	}
+
 }
+
+#if UNITY_EDITOR
 
 [CustomEditor(typeof(ShadowCaster2DCreator))]
 public class ShadowCaster2DTileMapEditor : Editor

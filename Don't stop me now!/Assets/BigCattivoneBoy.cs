@@ -9,18 +9,39 @@ public class BigCattivoneBoy : MonoBehaviour
 {
     public float intensity;
     private IceCubeStateManager _iceCubeStateManager;
-
+    private bool _alreadyBeenPushed;
     private Rigidbody2D _rigidbody2D;
+    public bool needToSwitchTransformAtCheckpoint = false;
+    public Vector3 positionAfterCheckpoint;
+    public int id;
+
+    private void Awake()
+    {
+        if (needToSwitchTransformAtCheckpoint)
+            EventManager.StartListening(EventNames.CheckpointPassed, OnCheckPointPassed);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        if (GameManager.Instance.StartAtCheckPoint && needToSwitchTransformAtCheckpoint)
+        {
+            _alreadyBeenPushed = GameManager.Instance.GetVariable(id);
+        }
+
+        if (_alreadyBeenPushed && needToSwitchTransformAtCheckpoint)
+        {
+            transform.position = positionAfterCheckpoint;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCheckPointPassed()
     {
+        if (needToSwitchTransformAtCheckpoint)
+        {
+            GameManager.Instance.SetVariable(id, _alreadyBeenPushed);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -42,6 +63,7 @@ public class BigCattivoneBoy : MonoBehaviour
             //add the force in the same direction as the velocity of the other
 
             _rigidbody2D.AddForce(other.relativeVelocity.normalized * intensity, ForceMode2D.Impulse);
+            _alreadyBeenPushed = true;
         }
         else if (isPlayer)
         {

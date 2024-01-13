@@ -23,9 +23,12 @@ public class ObjectSpawner : MonoBehaviour
     private int _currentSpawnIndex = 0;
     private Collider2D _boxCollider2D;
 
+    private bool _alreadySpawned = false;
+
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        _alreadySpawned = false;
         _spawnedObjects = new GameObject[maxSpawnCount];
 
         // Spawn all objects at start and deactivate them
@@ -43,6 +46,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private IEnumerator SpawnCoroutine()
     {
+        _alreadySpawned = true;
         yield return new WaitForSeconds(initialDelay);
 
         while (true)
@@ -62,7 +66,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !_alreadySpawned)
             StartCoroutine(SpawnCoroutine());
     }
 }

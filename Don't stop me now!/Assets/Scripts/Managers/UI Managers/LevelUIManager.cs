@@ -202,15 +202,13 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     public void BackToLevelSelection()
     {
-        Time.timeScale = 1;
-        DeactivatePauseMenu();
+        // DeactivatePauseMenu();
         GameManager.Instance.LoadLevelSelectionScene();
     }
 
     public void SkipLevel()
     {
-        Time.timeScale = 1;
-        DeactivatePauseMenu();
+        // DeactivatePauseMenu();
         FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
         GameManager.Instance.LoadNextScene();
     }

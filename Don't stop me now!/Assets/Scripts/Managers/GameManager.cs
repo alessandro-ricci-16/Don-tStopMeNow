@@ -166,11 +166,6 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(LoadAsyncScene(scene));
     }
     
-    private void ChangeScene(string scene)
-    {
-        StartCoroutine(LoadAsyncScene(scene));
-    }
-    
     private IEnumerator LoadAsyncScene(int index)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
@@ -186,22 +181,6 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1.0f;
         
         EventManager.TriggerEvent(EventNames.NewSceneLoaded);
-    }
-    
-    private IEnumerator LoadAsyncScene(string scene)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
-        // Wait until the asynchronous index fully loads
-        while (!asyncLoad.isDone)
-        {
-            // float progress = asyncLoad.progress;
-            yield return null;
-        }
-        // play the fadeout animation once the index is loaded
-        _canvasAnimator.Play("FadeOut");
-        // reset the time scale to normal
-        Time.timeScale = 1.0f;
-        // Debug.Log("Loaded index " + index);
     }
     
     #endregion

@@ -63,6 +63,9 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StartListening(EventNames.OffHeatedPlatform, OffHeatedPlatform);
         // to stop the sound also if i skip the level
         EventManager.StartListening(EventNames.NewSceneLoaded, OffHeatedPlatform);
+        
+        EventManager.StartListening(EventNames.GamePause, OnGamePaused);
+        EventManager.StartListening(EventNames.GameResume, OnGameResumed);
     }
 
     private void OnDestroy()
@@ -74,6 +77,9 @@ public class AudioManager : Singleton<AudioManager>
         EventManager.StopListening(EventNames.NewSceneLoaded, UpdateMusic);
         EventManager.StopListening(EventNames.OnHeatedPlatform, OnHeatedPlatform);
         EventManager.StopListening(EventNames.OffHeatedPlatform, OffHeatedPlatform);
+        EventManager.StopListening(EventNames.NewSceneLoaded, OffHeatedPlatform);
+        EventManager.StopListening(EventNames.GamePause, OnGamePaused);
+        EventManager.StopListening(EventNames.GameResume, OnGameResumed);
     }
 
     #endregion
@@ -220,6 +226,18 @@ public class AudioManager : Singleton<AudioManager>
     private void OnPlatformBreaking()
     {
         PlaySound(breakingPlatformSound);
+    }
+
+    private void OnGamePaused()
+    {
+        if (_sfxAudioSource.clip == heatedPlatformSound.sound)
+            _sfxAudioSource.Pause();
+    }
+    
+    private void OnGameResumed()
+    {
+        if (_sfxAudioSource.clip == heatedPlatformSound.sound)
+            _sfxAudioSource.UnPause();
     }
 
     #endregion

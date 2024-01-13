@@ -26,9 +26,9 @@ public class IceCubeInput : MonoBehaviour
     public Direction initialDirection;
 
     [SerializeField] protected IceCubeParameters parameters;
-    [SerializeField] private bool canWallJump = true;
-    [SerializeField] private bool canDash = true;
-    [SerializeField] private bool canGroundPound = true;
+    private bool canWallJump = true;
+    private bool canDash = true;
+    private bool canGroundPound = true;
 
     // maximum tolerance for normals in collision handling
     private const float Epsilon = 0.1f;

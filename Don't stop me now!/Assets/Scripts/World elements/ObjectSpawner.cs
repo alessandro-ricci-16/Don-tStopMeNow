@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ObjectSpawner : MonoBehaviour
@@ -31,7 +28,7 @@ public class ObjectSpawner : MonoBehaviour
 
         // Spawn all objects at start and deactivate them
         // object pooling -> reduces computation time during gameplay
-        for (int i = 0; i < maxSpawnCount; i++)
+        for (var i = 0; i < maxSpawnCount; i++)
         {
             _spawnedObjects[i] = Instantiate(objectToSpawn, transform.position, Quaternion.identity);
             _spawnedObjects[i].SetActive(false);

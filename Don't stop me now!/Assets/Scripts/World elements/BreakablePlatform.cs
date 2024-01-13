@@ -62,9 +62,7 @@ public class BreakablePlatform : MonoBehaviour
                     break;
                 }
             }
-        }
-
-        if (other.gameObject.CompareTag("BigCattivoneBoy"))
+        } else if (other.gameObject.CompareTag("BigCattivoneBoy"))
         {
             //check if the velocity along y is negative (falling down) and destroy the breakable
             if (other.relativeVelocity.y < 0)

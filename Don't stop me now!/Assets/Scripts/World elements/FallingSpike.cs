@@ -79,6 +79,8 @@ public class FallingSpike : MonoBehaviour
         }
     }
     
+    #if UNITY_EDITOR
+    
     [CustomEditor(typeof(FallingSpike))]
     public class FallingSpikeEditor : Editor
     {
@@ -122,5 +124,7 @@ public class FallingSpike : MonoBehaviour
             serializedObject.ApplyModifiedProperties();
         }
     }
+    
+    #endif
 
 }

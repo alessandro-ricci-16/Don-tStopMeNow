@@ -84,12 +84,14 @@ public class ShadowCaster2DTileMapEditor : Editor
 		{
 			var creator = (ShadowCaster2DCreator)target;
 			creator.Create();
+			EditorUtility.SetDirty(target);
 		}
 
 		if (GUILayout.Button("Remove Shadows"))
 		{
 			var creator = (ShadowCaster2DCreator)target;
 			creator.DestroyOldShadowCasters();
+			EditorUtility.SetDirty(target);
 		}
 		EditorGUILayout.EndHorizontal();
 	}

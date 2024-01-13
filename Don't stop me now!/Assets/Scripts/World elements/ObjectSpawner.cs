@@ -16,6 +16,8 @@ public class ObjectSpawner : MonoBehaviour
 
     [Tooltip("Maximum number of spawned object. Used for object pooling.")]
     public int maxSpawnCount = 5;
+    
+    public bool reuseObjects = true;
 
     private GameObject[] _spawnedObjects;
     private int _currentSpawnIndex = 0;
@@ -48,6 +50,10 @@ public class ObjectSpawner : MonoBehaviour
             _spawnedObjects[_currentSpawnIndex].SetActive(false);
             _spawnedObjects[_currentSpawnIndex].transform.position = transform.position;
             _spawnedObjects[_currentSpawnIndex].SetActive(true);
+            
+            if (!reuseObjects && _currentSpawnIndex >= maxSpawnCount - 1)
+                break;
+            
             _currentSpawnIndex = (_currentSpawnIndex + 1) % maxSpawnCount;
 
             yield return new WaitForSeconds(spawnTimer + Random.Range(-spawnDelayRandomRange, spawnDelayRandomRange));

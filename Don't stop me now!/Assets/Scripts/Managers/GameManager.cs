@@ -11,10 +11,10 @@ public class GameManager : Singleton<GameManager>
 {
     private readonly float _timeScaleDeath = 1.0f;
 
-    [Header("Level Number Parameters")] public int initialScenesOffset = 2;
-    public int world1LevelsNumber = 25;
-    public int world2ScreenOffset = 1;
-    public int world2LevelsNumber = 25;
+    public readonly int initialScenesOffset = 2;
+    public readonly int world1LevelsNumber = 25;
+    public readonly int world2ScreenOffset = 1;
+    public readonly int world2LevelsNumber = 25;
 
     public bool StartAtCheckPoint { get; private set; }
     public Vector3 LastCheckpoint { get; private set; }
@@ -145,35 +145,22 @@ public class GameManager : Singleton<GameManager>
     public void LoadMainMenuScene()
     {
         ChangeScene(0);
+        DeathCounter = 0;
         FlushForCheckpoint();
     }
 
     public void LoadLevelSelectionScene()
     {
         ChangeScene(1);
+        DeathCounter = 0;
         FlushForCheckpoint();
     }
 
     public void LoadFeedbackScene()
     {
         ChangeScene(2);
+        DeathCounter = 0;
         FlushForCheckpoint();
-    }
-
-    public void LoadCreditsScene()
-    {
-        Debug.Log("Credits scene not implemented yet");
-    }
-
-    public void LoadSettingsScene()
-    {
-        Debug.Log("Settings scene not implemented yet");
-    }
-
-
-    public void LoadEndOfGameScene()
-    {
-        ChangeScene(SceneManager.sceneCountInBuildSettings - 1);
     }
 
 

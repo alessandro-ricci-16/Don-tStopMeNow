@@ -33,6 +33,11 @@ public class SendToGoogle : MonoBehaviour {
 
     public void SendLevelFeedback()
     {
+        if (string.IsNullOrEmpty(FeedbackText.text) || string.IsNullOrWhiteSpace(FeedbackText.text))
+        {
+            return;
+        }
+        
         int levelIndex = SceneManager.GetActiveScene().buildIndex - 2;
         string feedback = "Level " + levelIndex + ": " + FeedbackText.text;
         FeedbackText.text = "";

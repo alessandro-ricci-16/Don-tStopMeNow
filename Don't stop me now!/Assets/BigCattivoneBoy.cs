@@ -27,7 +27,7 @@ public class BigCattivoneBoy : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         if (GameManager.Instance.StartAtCheckPoint && needToSwitchTransformAtCheckpoint)
         {
-            _alreadyBeenPushed = GameManager.Instance.GetVariable(id);
+            _alreadyBeenPushed = GameManager.Instance.GetCheckpointsVariable(id);
         }
 
         if (_alreadyBeenPushed && needToSwitchTransformAtCheckpoint)
@@ -40,7 +40,7 @@ public class BigCattivoneBoy : MonoBehaviour
     {
         if (needToSwitchTransformAtCheckpoint)
         {
-            GameManager.Instance.SetVariable(id, _alreadyBeenPushed);
+            GameManager.Instance.SetCheckpointsVariable(id, _alreadyBeenPushed);
         }
     }
 

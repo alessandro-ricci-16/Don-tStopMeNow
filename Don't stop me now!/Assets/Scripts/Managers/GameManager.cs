@@ -55,11 +55,11 @@ public class GameManager : Singleton<GameManager>
         // level passed 
         EventManager.StartListening(EventNames.LevelPassed, LevelPassed);
     }
-    public void SetVariable(int id, bool value)
+    public void SetCheckpointsVariable(int id, bool value)
     {
         _varForCheckpoints[id] = value;
     }
-    public bool GetVariable(int id)
+    public bool GetCheckpointsVariable(int id)
     {
         return _varForCheckpoints[id];
     }
@@ -119,7 +119,7 @@ public class GameManager : Singleton<GameManager>
 
     #region Scene Loading
 
-    public void ReloadScene()
+    private void ReloadScene()
     {
         ChangeScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -161,6 +161,19 @@ public class GameManager : Singleton<GameManager>
         ChangeScene(2);
         DeathCounter = 0;
         FlushForCheckpoint();
+    }
+
+    public void LoadFirstLevel()
+    {
+        ChangeScene(initialScenesOffset + 1);
+        DeathCounter = 0;
+        FlushForCheckpoint();
+        
+        string sceneName = SceneUtility.GetScenePathByBuildIndex(initialScenesOffset + 1);
+        // Extract the scene name from the full path
+        sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);
+        
+        EventManager.TriggerEvent(EventNames.LevelStarted, sceneName);
     }
 
 

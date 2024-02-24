@@ -146,6 +146,8 @@ For the purposes of the course, all levels will be left unlocked so that testers
 
 The camera is not static and moves around following the player. Levels are mainly side-scrolling to the right but they can also have vertical sequences (both going upwards and downwards) and side scrolling in the opposite direction to give the player the sense of moving in a coherent map. 
 
+Different actions are introduced sequentially with short tutorial levels, but they are also all available from the first level to increase replay value for players who are already familiar with the commands.
+
 ### Checkpoints
 
 Each level is contained in a single scene and can contain up to 1/2 checkpoints. 

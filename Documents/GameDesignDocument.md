@@ -9,9 +9,9 @@
 
 ## Overview ##
 
-Game genre: 2D platformer, puzzle
+Game genre: 2D platformer, (puzzle)
 
-The game will contain a series of short levels organized by themed sections. Levels will alternate between more frenetic and fast-paced platformer sequences and calmer more puzzle-like levels.
+The game will contain a series of short levels organized by themed sections. Most levels will be platformer-like, with simple puzzles where the introduced mechanics allow for it.
 
 Platforms: PC, possibly mobile
 
@@ -24,7 +24,11 @@ Possible motivations:
 - ice cube life is boring, it wants to explore the world and reach the colorful and fantastic ice cream freezer compartment
 - ice cube religion says there's something at the end of the freezer
 
-The levels will be laid out on a map representing the different freezer compartments, with every section having a different theme (e.g. frozen vegetables, ice creams, pizza,...) and new mechanics introduced. Each section will have a series of short levels.
+The levels will be organized by sections, or worlds, with each world introducing new mechanics.
+
+Possible future developments:
+- cutscene giving the player some background on the story
+- have the worlds have different freezer-related themes, e.g. frozen vegetables, ice cream, frozen pizza,...
 
 ## Game Mechanics ##
 
@@ -32,9 +36,9 @@ The levels will be laid out on a map representing the different freezer compartm
 
 **Movement**
 
-The ice cube will move constantly and the player will not be able to stop it or change its direction directly, only to jump, dash or ground pound. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. It is possible to bounce off everything except the floor. Every time the ice cube reaches the floor its vertical velocity will be zero.
+The ice cube will move constantly and the player will not be able to stop it or change its direction directly, only to jump, dash or ground pound. Hitting obstacles such as walls or platforms will result in the ice cube changing direction. The ice cube will not bounce on the floor: every time the ice cube reaches the floor its vertical velocity will be zero.
 
-The ice cube is affected by gravity and can fall off platforms. Falling off platforms does not damage the ice cube.
+The ice cube is affected by gravity and can fall off platforms. Falling off platforms does not damage the ice cube, unless the ice cube hits an obstacle of falls in a bottomless pit.
 
 The horizontal velocity is fixed and does not change, except for the dash and ground pound moves (see later).
 
@@ -48,8 +52,10 @@ The player can jump only if the character is on the ground or on a wall (wall ju
 
 Both the normal jump and the wall jump have coyote time and jump buffer timers that can be set independently.
 
+Since the player cannot stop on a wall, for the wall jump move the "jump" button should be pressed in the interval dictated by jump buffer and coyote time.
+
 While the player is in the air, the following actions are allowed:
-1. Wall jump
+1. Wall jump (only in proximity of a wall)
 2. Mid-air dash
 3. Ground pound
 
@@ -63,28 +69,21 @@ While the character is in the air, the player can perform a dash. Vertical veloc
 
 The player is not allowed to dash while the ground pound action is executing. The player is not allowed to dash while touching the ground.
 
+The player is allowed to ground pound while the dash is executing. The player is not allowed to jump or wall jump while dashing.
+
 **Recap**
 
 The following commands are allowed:
 1. jump
 2. ground pound
-3. accelerate
-4. slow down
-5. mid-air dash
+3. mid-air dash
 
-There are two input mappings.
-1. First input mapping:
-    - C: jump
-    - X: ground pound
-    - Z: dash
-2. Second input mapping:
-    - space bar or left mouse click: jump
-    - S: ground pound
-    - shift: dash
+On keyboard, the inputs are mapped as following:
+- Jump: C, space bar or left mouse click
+- Ground pound: X or S
+- Mid-air dash: Z or shift
 
-Both input mappings are active at any moment since they do not interfere with each other.
-
-The following diagram represents the states finite state machine.
+The following diagram represents the finite state machine of the ice cube states with the corresponding inputs.
 
 ![image](Diagrams/IceCubeInputFSA.jpg)
 
@@ -99,21 +98,18 @@ The world elements that are part of the fridge or of the background are placed o
 Grid elements (all of these elements are static):
 1. Regular platforms: these are platforms the ice cube can slide on and bounce off with no consequence. They represent patches of ice, parts of the plastic shelves or floor in the freezer, other contents of the freezer such as boxes of food,...
 2. Static spikes: these represent ice shards in the freezer or other static obstacles which will be letal to the ice cube. The ice cube will die if it collides directly with them. They can be attached to other regular platforms in all four directions.
-3. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a health bar will appear next to it and start decreasing to signify the amount of time the ice cube can stay on the platform before melting and dying. If the ice cube temporarily steps away from the platform, the health bar will start filling up again. When the health bar is completely full it will disappear.
+3. Heated platforms: some sections of the level will represent the engine of the freezer and will be heated. The ice cube can slide on them but only for a maximum allowed period of time: when the ice cube enters a heated platform, a timer will begin counting down to signify the leftover health of the ice cube. This will be represented visually by the ice cube changing color to red. If the timer expires, the player dies. 
 
 All of these elements can be placed on the floor of the level but also mid-air with nothing supporting them (there is no regard to gravity in this sense).
 
 Stand-alone elements:
-1. Rolling / moving obstacles, such as rolling bottles / ice cream tubs, moving ice cubes,...: the ice cube will die if it collides directly with them. They move following gravity rules and will fall to the ground. Some obstacles may have a specific trigger so they start moving only when the character collides with the trigger.
-2. Fans (currently on hold): fans will produce wind, which will affect the speed and direction of the ice cube by applying a force to the ice cube. Fans should only be placed so that the force is vertical, so they will not affect the horizontal speed of the cube and will not change its direction.
-3. Breakable platforms: platforms that break if the ice cube dashes or ground pounds on them
-4. Enemies (currently on hold): some levels will contain enemies in the form of other ice cubes. Enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them. (to be discussed)
-5. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
+1. Breakable platforms: platforms that break if the ice cube dashes or ground pounds on them
+2. Simple enemies: some levels will contain enemies in the form of other ice cubes. The ice cube will die if it collides directly with them. They move following the same laws as the ice cube (constant speed, changing direction if hitting an obstacle, following gravity,...) but differently from the ice cube they have no input. Some enemies may have a specific trigger so they start moving only when the character collides with the trigger. Enemies may be periodically spawned by an object spawner. 
 6. Movable objects: these objects do not perform any action. The player can move them around using the cube, for example to place them on spikes to be able to pass them.
 
-To be discussed:
-1. Fans: should the force be the same in the entire force field or be modulated depending on how close you get to the fan?
-
+On hold until further development:
+1. Projectiles: some levels will contain projectiles, spawned either by enemies or other static parts of the environment. The projectiles may either have a straight trajectory or follow the laws of gravity.
+2. Shooting enemies: these enemies will be able to shoot ice shards or fire balls at the character, and additionally cause the player to die if it collides directly with them. 
 
 ### Death ###
 
@@ -122,7 +118,7 @@ The ice cube shatters and dies if:
 2. It collides directly with non-allowed elements: spikes, obstacles, enemies, projectiles,...
 3. It stays in contact with a heated platform more than the allowed time.
 
-After death the ice cube restarts at the nearest check-point.
+After death the ice cube restarts at the nearest check-point (see later).
 
 ## Game Flow and level structure ##
 
@@ -133,38 +129,39 @@ The game is made up of multiple short levels, which are organised in worlds. Cur
 - A very easy level with only the jump action allowed
 - Tutorials and easy levels introducing the other actions in the following order: wall jump, ground pound, dash
 - Levels with static spikes
-- Levels introducing the breakable platforms
-- Levels introducing falling spikes
-- Levels using static spikes, breakable platforms and falling spikes at the same time
+- Levels introducing breakable platforms
+- Levels using static spikes and breakable platforms
 
 **World 2** contains:
-- Levels containing heatable platforms, moving obstacles and movable objects (order still to be determined)
+- Levels introducing the following mechanics:
+    1. Heaters
+    2. Simple enemies
+    3. Movable objects
+    4. Falling spikes
+- Levels using these mechanics in combination
 
 Levels must be completed sequentially (it is necessary to complete a level to be able to access the following ones). The player can select which level to play from a level map and can select to replay a previously completed level.
+
+For the purposes of the course, all levels will be left unlocked so that testers can play all levels.
 
 The camera is not static and moves around following the player. Levels are mainly side-scrolling to the right but they can also have vertical sequences (both going upwards and downwards) and side scrolling in the opposite direction to give the player the sense of moving in a coherent map. 
 
 ### Checkpoints
 
-Each level is contained in a single scene and can contain up to 2/3 checkpoints. 
-- When the player dies, the scene will reload and the character will be spawned at the position of the last completed checkpoint. Previously modified aspects of the level (broken platforms, moved objects,...) will reset with the death of the character. 
+Each level is contained in a single scene and can contain up to 1/2 checkpoints. 
+- When the player dies, the scene will reload and the character will be spawned at the position of the last completed checkpoint. Previously modified aspects of the level (broken platforms, moved objects,...) will reset with the death of the character. Exceptions can be made for specific levels where this would be too frustrating.
 - Checkpoint completion is automatic when the character collides with the corresponding trigger and does not need any action on the player's part.
 - Completing a checkpoint does not change anything about the world and does not theoretically prevent the player from going back to previous sections of the level. However, on the design part checkpoints should be placed such that the player cannot come back to previous sections because of world obstacles (e.g. a wall that is too high to jump). This is to ensure linear progression and to prevent perceived inconsistencies (breakable platforms being whole again, etc.) when reloading the scene.
 - Checkpoints are not saved between different runs of the game, if the player closes the game the checkpoint progress is lost.
+- Visually, checkpoints are represented by a ceiling light being green instead of white.
 
-### Bonus levels
+### Level Design
 
-Each world will contain a bonus level at the end. It will not be necessary to complete the bonus level to progress in the game, it is just an additional and optional challenge. 
-
-Bonus levels contain a certain number of collectibles on the main path. The goal of the bonus level is to progress as far as possible and eventually collect all of them. Partial progress will be saved between runs (for example the level selection screen will show that the player has collected 5 out of 10 collectibles). The bonus levels contain no checkpoints. 
-
-Bonus levels are meant to be very fast and very challenging, with mainly horizontal scrolling to the right. The character may have different parameters than the normal levels, for example higher speed, higher jumps, faster dash and ground pound. This is to make the level more challenging and force the player to react fast.
-
-The aesthetic of the bonus levels will be completely different from the rest of the freezer, with only colored neon outlines and silhouettes. In the logic of the game, this could represent a black-out in the freezer where the light goes completely dark. 
+Since the player cannot change the direction of the ice cube, levels should be designed placing particular attention on making so that if the player misses a jump or other move but does not die, the ice cube does not have to travel back very long before hitting something else and resuming to go in the previous direction.
 
 ## Aesthetics
 
-Levels should contain regularly placed celing lights or vertical lights representing the lights of the freezer. Different types of lights should not be mixed in same scrolling sections.
+Levels should contain regularly placed celing lights representing the lights of the freezer.
 
 Camera size should be one of the following: 10, 12, 14.
 
@@ -200,7 +197,7 @@ Official deadlines:
     - screen size, camera zoom
     - horizontal scrolling vs one screen per checkpoint
 - Breakable platforms (Andrea Sanguineti)
-- Fans
+- Fans (cancelled)
 - Basic character asset and tileset (Mohammadjavad Sami)
 
 ### Deadline 3 - 30th November 2023 ###

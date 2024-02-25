@@ -7,11 +7,11 @@ The team:
 - Andrea Sanguineti
 - Emanuele Santoro
 - Alessandro Ricci
-- Mohammedjavad Sami
+- Mohammadjavad Sami
 
 Development by: Sara Merengo, Andrea Sanguineti, Emanuele Santoro, Alessandro Ricci
 
-Art by: Mohammedjavad Sami, Andrea Sanguineti, Francesca Romano
+Art by: Mohammadjavad Sami, Andrea Sanguineti, Francesca Romano
 
 Level design by: Sara Merengo, Andrea Sanguineti, Emanuele Santoro, Alessandro Ricci
 

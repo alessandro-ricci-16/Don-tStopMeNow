@@ -153,6 +153,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private void CallPause()
     {
+        Cursor.visible = true;
         EventManager.TriggerEvent(EventNames.GamePause);
         Time.timeScale = 0;
         
@@ -169,6 +170,7 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     public void Resume()
     {
+        Cursor.visible = false;
         _paused = false;
         EventManager.TriggerEvent(EventNames.GameResume);
         DeactivatePauseMenu();
@@ -216,18 +218,22 @@ public class LevelUIManager : Singleton<LevelUIManager>
     public void BackToLevelSelection()
     {
         // DeactivatePauseMenu();
+        _paused = false;
         GameManager.Instance.LoadLevelSelectionScene();
     }
     
     public void BackToMainMenu()
     {
         // DeactivatePauseMenu();
+        _paused = false;
         GameManager.Instance.LoadMainMenuScene();
     }
 
     public void SkipLevel()
     {
         // DeactivatePauseMenu();
+        _paused = false;
+        Cursor.visible = false;
         FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
         GameManager.Instance.LoadNextScene();
     }

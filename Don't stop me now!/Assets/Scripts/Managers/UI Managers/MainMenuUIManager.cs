@@ -25,6 +25,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void Play()
     {
+        Cursor.visible = false;
         GameManager.Instance.LoadLevel(GameManager.Instance.initialScenesOffset + 1);
     }
 

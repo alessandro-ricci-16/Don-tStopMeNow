@@ -41,6 +41,7 @@ public class LevelSelectionUIManager : MonoBehaviour
 
     private void LoadLevel(int levelIndex)
     {
+        Cursor.visible = false;
         string sceneName = SceneUtility.GetScenePathByBuildIndex(levelIndex);
         // Extract the scene name from the full path
         sceneName = System.IO.Path.GetFileNameWithoutExtension(sceneName);

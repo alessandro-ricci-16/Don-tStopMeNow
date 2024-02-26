@@ -11,7 +11,15 @@ public class FeedbackManager : Singleton<FeedbackManager>
     // TODO: change when exporting
     // change back to EXACTLY "Development" after exporting
     // (so that in development feedback does not get sent)
+#if UNITY_EDITOR
     public readonly string FeedbackType = "Development";
+#elif UNITY_STANDALONE_WIN
+    public readonly string FeedbackType = "Windows v1.0.4";
+#elif UNITY_STANDALONE_OSX
+    public readonly string FeedbackType = "MacOS v1.0.4";
+#elif UNITY_STANDALONE_LINUX
+    public readonly string FeedbackType = "Linux v1.0.4";
+#endif
 
     private string _runID;
 

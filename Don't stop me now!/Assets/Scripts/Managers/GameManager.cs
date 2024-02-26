@@ -71,7 +71,7 @@ public class GameManager : Singleton<GameManager>
         // TODO: rework scene indexes in case more worlds are added
         // just in the case the lastUnlockedLevel scene index corresponds to a load scene in between the 2 worlds -> set it to the first level of world2
         int world2Offset = initialScenesOffset + world1LevelsNumber + world2ScreenOffset;
-        if (lastUnlockedLevel > initialScenesOffset + world1LevelsNumber && lastUnlockedLevel < world2Offset)
+        if (lastUnlockedLevel > initialScenesOffset + world1LevelsNumber && lastUnlockedLevel <= world2Offset)
             lastUnlockedLevel = world2Offset + 1;
         
         return lastUnlockedLevel;

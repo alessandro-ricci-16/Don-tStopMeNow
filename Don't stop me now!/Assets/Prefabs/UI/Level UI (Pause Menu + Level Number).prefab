@@ -2612,12 +2612,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4391105871479346729}
-  - {fileID: 4828535506652947035}
   - {fileID: 4736039819154623749}
   - {fileID: 5749610894542876693}
   - {fileID: 7871158616302188750}
   - {fileID: 4727896431048749095}
   - {fileID: 2254087223166154069}
+  - {fileID: 4828535506652947035}
   m_Father: {fileID: 883306885622436166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -5798,7 +5798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -170
+      value: -125
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5928,7 +5928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -80
+      value: -305
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5944,7 +5944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7735669702768868623, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_Name
-      value: Skip Level Button
+      value: Quit Button
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5952,7 +5952,7 @@ PrefabInstance:
       objectReference: {fileID: 2894033708082571841}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SkipLevel
+      value: QuitGame
       objectReference: {fileID: 0}
     - target: {fileID: 8322607488284928886, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -5960,7 +5960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_text
-      value: skip level
+      value: quit game
       objectReference: {fileID: 0}
     - target: {fileID: 8397686109628642334, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_fontSize
@@ -6058,7 +6058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -260
+      value: -215
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6190,7 +6190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -125
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6465,7 +6465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -215
+      value: -170
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6911,7 +6911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -305
+      value: -260
       objectReference: {fileID: 0}
     - target: {fileID: 5391887858123375778, guid: 88a4b6d80124d034abf0641f03b0e177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

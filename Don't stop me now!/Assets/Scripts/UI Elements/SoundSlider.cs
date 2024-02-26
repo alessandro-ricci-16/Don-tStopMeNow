@@ -85,18 +85,13 @@ public class SoundSlider : MonoBehaviour
 
     private void UpdateSliderValues()
     {
-        if (type == TypeOfSounds.Master)
+        _slider.value = type switch
         {
-            _slider.value = AudioManager.Instance.GetMasterVolume();
-        }
-        else if (type == TypeOfSounds.Music)
-        {
-            _slider.value = AudioManager.Instance.GetMusicVolume();
-        }
-        else
-        {
-            _slider.value = AudioManager.Instance.GetSfxVolume();
-        }
+            TypeOfSounds.Master => AudioManager.Instance.GetMasterVolume(),
+            TypeOfSounds.Music => AudioManager.Instance.GetMusicVolume(),
+            TypeOfSounds.Sfx => AudioManager.Instance.GetSfxVolume(),
+            _ => _slider.value
+        };
     }
 
     //coroutine for playing sfx sound

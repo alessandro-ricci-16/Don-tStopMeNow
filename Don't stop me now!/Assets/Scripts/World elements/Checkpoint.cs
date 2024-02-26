@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +18,9 @@ public class Checkpoint : MonoBehaviour
         {
             if (isFinal && !feedbackSent)
             {
+                // Save last unlocked level
+                PlayerPrefs.SetInt("LastUnlockedLevel", SceneManager.GetActiveScene().buildIndex + 1);
+                
                 EventManager.TriggerEvent(EventNames.LevelPassed, SceneManager.GetActiveScene().name);
                 
                 int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;

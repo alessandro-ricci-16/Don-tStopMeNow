@@ -26,9 +26,11 @@ public class AudioManager : Singleton<AudioManager>
     [Header("UI Sound Effects")] public SoundData buttonClickSound;
 
     // volumes
-    [Range(0, 1)] private float _masterVolume = 0.8f;
-    [Range(0, 1)] private float _musicVolume = 0.8f;
-    [Range(0, 1)] private float _sfxVolume = 0.8f;
+    private const float DefaultVolume = 0.8f;
+    // -1 to distinguish not set so it can check if there is a saved value
+    [Range(0, 1)] private float _masterVolume = -1;
+    [Range(0, 1)] private float _musicVolume = -1;
+    [Range(0, 1)] private float _sfxVolume = -1;
 
     // Music variables
     private SoundData _currentSong;
@@ -47,7 +49,7 @@ public class AudioManager : Singleton<AudioManager>
     private void Start()
     {
         Debug.Log("Initializing audio manager");
-
+        
         _musicAudioSource = gameObject.AddComponent<AudioSource>();
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
 
@@ -65,6 +67,13 @@ public class AudioManager : Singleton<AudioManager>
         
         EventManager.StartListening(EventNames.GamePause, OnGamePaused);
         EventManager.StartListening(EventNames.GameResume, OnGameResumed);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
+        PlayerPrefs.SetFloat("MusicVolume", _musicVolume);
+        PlayerPrefs.SetFloat("SfxVolume", _sfxVolume);
     }
 
     private void OnDestroy()
@@ -247,16 +256,22 @@ public class AudioManager : Singleton<AudioManager>
 
     public float GetMasterVolume()
     {
+        if(_masterVolume < 0)
+            _masterVolume = PlayerPrefs.GetFloat("MasterVolume", DefaultVolume);
         return _masterVolume;
     }
 
     public float GetMusicVolume()
     {
+        if(_musicVolume < 0)
+            _musicVolume = PlayerPrefs.GetFloat("MusicVolume", DefaultVolume);
         return _musicVolume;
     }
 
     public float GetSfxVolume()
     {
+        if(_sfxVolume < 0)
+            _sfxVolume = PlayerPrefs.GetFloat("SfxVolume", DefaultVolume);
         return _sfxVolume;
     }
 

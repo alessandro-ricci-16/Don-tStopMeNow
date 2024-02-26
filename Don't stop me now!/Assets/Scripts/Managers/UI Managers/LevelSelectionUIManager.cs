@@ -23,16 +23,22 @@ public class LevelSelectionUIManager : MonoBehaviour
         int world2Offset = world1Offset + GameManager.Instance.world1LevelsNumber +
                            GameManager.Instance.world2ScreenOffset;
 
+        int lastUnlockedLevel = GameManager.Instance.GetLastUnlockedLevel();
+
         for (int i = 0; i < world1LevelsButtons.Length && i < GameManager.Instance.world1LevelsNumber; i++)
         {
             int index = i;
             world1LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world1Offset + 1));
+            bool interactable = i < lastUnlockedLevel - world1Offset;
+            world1LevelsButtons[i].interactable = interactable;
         }
 
         for (int i = 0; i < world2LevelsButtons.Length && i < GameManager.Instance.world2LevelsNumber; i++)
         {
             int index = i;
             world2LevelsButtons[i].onClick.AddListener(() => LoadLevel(index + world2Offset + 1));
+            bool interactable = i < lastUnlockedLevel - world2Offset;
+            world2LevelsButtons[i].interactable = interactable;
         }
 
         world1Camera.enabled = true;

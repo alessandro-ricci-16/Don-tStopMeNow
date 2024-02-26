@@ -229,15 +229,23 @@ public class LevelUIManager : Singleton<LevelUIManager>
         GameManager.Instance.LoadMainMenuScene();
     }
 
-    public void SkipLevel()
+    /* public void SkipLevel()
     {
         // DeactivatePauseMenu();
         _paused = false;
         Cursor.visible = false;
         FeedbackManager.Instance.SendFeedback(SceneManager.GetActiveScene().name, "Level Skipped", "");
         GameManager.Instance.LoadNextScene();
-    }
+    } */
 
+    #endregion
+    
+    #region Quit
+    public void QuitGame()
+    {
+        GameManager.Instance.QuitGame();
+    }
+    
     #endregion
 
     #region Graphics

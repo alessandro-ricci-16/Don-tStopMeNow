@@ -19,6 +19,8 @@ public class FeedbackManager : Singleton<FeedbackManager>
     public readonly string FeedbackType = "MacOS v1.0.4";
 #elif UNITY_STANDALONE_LINUX
     public readonly string FeedbackType = "Linux v1.0.4";
+#elif UNITY_WEBGL
+    public readonly string FeedbackType = "WebGL v1.0.4";
 #endif
 
     private string _runID;

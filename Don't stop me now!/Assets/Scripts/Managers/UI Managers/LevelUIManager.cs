@@ -218,6 +218,12 @@ public class LevelUIManager : Singleton<LevelUIManager>
         // DeactivatePauseMenu();
         GameManager.Instance.LoadLevelSelectionScene();
     }
+    
+    public void BackToMainMenu()
+    {
+        // DeactivatePauseMenu();
+        GameManager.Instance.LoadMainMenuScene();
+    }
 
     public void SkipLevel()
     {

@@ -8,19 +8,18 @@ using UnityEngine.Serialization;
 
 public class FeedbackManager : Singleton<FeedbackManager>
 {
-    // TODO: change when exporting
-    // change back to EXACTLY "Development" after exporting
-    // (so that in development feedback does not get sent)
+    private readonly string _version = "1.0.4";
+    
 #if UNITY_EDITOR
-    public readonly string FeedbackType = "Development";
+    public readonly string feedbackType = "Development";
 #elif UNITY_STANDALONE_WIN
-    public readonly string FeedbackType = "Windows v1.0.4";
+    public readonly string FeedbackType = "Windows v" + _version;
 #elif UNITY_STANDALONE_OSX
-    public readonly string FeedbackType = "MacOS v1.0.4";
+    public readonly string FeedbackType = "MacOS v" + _version;
 #elif UNITY_STANDALONE_LINUX
-    public readonly string FeedbackType = "Linux v1.0.4";
+    public readonly string FeedbackType = "Linux v" + _version;
 #elif UNITY_WEBGL
-    public readonly string FeedbackType = "WebGL v1.0.4";
+    public readonly string FeedbackType = "WebGL v" + _version;
 #endif
 
     private string _runID;
@@ -37,7 +36,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
 
     public void SendFeedback(Feedback feedback)
     {
-        if (FeedbackType != "Development")
+        if (feedbackType != "Development")
             StartCoroutine(PostFeedback(feedback));
     }
     
@@ -65,7 +64,7 @@ public class FeedbackManager : Singleton<FeedbackManager>
         // RunID
         form.AddField("entry.2041744485", _runID);
         // feedback type
-        form.AddField("entry.2049634247", FeedbackType);
+        form.AddField("entry.2049634247", feedbackType);
         
 
         UnityWebRequest www = UnityWebRequest.Post(URL, form);

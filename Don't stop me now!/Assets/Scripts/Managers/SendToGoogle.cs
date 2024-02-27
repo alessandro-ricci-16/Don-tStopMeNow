@@ -22,7 +22,7 @@ public class SendToGoogle : MonoBehaviour {
         Feedback feedbackObject = new Feedback("Feedback", "Feedback", feedback);
         FeedbackManager.Instance.SendFeedback(feedbackObject);
         
-        if (FeedbackManager.Instance.FeedbackType != "Development")
+        if (FeedbackManager.Instance.feedbackType != "Development")
             StartCoroutine(PostFeedback(feedback));
     }
 
@@ -45,7 +45,7 @@ public class SendToGoogle : MonoBehaviour {
         Feedback feedbackObject = new Feedback(SceneManager.GetActiveScene().name, "Feedback", feedback);
         FeedbackManager.Instance.SendFeedback(feedbackObject);
         
-        if (FeedbackManager.Instance.FeedbackType != "Development")
+        if (FeedbackManager.Instance.feedbackType != "Development")
             StartCoroutine(PostFeedback(feedback));
     }
     

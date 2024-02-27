@@ -1,5 +1,5 @@
 # Don't Stop Me Now!
-Videogame Design and Programming course project by Polimi's students.
+Game created for the Videogame Design and Programming course at Politecnico di Milano.
 
 Team members:
 - [Sara Merengo](https://github.com/SaraMerengo)
